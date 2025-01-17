@@ -19,7 +19,7 @@ const SignUp = () => {
     return (
         <div className="flex items-center justify-center my-10 px-2">
             <div className="bg-white shadow-xl rounded-lg w-full max-w-xl px-5 md:px-8 py-10 border ">
-                <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-teal-700 to-teal-600 text-transparent bg-clip-text mb-6 p-1">
+                <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-indigo-500 to-teal-500 text-transparent bg-clip-text mb-6 p-1">
                     Register Your Account
                 </h1>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
