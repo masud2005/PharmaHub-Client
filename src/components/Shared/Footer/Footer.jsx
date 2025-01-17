@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaCartPlus } from 'react-icons/fa6';
+import { FaCartPlus, FaFacebook, FaGithub, FaLinkedin } from 'react-icons/fa6';
 import { NavLink } from 'react-router-dom';
 
 const Footer = () => {
@@ -36,11 +36,12 @@ const Footer = () => {
                     {/* Social Media & Newsletter Section */}
                     <div>
                         <h3 className="text-xl font-semibold mb-4">Connect with Us</h3>
-                        <div className="flex space-x-4">
-                            <a href="#" className="text-white hover:text-teal-200"><i className="fab fa-facebook-f"></i></a>
-                            <a href="#" className="text-white hover:text-teal-200"><i className="fab fa-twitter"></i></a>
-                            <a href="#" className="text-white hover:text-teal-200"><i className="fab fa-instagram"></i></a>
-                            <a href="#" className="text-white hover:text-teal-200"><i className="fab fa-linkedin-in"></i></a>
+                        <div className="flex space-x-4 mb-4">
+                            <a href="https://www.facebook.com/MasudRana2005" target="_blank" className="text-white hover:text-teal-200"><FaFacebook size={32} /></a>
+                            <a href="https://www.linkedin.com/in/masud-rana2005/" target="_blank" className="text-white hover:text-teal-200">
+                                <FaLinkedin size={32} />
+                            </a>
+                            <a href="https://github.com/masud2005" target="_blank" className="text-white hover:text-teal-200"><FaGithub size={32} /></a>
                         </div>
                         <h3 className="text-lg font-semibold mb-2">Newsletter</h3>
                         <p className="mb-4">Subscribe to our newsletter to stay updated on our latest products and offers.</p>

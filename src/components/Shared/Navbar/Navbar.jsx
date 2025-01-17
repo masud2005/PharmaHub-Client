@@ -1,12 +1,12 @@
 
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { IoMdClose, IoMdMenu } from 'react-icons/io';
+import { IoIosArrowDown, IoMdClose, IoMdMenu } from 'react-icons/io';
 import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
 import { FaCartPlus } from 'react-icons/fa6';
 
 const Navbar = () => {
-    const user = 'masud';
+    const user = null;
     const [menuOpen, setMenuOpen] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [languageOpen, setLanguageOpen] = useState(false);
@@ -61,7 +61,7 @@ const Navbar = () => {
                             <NavLink to="/cart" className={({ isActive }) => isActive ? 'font-semibold border-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-50' : 'font-medium hover:text-teal-600'}><FaCartPlus size={24} /></NavLink>
 
                             <div ref={languageDropdownRef} className="relative">
-                                <button onClick={() => setLanguageOpen(!languageOpen)} className="uppercase font-medium hover:text-teal-600">Languages</button>
+                                <button onClick={() => setLanguageOpen(!languageOpen)} className="uppercase font-medium hover:text-teal-600 flex items-center">Languages <IoIosArrowDown size={22} /> </button>
                                 {languageOpen && (
                                     <div className="absolute top-full left-0 mt-2 bg-white border rounded shadow-lg">
                                         <ul className="py-2">
@@ -96,8 +96,8 @@ const Navbar = () => {
                                     </div>
                                 </div> :
                                     <div className='flex gap-6 items-center'>
-                                        <NavLink to="/join-us" className={({ isActive }) => isActive ? 'font-semibold border-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-50' : 'font-medium hover:text-teal-600'}>Join Us</NavLink>
-                                        <NavLink to="/register" className={({ isActive }) => isActive ? 'font-semibold border-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-50' : 'font-medium hover:text-teal-600'}>Register</NavLink>
+                                        <NavLink to="/sign-up" className={({ isActive }) => isActive ? 'font-semibold border-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-50' : 'font-medium hover:text-teal-600'}>Join Us</NavLink>
+                                        {/* <NavLink to="/register" className={({ isActive }) => isActive ? 'font-semibold border-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-50' : 'font-medium hover:text-teal-600'}>Register</NavLink> */}
                                     </div>
                             }
                             <button
@@ -138,7 +138,7 @@ const Navbar = () => {
                         <NavLink to="/cart" className={({ isActive }) => isActive ? 'block text-lg font-semibold border-b-2 border-teal-600 text-teal-600 mt-2 pb-1' : 'block text-base hover:text-teal-600 pt-2'} onClick={() => setMenuOpen(false)}><FaCartPlus size={24} /></NavLink>
 
                         <div ref={languageDropdownRef} className="relative pb-3">
-                            <button onClick={() => setLanguageOpen(!languageOpen)} className="uppercase font-medium hover:text-teal-600">Languages</button>
+                            <button onClick={() => setLanguageOpen(!languageOpen)} className="uppercase font-medium hover:text-teal-600 flex items-center">Languages <IoIosArrowDown size={22} /></button>
                             {languageOpen && (
                                 <div className="absolute top-full left-0 mt-2 bg-white border rounded shadow-lg">
                                     <ul className="py-2">
@@ -170,7 +170,7 @@ const Navbar = () => {
                                     </div>
                                 </div> :
                                     <div className='flex gap-10'>
-                                        <NavLink to="/join-us" className={({ isActive }) => isActive ? 'block text-lg font-semibold border-2 rounded border-teal-600 text-teal-600 px-3 py-1' : 'block text-base hover:text-teal-600'} onClick={() => setMenuOpen(false)}>Join Us</NavLink>
+                                        <NavLink to="/sign-up" className={({ isActive }) => isActive ? 'block text-lg font-semibold border-2 rounded border-teal-600 text-teal-600 px-3 py-1' : 'block text-base hover:text-teal-600'} onClick={() => setMenuOpen(false)}>Join Us</NavLink>
                                     </div>
                             }
                         </div>
