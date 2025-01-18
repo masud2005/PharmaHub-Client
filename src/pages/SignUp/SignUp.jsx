@@ -1,49 +1,80 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FaEye, FaEyeSlash, FaGoogle } from 'react-icons/fa6';
+import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import { Link, useNavigate } from 'react-router-dom';
 import SocialLogin from '../../components/Shared/SocialLogin/SocialLogin';
 import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
 const SignUp = () => {
+    const axiosSecure = useAxiosSecure();
     const { createUser, updateProfileInfo } = useAuth();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [showPassword, setShowPassword] = useState(false);
+    const [imagePreview, setImagePreview] = useState(null);
     const navigate = useNavigate();
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         // console.log(data);
-        createUser(data.email, data.password)
-            .then(result => {
-                // console.log(result);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Registration Successful',
-                    text: `Welcome, ${result.user?.displayName || 'User'}! Your account has been created.`,
-                    customClass: {
-                        confirmButton: 'bg-teal-500 text-white'
-                    }
+        // image upload to imgbb and then get an url
+        const imageFile = { image: data.photo[0] }
+        const res = await axiosSecure.post(image_hosting_api, imageFile, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        });
+        // console.log(res.data.data.display_url);
+        const photoURL = res.data.data.display_url;
+
+        if (res.data.success) {
+            createUser(data.email, data.password)
+                .then(result => {
+                    // console.log(result);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registration Successful',
+                        text: `Welcome, ${data.name}! Your account has been created.`,
+                        customClass: {
+                            confirmButton: 'bg-teal-500 text-white'
+                        }
+                    });
+                    updateProfileInfo(data.name, photoURL);
+                    navigate('/');
+                })
+                .catch(error => {
+                    // console.log(error.code);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Registration Failed',
+                        text: error.code,
+                        customClass: {
+                            confirmButton: 'bg-red-500 text-white'
+                        }
+                    });
                 });
-                updateProfileInfo(data.name, data.photo);
-                navigate('/');
-            })
-            .catch(error => {
-                // console.error(error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Registration Failed',
-                    text: error.code,
-                    customClass: {
-                        confirmButton: 'bg-red-500 text-white'
-                    }
-                });
-            })
-    }
+        }
+    };
+
+    const handleImagePreview = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setImagePreview(null);
+        }
+    };
 
     return (
         <div className="flex items-center justify-center my-10 px-2">
-            <div className="bg-white shadow-xl rounded-lg w-full max-w-xl px-5 md:px-8 py-10 border ">
+            <div className="bg-white shadow-xl rounded-lg w-full max-w-xl px-5 md:px-8 py-10 border">
                 <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-indigo-500 to-teal-500 text-transparent bg-clip-text mb-6 p-1">
                     Register Your Account
                 </h1>
@@ -51,21 +82,28 @@ const SignUp = () => {
                     {/* Name Field */}
                     <div className="form-control">
                         <label className="label text-lg font-medium text-gray-700">Your Name</label>
-                        <input type="text" {...register("name", { required: true })} name="name" placeholder="Enter your name" className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition" />
+                        <input type="text" {...register("name", { required: true })} placeholder="Enter your name" className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition" />
                         {errors.name && <p className='text-red-600'>Name is required.</p>}
                     </div>
 
-                    {/* Photo URL Field */}
+                    {/* Image Upload Field */}
                     <div className="form-control">
-                        <label className="label text-lg font-medium text-gray-700">Photo URL</label>
-                        <input type="text" {...register("photo", { required: true })} name="photo" placeholder="Enter your photo URL" className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition" />
-                        {errors.photo && <p className='text-red-600'>Photo URL is required.</p>}
+                        <label className="label text-lg font-medium text-gray-700">Upload Photo</label>
+                        <div className='flex items-center gap-5'>
+                            <div>
+                                <input type="file" {...register("photo", { required: true })} accept="image/*" onChange={handleImagePreview} className="input input-bordered w-4/5 px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition" />
+                                {errors.photo && <p className='text-red-600'>Photo is required.</p>}
+                            </div>
+                            <div>
+                                {imagePreview && <img src={imagePreview} alt="Preview" className=" h-20 sm:w-20  rounded-full object-cover  md:-ml-0" />}
+                            </div>
+                        </div>
                     </div>
 
                     {/* Email Field */}
-                    <div className="form-control ">
+                    <div className="form-control">
                         <label className="label text-lg font-medium text-gray-700">Email Address</label>
-                        <input type="email" {...register("email", { required: true })} name="email" placeholder="Enter your email address" className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition" />
+                        <input type="email" {...register("email", { required: true })} placeholder="Enter your email address" className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition" />
                         {errors.email && <p className='text-red-600'>Email is required.</p>}
                     </div>
 
@@ -101,14 +139,14 @@ const SignUp = () => {
                     </div>
 
                     {/* Terms & Conditions */}
-                    <label className=" flex items-center gap-2 py-4">
+                    <label className="flex items-center gap-2 py-4">
                         <input type="checkbox" defaultChecked className="checkbox checkbox-md border-gray-300" />
                         <span className="text-base text-gray-600">Accept Terms & Conditions</span>
                     </label>
 
                     {/* Register Button */}
                     <div className="form-control -mt-5">
-                        <button className="btn w-full py-2 text-base border-2 border-teal-600 bg-teal-50 hover:bg-teal-600 hover:text-white transition duration-300"> Register </button>
+                        <button className="btn w-full py-2 text-base border-2 border-teal-600 bg-teal-50 hover:bg-teal-600 hover:text-white transition duration-300">Register</button>
                     </div>
                 </form>
 
@@ -120,8 +158,6 @@ const SignUp = () => {
 
                 {/* Login with Google */}
                 <SocialLogin />
-
-
             </div>
         </div>
     );
