@@ -5,14 +5,14 @@ import Sidebar from "../components/Dashboard/Sidebar/Sidebar";
 
 const Dashboard = () => {
     return (
-        <div className='container mx-auto relative min-h-screen md:flex bg-white'>
+        <div className='md:container mx-auto relative md:flex md:h-screen bg-white'>
             {/* <Sidebar /> */}
-            <ul className='menu p-0 text-base '>
+            <ul className='menu p-0 text-base md:h-full overflow-hidden'>
                 <Sidebar />
             </ul>
 
             {/* Dynamic Contents */}
-            <div className='flex-1  md:ml-64'>
+            <div className='flex-1 bg-teal-50 md:pl-64  overflow-auto mt-10 md:mt-0'>
                 <div className="p-5">
                     <Outlet />
                 </div>

@@ -26,10 +26,10 @@ const ManageUsers = () => {
 
     return (
         <div>
-            <div className='  mx-auto p-10'>
-                <h2 className="text-4xl">Total USERS: {users.length}</h2>
+            <div className='  mx-auto py-10'>
+                <h2 className="text-4xl">Total Users: {users.length}</h2>
                 <div className="overflow-x-auto">
-                    <table className="table table-zebra w-full">
+                    <table className="table table-zebra">
                         <thead className='text-base'>
                             <tr>
                                 <th></th>
