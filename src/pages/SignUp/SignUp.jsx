@@ -5,13 +5,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import SocialLogin from '../../components/Shared/SocialLogin/SocialLogin';
 import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
 const SignUp = () => {
-    const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
     const { createUser, updateProfileInfo } = useAuth();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +22,7 @@ const SignUp = () => {
         // console.log(data);
         // image upload to imgbb and then get an url
         const imageFile = { image: data.photo[0] }
-        const res = await axiosSecure.post(image_hosting_api, imageFile, {
+        const res = await axiosPublic.post(image_hosting_api, imageFile, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
@@ -34,16 +34,28 @@ const SignUp = () => {
             createUser(data.email, data.password)
                 .then(result => {
                     // console.log(result);
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Registration Successful',
-                        text: `Welcome, ${data.name}! Your account has been created.`,
-                        customClass: {
-                            confirmButton: 'bg-teal-500 text-white'
-                        }
-                    });
-                    updateProfileInfo(data.name, photoURL);
-                    navigate('/');
+
+                    const userInfo = {
+                        name: data.name,
+                        email: data.email,
+                        photo: photoURL,
+                        role: data.role
+                    }
+                    axiosPublic.post('/users', userInfo)
+                        .then(res => {
+                            if (res.data.insertedId) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Registration Successful',
+                                    text: `Welcome, ${data.name}! Your account has been created.`,
+                                    customClass: {
+                                        confirmButton: 'bg-teal-500 text-white'
+                                    }
+                                });
+                                updateProfileInfo(data.name, photoURL);
+                                navigate('/');
+                            }
+                        })
                 })
                 .catch(error => {
                     // console.log(error.code);
@@ -132,8 +144,8 @@ const SignUp = () => {
                         <label className="label text-lg font-medium text-gray-700">Select Role</label>
                         <select defaultValue='' {...register("role", { required: true })} className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition">
                             <option disabled value="">Select your role</option>
-                            <option value="user">User</option>
-                            <option value="seller">Seller</option>
+                            <option value="User">User</option>
+                            <option value="Seller">Seller</option>
                         </select>
                         {errors.role && <p className='text-red-600'>Role is required.</p>}
                     </div>

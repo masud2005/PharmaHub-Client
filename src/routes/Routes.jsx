@@ -3,6 +3,7 @@ import MainLayout from "../layouts/MainLayout";
 import SignUp from "../pages/SignUp/SignUp";
 import SignIn from "../pages/SignIn/SignIn";
 import Dashboard from "../layouts/Dashboard";
+import ManageUsers from "../pages/Dashboard/ManageUsers/ManageUsers";
 
 
 const router = createBrowserRouter([
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/manage-users',
-                element: <h1>Manage users</h1>
+                element: <ManageUsers />
             },
             {
                 path: '/dashboard/manage-category',
