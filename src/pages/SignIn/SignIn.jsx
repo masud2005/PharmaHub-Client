@@ -1,13 +1,46 @@
 import React, { useState } from 'react';
 import SocialLogin from '../../components/Shared/SocialLogin/SocialLogin';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
+import useAuth from '../../hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const SignIn = () => {
+    const { signInUser } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const handleSignIn = (e) => {
         e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        // console.log(email, password);
+
+        signInUser(email, password)
+            .then(result => {
+                // console.log(result);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful',
+                    text: `Welcome, ${result.user?.displayName || 'User'}! You are now logged in.`,
+                    customClass: {
+                        confirmButton: 'bg-teal-500 text-white'
+                    }
+                })
+                navigate(location?.state ? location?.state : '/');
+            })
+            .catch(error => {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    text: error.code,
+                    customClass: {
+                        confirmButton: 'bg-red-500 text-white'
+                    }
+                })
+            })
     }
 
     return (

@@ -1,19 +1,44 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaEye, FaEyeSlash, FaGoogle } from 'react-icons/fa6';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SocialLogin from '../../components/Shared/SocialLogin/SocialLogin';
+import useAuth from '../../hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const SignUp = () => {
+    const { createUser, updateProfileInfo } = useAuth();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const onSubmit = (data) => {
-        console.log(data);
-    }
-
-    const handleLoginWithGoogle = () => {
-
+        // console.log(data);
+        createUser(data.email, data.password)
+            .then(result => {
+                // console.log(result);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Registration Successful',
+                    text: `Welcome, ${result.user?.displayName || 'User'}! Your account has been created.`,
+                    customClass: {
+                        confirmButton: 'bg-teal-500 text-white'
+                    }
+                });
+                updateProfileInfo(data.name, data.photo);
+                navigate('/');
+            })
+            .catch(error => {
+                // console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Registration Failed',
+                    text: error.code,
+                    customClass: {
+                        confirmButton: 'bg-red-500 text-white'
+                    }
+                });
+            })
     }
 
     return (
@@ -62,6 +87,17 @@ const SignUp = () => {
                                 <p className='text-red-600'>Password must have one Uppercase and Lowercase, one Number and one Special character. </p>
                             )}
                         </div>
+                    </div>
+
+                    {/* Role Select Field */}
+                    <div className="form-control">
+                        <label className="label text-lg font-medium text-gray-700">Select Role</label>
+                        <select defaultValue='' {...register("role", { required: true })} className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition">
+                            <option disabled value="">Select your role</option>
+                            <option value="user">User</option>
+                            <option value="seller">Seller</option>
+                        </select>
+                        {errors.role && <p className='text-red-600'>Role is required.</p>}
                     </div>
 
                     {/* Terms & Conditions */}

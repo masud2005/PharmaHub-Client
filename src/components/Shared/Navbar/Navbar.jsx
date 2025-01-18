@@ -4,9 +4,11 @@ import { NavLink } from 'react-router-dom';
 import { IoIosArrowDown, IoMdClose, IoMdMenu } from 'react-icons/io';
 import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
 import { FaCartPlus } from 'react-icons/fa6';
+import useAuth from '../../../hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
-    const user = null;
+    const { user, signOutUser } = useAuth();
     const [menuOpen, setMenuOpen] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [languageOpen, setLanguageOpen] = useState(false);
@@ -39,8 +41,29 @@ const Navbar = () => {
     };
 
     const handleLogOut = () => {
-
-    }
+        // console.log('Logout');
+        signOutUser()
+            .then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Logged Out Successfully!',
+                    text: 'You have been logged out. See you soon!',
+                    customClass: {
+                        confirmButton: 'bg-teal-500 text-white'
+                    }
+                });
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Logout Failed',
+                    text: `Something went wrong: ${error.code}. Please try again.`,
+                    customClass: {
+                        confirmButton: 'bg-red-500 text-white'
+                    }
+                });
+            })
+    };
 
     return (
         <div>
