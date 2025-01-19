@@ -7,6 +7,7 @@ import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import useCart from '../../hooks/useCart';
 
 const Shop = () => {
     const axiosPublic = useAxiosPublic();
@@ -15,8 +16,9 @@ const Shop = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { user } = useAuth();
     const navigate = useNavigate();
+    const [, refetch] = useCart();
 
-    const { data: medicines = [], refetch } = useQuery({
+    const { data: medicines = [] } = useQuery({
         queryKey: ["medicines"],
         queryFn: async () => {
             const res = await axiosPublic.get("/medicines");
@@ -32,8 +34,10 @@ const Shop = () => {
                 medicineId: medicine._id,
                 email: user?.email,
                 name: medicine.name,
+                image: medicine.imageURL,
                 company: medicine.company,
                 pricePerUnit: medicine.pricePerUnit,
+                quantity: 1
             }
 
             // console.log(cartItem);

@@ -6,6 +6,7 @@ import Dashboard from "../layouts/Dashboard";
 import ManageUsers from "../pages/Dashboard/ManageUsers/ManageUsers";
 import ManageCategory from "../pages/Dashboard/ManageCategory/ManageCategory";
 import Shop from "../pages/Shop/Shop";
+import Cart from "../pages/Cart/Cart";
 
 
 const router = createBrowserRouter([
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/cart',
-                element: <h1>Cart</h1>
+                element: <Cart />
             },
             {
                 path: '/sign-up',
