@@ -2,14 +2,16 @@ import React from 'react';
 import { FaGoogle } from 'react-icons/fa6';
 import useAuth from '../../../hooks/useAuth';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 const SocialLogin = () => {
     const { googleSignIn } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
     const axiosPublic = useAxiosPublic();
     const axiosSecure = useAxiosSecure();
 
@@ -20,45 +22,6 @@ const SocialLogin = () => {
             return res.data;
         }
     });
-    console.log(users);
-
-    // const handleLoginWithGoogle = () => {
-    //     googleSignIn()
-    //         .then(result => {
-    //             const userInfo = {
-    //                 name: result?.user?.displayName,
-    //                 email: result?.user?.email,
-    //                 photo: result?.user?.photoURL
-    //             };
-
-    //             axiosPublic.post('/users', userInfo)
-    //                 .then(res => {
-    //                     if (res.data.insertedId) {
-    //                         Swal.fire({
-    //                             icon: 'success',
-    //                             title: 'Welcome!',
-    //                             text: `Sign In Successful. Hello, ${userInfo.name || 'User'}!`,
-    //                             customClass: {
-    //                                 confirmButton: 'bg-teal-500 text-white'
-    //                             }
-    //                         });
-    //                         navigate('/');
-    //                     }
-    //                 });
-    //         })
-    //         .catch(error => {
-    //             Swal.fire({
-    //                 icon: 'error',
-    //                 title: 'Sign In Failed',
-    //                 text: `Error: ${error.message || 'Something went wrong. Please try again.'}`,
-    //                 customClass: {
-    //                     confirmButton: 'bg-red-500 text-white'
-    //                 }
-    //             });
-    //             console.error(error.code);
-    //         });
-    // };
-
 
     const handleLoginWithGoogle = () => {
         googleSignIn()
@@ -75,54 +38,25 @@ const SocialLogin = () => {
 
                 if (existingUser) {
                     // User already exists, just sign in
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'Welcome Back!',
-                        text: `Sign In Successful. Hello, ${existingUser.name || 'User'}!`,
-                        customClass: {
-                            confirmButton: 'bg-teal-500 text-white'
-                        }
-                    });
-                    navigate('/');
+                    toast.success(`Sign In Successful. Hello, ${existingUser.name || 'User'}!`);
+                    navigate(location?.state ? location?.state : '/');
                 } else {
                     // New user, add to the database with default role 'User'
                     axiosPublic.post('/users', userInfo)
                         .then(res => {
                             if (res.data.insertedId) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Welcome!',
-                                    text: `Sign In Successful. Hello, ${userInfo.name || 'User'}!`,
-                                    customClass: {
-                                        confirmButton: 'bg-teal-500 text-white'
-                                    }
-                                });
-                                navigate('/');
+                                toast.success(`Sign In Successful. Hello, ${userInfo.name || 'User'}!`);
+                                navigate(location?.state ? location?.state : '/');
                             }
                         })
                         .catch(error => {
-                            console.error(error);
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Sign In Failed',
-                                text: `Error: ${error.message || 'Something went wrong. Please try again.'}`,
-                                customClass: {
-                                    confirmButton: 'bg-red-500 text-white'
-                                }
-                            });
+                            // console.error(error);
+                            toast.error(`Error: ${error.code || 'Something went wrong. Please try again.'}`);
                         });
                 }
             })
             .catch(error => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Sign In Failed',
-                    text: `Error: ${error.message || 'Something went wrong. Please try again.'}`,
-                    customClass: {
-                        confirmButton: 'bg-red-500 text-white'
-                    }
-                });
-                console.error(error.code);
+                toast.error(`Error: ${error.code || 'Something went wrong. Please try again.'}`);
             });
     };
 

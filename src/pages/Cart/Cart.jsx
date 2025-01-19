@@ -4,59 +4,82 @@ import { FaTrashAlt } from "react-icons/fa"; // For delete icon
 import { Link } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+import useAuth from "../../hooks/useAuth";
 
 const Cart = () => {
+    const { user } = useAuth();
     const [cart, refetch] = useCart();
     const axiosSecure = useAxiosSecure();
 
     // Function to handle quantity change
-    const handleQuantityChange = (id) => {
-        console.log(id);
+    const handleQuantityChange = async (id, newQuantity, pricePerUnit) => {
+        if (newQuantity < 1) return;
+        try {
+            const totalPrice = newQuantity * pricePerUnit;
+            const res = await axiosSecure.put(`/carts/${id}`, { quantity: newQuantity, totalPrice });
+            // console.log(res.data);
+            if (res.data.modifiedCount > 0) {
+                // toast.success('Quantity and price updated successfully');
+                refetch();
+            }
+        } catch (error) {
+            toast.error('Something went wrong! Please try again.');
+        }
     };
 
     // Function to remove medicine from cart
     const handleRemoveMedicine = async (id) => {
-        console.log(id);
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
+            customClass: {
+                confirmButton: 'bg-teal-500',
+                cancelButton: 'bg-red-500'
+            },
             confirmButtonText: "Yes, delete it!"
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const res = await axiosSecure.delete(`/carts/${id}`)
-                console.log(res.data);
                 try {
+                    const res = await axiosSecure.delete(`/carts/${id}`);
                     if (res.data.deletedCount > 0) {
-                        console.log('Successfully Deleted');
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "Your file has been deleted.",
-                            icon: "success",
-                            timer: 3000
-                        });
+                        toast.success('Successfully Deleted');
                         refetch();
                     }
-                }
-                catch {
-                    console.log('Error');
-                    Swal.fire({
-                        title: "Error!",
-                        text: "Something went rong. Please try again!",
-                        icon: "error",
-                        timer: 3000
-                    });
+                } catch {
+                    toast.error('Something went wrong. Please try again!');
                 }
             }
         });
     };
 
     // Function to clear the entire cart
-    const handleClearCart = () => {
-        setCart([]);
+    const handleClearCart = async () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "All medicine in your cart will be removed. You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            customClass: {
+                confirmButton: 'bg-teal-500',
+                cancelButton: 'bg-red-500'
+            },
+            confirmButtonText: "Yes, delete all!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const res = await axiosSecure.delete(`/carts?email=${user?.email}`);
+                    if (res.data.deletedCount > 0) {
+                        toast.success('All medicine in your cart have been deleted.');
+                        refetch();
+                    }
+                } catch {
+                    toast.error('Something went wrong. Please try again!');
+                }
+            }
+        });
     };
 
     return (
@@ -75,24 +98,28 @@ const Cart = () => {
                                     <div>
                                         <p className="font-semibold">{medicine.name}</p>
                                         <p className="text-sm text-gray-600">{medicine.company}</p>
-                                        <p className="text-lg text-teal-600">₹{medicine.pricePerUnit}</p>
+                                        {/* <p className="text-lg text-teal-600">₹{medicine.pricePerUnit}</p> */}
+                                        <p className="text-lg text-teal-600">₹{medicine.quantity * medicine.pricePerUnit}</p>
+                                        {/* <p className="text-lg text-teal-600">Total: ₹{medicine.quantity * medicine.pricePerUnit}</p> */}
                                     </div>
 
                                     <div className="flex items-center space-x-2">
                                         <button
-                                            onClick={() => handleQuantityChange(medicine._id)}
-                                            className="bg-gray-200 p-1 rounded-full"
+                                            disabled={medicine.quantity <= 1} // Disable if quantity is 1 or less
+                                            onClick={() => handleQuantityChange(medicine._id, medicine.quantity - 1, medicine.pricePerUnit)}
+                                            className={`bg-gray-200 p-1 rounded-full ${medicine.quantity <= 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
                                         >
                                             -
                                         </button>
                                         <span>{medicine.quantity}</span>
                                         <button
-                                            onClick={() => handleQuantityChange(medicine._id)}
+                                            onClick={() => handleQuantityChange(medicine._id, medicine.quantity + 1, medicine.pricePerUnit)}
                                             className="bg-gray-200 p-1 rounded-full"
                                         >
                                             +
                                         </button>
                                     </div>
+
                                 </div>
                                 <button
                                     onClick={() => handleRemoveMedicine(medicine._id)}

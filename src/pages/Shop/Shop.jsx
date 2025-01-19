@@ -8,6 +8,7 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import useCart from '../../hooks/useCart';
+import { toast } from 'react-toastify';
 
 const Shop = () => {
     const axiosPublic = useAxiosPublic();
@@ -44,29 +45,13 @@ const Shop = () => {
             axiosSecure.post('/carts', cartItem)
                 .then(res => {
                     if (res.data.insertedId) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: "Successfully added.",
-                            text: `${medicine.name} added to your cart.`,
-                            timer: 3000,
-                            customClass: {
-                                confirmButton: 'bg-teal-500 text-white'
-                            }
-                        })
+                        toast.success(`Successfully ${medicine.name} added to cart`);
                         refetch();
                     }
                 })
                 .catch(error => {
                     // console.log(error.code);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Failed add to cart',
-                        text: 'An error occurred while adding the item to your cart. Please try again later.',
-                        timer: 3000,
-                        customClass: {
-                            confirmButton: 'bg-red-500 text-white'
-                        }
-                    })
+                    toast.error('An error occurred while adding the item to your cart. Please try again later.');
                 })
 
         }
@@ -78,8 +63,10 @@ const Shop = () => {
                 text: "Please login to add to the cart?",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
+                customClass: {
+                    confirmButton: 'bg-teal-500',
+                    cancelButton: 'bg-red-500'
+                },
                 confirmButtonText: "Yes, login!"
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -96,7 +83,7 @@ const Shop = () => {
     };
 
     return (
-        <div className="container mx-auto py-10">
+        <div className="container mx-auto py-10 px-2">
             <h2 className="text-4xl font-semibold mb-6 text-center">Shop</h2>
 
             <div className="overflow-x-auto">
@@ -151,7 +138,7 @@ const Shop = () => {
             {/* Details Modal */}
             {isModalOpen && selectedMedicine && (
                 <div className="modal modal-open">
-                    <div className="modal-box p-2 relative">
+                    <div className="modal-box max-w-[576px] lg:max-w-[768px] p-2 relative">
                         <h3 className="font-bold text-lg">{selectedMedicine.name}</h3>
                         <img src={selectedMedicine.imageURL} alt={selectedMedicine.name} className="w-full h-64 object-cover my-4" />
                         <div className="grid grid-cols-4 gap-x-4 gap-y-2 text-sm md:text-base">

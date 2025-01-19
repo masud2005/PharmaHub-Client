@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SocialLogin from '../../components/Shared/SocialLogin/SocialLogin';
 import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 import useAxiosPublic from '../../hooks/useAxiosPublic';
+import { toast } from 'react-toastify';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
@@ -17,6 +18,7 @@ const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [imagePreview, setImagePreview] = useState(null);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const onSubmit = async (data) => {
         // console.log(data);
@@ -44,29 +46,15 @@ const SignUp = () => {
                     axiosPublic.post('/users', userInfo)
                         .then(res => {
                             if (res.data.insertedId) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Registration Successful',
-                                    text: `Welcome, ${data.name}! Your account has been created.`,
-                                    customClass: {
-                                        confirmButton: 'bg-teal-500 text-white'
-                                    }
-                                });
+                                toast.success(`Welcome, ${data.name}! Your account has been created.`);
                                 updateProfileInfo(data.name, photoURL);
-                                navigate('/');
+                                navigate(location?.state ? location?.state : '/');
                             }
                         })
                 })
                 .catch(error => {
                     // console.log(error.code);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Registration Failed',
-                        text: error.code,
-                        customClass: {
-                            confirmButton: 'bg-red-500 text-white'
-                        }
-                    });
+                    toast.error(`Error: ${error.code || 'Something went wrong. Please try again.'}`);
                 });
         }
     };
