@@ -5,6 +5,7 @@ import SignIn from "../pages/SignIn/SignIn";
 import Dashboard from "../layouts/Dashboard";
 import ManageUsers from "../pages/Dashboard/ManageUsers/ManageUsers";
 import ManageCategory from "../pages/Dashboard/ManageCategory/ManageCategory";
+import Shop from "../pages/Shop/Shop";
 
 
 const router = createBrowserRouter([
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/shop',
-                element: <h1>Shop</h1>
+                element: <Shop />
             },
             {
                 path: '/cart',

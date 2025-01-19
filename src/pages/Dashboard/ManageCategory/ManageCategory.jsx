@@ -24,7 +24,7 @@ const ManageCategory = () => {
         },
     });
 
-    console.log(medicines);
+    // console.log(medicines);
 
 
     const handleAddCategory = async () => {
