@@ -7,7 +7,8 @@ import ManageUsers from "../pages/Dashboard/ManageUsers/ManageUsers";
 import ManageCategory from "../pages/Dashboard/ManageCategory/ManageCategory";
 import Shop from "../pages/Shop/Shop";
 import Cart from "../pages/Cart/Cart";
-import Checkout from "../pages/Checkout/Checkout";
+import Checkout from "../pages/Payment/Checkout";
+import Payment from "../pages/Payment/Payment";
 
 
 const router = createBrowserRouter([
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/checkout',
-                element: <Checkout />
+                element: <Payment />
             },
             {
                 path: '/sign-up',
