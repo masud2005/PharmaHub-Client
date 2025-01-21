@@ -9,6 +9,7 @@ import Shop from "../pages/Shop/Shop";
 import Cart from "../pages/Cart/Cart";
 import Checkout from "../pages/Payment/Checkout";
 import Payment from "../pages/Payment/Payment";
+import Invoice from "../pages/Payment/Invoice";
 
 
 const router = createBrowserRouter([
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
             {
                 path: '/checkout',
                 element: <Payment />
+            },
+            {
+                path: '/invoice',
+                element: <Invoice />
             },
             {
                 path: '/sign-up',

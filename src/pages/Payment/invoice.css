@@ -1,0 +1,23 @@
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #invoice,
+    #invoice * {
+        visibility: visible;
+    }
+
+    #invoice {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        page-break-inside: avoid;
+    }
+
+    @page {
+        size: A4;
+        margin: 0;
+    }
+}
