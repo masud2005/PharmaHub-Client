@@ -16,7 +16,7 @@ const SignUp = () => {
     const { createUser, updateProfileInfo } = useAuth();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [showPassword, setShowPassword] = useState(false);
-    const [imagePreview, setImagePreview] = useState(null);
+    // const [imagePreview, setImagePreview] = useState(null);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -59,18 +59,18 @@ const SignUp = () => {
         }
     };
 
-    const handleImagePreview = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
-        } else {
-            setImagePreview(null);
-        }
-    };
+    // const handleImagePreview = (e) => {
+    //     const file = e.target.files[0];
+    //     if (file) {
+    //         const reader = new FileReader();
+    //         reader.onloadend = () => {
+    //             setImagePreview(reader.result);
+    //         };
+    //         reader.readAsDataURL(file);
+    //     } else {
+    //         setImagePreview(null);
+    //     }
+    // };
 
     return (
         <div className="flex items-center justify-center my-10 px-2">
@@ -84,20 +84,6 @@ const SignUp = () => {
                         <label className="label text-lg font-medium text-gray-700">Your Name</label>
                         <input type="text" {...register("name", { required: true })} placeholder="Enter your name" className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition" />
                         {errors.name && <p className='text-red-600'>Name is required.</p>}
-                    </div>
-
-                    {/* Image Upload Field */}
-                    <div className="form-control">
-                        <label className="label text-lg font-medium text-gray-700">Upload Photo</label>
-                        <div className='flex items-center gap-5'>
-                            <div>
-                                <input type="file" {...register("photo", { required: true })} accept="image/*" onChange={handleImagePreview} className="input input-bordered w-4/5 px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition" />
-                                {errors.photo && <p className='text-red-600'>Photo is required.</p>}
-                            </div>
-                            <div>
-                                {imagePreview && <img src={imagePreview} alt="Preview" className=" h-20 sm:w-20  rounded-full object-cover  md:-ml-0" />}
-                            </div>
-                        </div>
                     </div>
 
                     {/* Email Field */}
@@ -136,6 +122,21 @@ const SignUp = () => {
                             <option value="Seller">Seller</option>
                         </select>
                         {errors.role && <p className='text-red-600'>Role is required.</p>}
+                    </div>
+
+                    {/* Image Upload Field */}
+                    <div className="form-control">
+                        <label className="label text-lg font-medium text-gray-700">Upload Photo</label>
+                        <div className='flex items-center gap-5'>
+                            <div className='w-full'>
+                                <input type="file" {...register("photo", { required: true })} className="file-input file-input-bordered w-full" />
+                                {/* <input type="file" {...register("photo", { required: true })} className="input input-bordered w-4/5 px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition" /> */}
+                                {errors.photo && <p className='text-red-600'>Photo is required.</p>}
+                            </div>
+                            {/* <div>
+                                {imagePreview && <img src={imagePreview} alt="Preview" className=" h-20 sm:w-20  rounded-full object-cover  md:-ml-0" />}
+                            </div> */}
+                        </div>
                     </div>
 
                     {/* Terms & Conditions */}

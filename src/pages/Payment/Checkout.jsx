@@ -73,7 +73,7 @@ const Checkout = () => {
                     price: totalPrice,
                     transactionId: paymentIntent.id,
                     cartIds: cart.map(item => item._id),
-                    status: 'pending'
+                    status: 'Pending'
                 };
 
                 const res = await axiosSecure.post('/payments', paymentInfo)

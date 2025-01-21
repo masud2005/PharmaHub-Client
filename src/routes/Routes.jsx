@@ -10,6 +10,7 @@ import Cart from "../pages/Cart/Cart";
 import Checkout from "../pages/Payment/Checkout";
 import Payment from "../pages/Payment/Payment";
 import Invoice from "../pages/Payment/Invoice";
+import PaymentManagement from "../pages/Dashboard/PaymentManagement/PaymentManagement";
 
 
 const router = createBrowserRouter([
@@ -71,7 +72,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/payment-management',
-                element: <h1>Payment Management</h1>
+                element: <PaymentManagement />
             },
             {
                 path: '/dashboard/sales-report',
