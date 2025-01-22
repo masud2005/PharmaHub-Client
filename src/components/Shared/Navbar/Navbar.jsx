@@ -7,6 +7,7 @@ import { FaCartPlus } from 'react-icons/fa6';
 import useAuth from '../../../hooks/useAuth';
 import Swal from 'sweetalert2';
 import useCart from '../../../hooks/useCart';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
     const { user, signOutUser } = useAuth();
@@ -47,24 +48,10 @@ const Navbar = () => {
         // console.log('Logout');
         signOutUser()
             .then(() => {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Logged Out Successfully!',
-                    text: 'You have been logged out. See you soon!',
-                    customClass: {
-                        confirmButton: 'bg-teal-500 text-white'
-                    }
-                });
+                toast.success('Logged out successfully. See you soon!')
             })
             .catch(error => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Logout Failed',
-                    text: `Something went wrong: ${error.code}. Please try again.`,
-                    customClass: {
-                        confirmButton: 'bg-red-500 text-white'
-                    }
-                });
+                toast.error('Something went wrong. Please try again.')
             })
     };
 

@@ -7,70 +7,62 @@ import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 import useAxiosPublic from '../../hooks/useAxiosPublic';
 import { toast } from 'react-toastify';
+import useImageUpload from '../../hooks/useImageUpload';
 
-const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
+// const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+// const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
 const SignUp = () => {
     const axiosPublic = useAxiosPublic();
     const { createUser, updateProfileInfo } = useAuth();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [showPassword, setShowPassword] = useState(false);
-    // const [imagePreview, setImagePreview] = useState(null);
     const navigate = useNavigate();
     const location = useLocation();
+    const { uploadImage } = useImageUpload()
 
     const onSubmit = async (data) => {
         // console.log(data);
         // image upload to imgbb and then get an url
-        const imageFile = { image: data.photo[0] }
-        const res = await axiosPublic.post(image_hosting_api, imageFile, {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        });
-        // console.log(res.data.data.display_url);
-        const photoURL = res.data.data.display_url;
+        // const imageFile = { image: data.photo[0] }
+        const imageFile = data.photo[0];
+        const photoURL = await uploadImage(imageFile);
+        console.log(photoURL);
+        // const res = await axiosPublic.post(image_hosting_api, imageFile, {
+        //     headers: {
+        //         'content-type': 'multipart/form-data'
+        //     }
+        // });
+        // console.log(res.data);
+        // const photoURL = res.data.data.display_url;
+        createUser(data.email, data.password)
+            .then(result => {
+                // console.log(result);
 
-        if (res.data.success) {
-            createUser(data.email, data.password)
-                .then(result => {
-                    // console.log(result);
+                const userInfo = {
+                    name: data.name,
+                    email: data.email,
+                    photo: photoURL,
+                    role: data.role
+                }
+                axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        if (res.data.insertedId) {
+                            toast.success(`Welcome, ${data.name}! Your account has been created.`);
+                            updateProfileInfo(data.name, photoURL);
+                            navigate(location?.state ? location?.state : '/');
+                        }
+                    })
+            })
+            .catch(error => {
+                // console.log(error.code);
+                toast.error(`Error: ${error.code || 'Something went wrong. Please try again.'}`);
+            });
 
-                    const userInfo = {
-                        name: data.name,
-                        email: data.email,
-                        photo: photoURL,
-                        role: data.role
-                    }
-                    axiosPublic.post('/users', userInfo)
-                        .then(res => {
-                            if (res.data.insertedId) {
-                                toast.success(`Welcome, ${data.name}! Your account has been created.`);
-                                updateProfileInfo(data.name, photoURL);
-                                navigate(location?.state ? location?.state : '/');
-                            }
-                        })
-                })
-                .catch(error => {
-                    // console.log(error.code);
-                    toast.error(`Error: ${error.code || 'Something went wrong. Please try again.'}`);
-                });
-        }
+        // if (res.data.success) {
+        //     
+        // }
     };
-
-    // const handleImagePreview = (e) => {
-    //     const file = e.target.files[0];
-    //     if (file) {
-    //         const reader = new FileReader();
-    //         reader.onloadend = () => {
-    //             setImagePreview(reader.result);
-    //         };
-    //         reader.readAsDataURL(file);
-    //     } else {
-    //         setImagePreview(null);
-    //     }
-    // };
 
     return (
         <div className="flex items-center justify-center my-10 px-2">

@@ -13,6 +13,7 @@ import Invoice from "../pages/Payment/Invoice";
 import PaymentManagement from "../pages/Dashboard/PaymentManagement/PaymentManagement";
 import PaymentHistory from "../pages/Dashboard/UserPaymentHistory/UserPaymentHistory";
 import AdminHome from "../pages/Dashboard/AdminHome/AdminHome";
+import ManageMedicines from "../pages/Dashboard/SellerDashboard/ManageMedicines";
 
 
 const router = createBrowserRouter([
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
                 path: '/dashboard/sales-report',
                 element: <h1>Sales Report</h1>
             },
+            {
+                path: '/dashboard/banner-advertise',
+                element: <h1>Banner Advertise</h1>
+            },
 
             // Seller Dashboard
             {
@@ -90,7 +95,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/manage-medicines',
-                element: <h1>Manage Medicines</h1>
+                element: <ManageMedicines />
             },
             {
                 path: '/dashboard/payment-history',

@@ -24,6 +24,9 @@ const AdminMenu = () => {
             <li>
                 <NavLink to="/dashboard/sales-report">
                     <FaHome /> Sales Report</NavLink>
+            </li><li>
+                <NavLink to="/dashboard/banner-advertise">
+                    <FaHome /> Banner Advertise</NavLink>
             </li>
         </>
     );
