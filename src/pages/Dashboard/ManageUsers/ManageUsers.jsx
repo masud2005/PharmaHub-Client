@@ -25,44 +25,64 @@ const ManageUsers = () => {
     };
 
     return (
-        <div>
-            <div className='  mx-auto py-10'>
-                <h2 className="text-4xl">Total Users: {users.length}</h2>
-                <div className="overflow-x-auto">
-                    <table className="table table-zebra">
-                        <thead className='text-base'>
-                            <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Present Role</th>
-                                <th>Update Role</th>
+        <div className="mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+            <h1 className="text-2xl font-semibold text-teal-600 mb-6">Manage Users ({users.length})</h1>
+            <div className="overflow-x-auto">
+                <table className="min-w-full table-auto border-collapse border border-gray-200">
+                    <thead className="bg-teal-600 text-white h-16">
+                        <tr>
+                            <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">#</th>
+                            <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Name</th>
+                            <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Email</th>
+                            <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Present Role</th>
+                            <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Update Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {users.map((user, index) => (
+                            <tr
+                                key={user._id}
+                                className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}
+                            >
+                                <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">
+                                    {index + 1}
+                                </td>
+                                <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">
+                                    {user.name}
+                                </td>
+                                <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">
+                                    {user.email}
+                                </td>
+                                <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">
+                                    <span
+                                        className={`px-3 py-1 inline-flex leading-tight rounded-full ${user.role === 'Admin'
+                                                ? 'bg-green-100 text-green-700'
+                                                : user.role === 'Seller'
+                                                    ? 'bg-blue-100 text-blue-700'
+                                                    : 'bg-yellow-100 text-yellow-700'
+                                            }`}
+                                    >
+                                        {user.role}
+                                    </span>
+                                </td>
+                                <td className="px-6 py-4 border-b text-sm md:text-base">
+                                    <select
+                                        className="w-full text-sm border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                        onChange={(e) => handleRoleChange(user, e.target.value)}
+                                        defaultValue=""
+                                    >
+                                        <option value="" disabled>
+                                            Select role
+                                        </option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="Seller">Seller</option>
+                                        <option value="User">User</option>
+                                    </select>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {users.map((user, index) => (
-                                <tr key={user._id}>
-                                    <th>{index + 1}</th>
-                                    <td>{user.name}</td>
-                                    <td>{user.email}</td>
-                                    <td>{user.role}</td>
-                                    <td>
-                                        <select
-                                            className="select select-bordered text-base w-full max-w-xs"
-                                            onChange={(e) => handleRoleChange(user, e.target.value)}
-                                            defaultValue={''}
-                                        >
-                                            <option value="" disabled>Select role</option>
-                                            <option value="Admin">Admin</option>
-                                            <option value="Seller">Seller</option>
-                                            <option value="User">User</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

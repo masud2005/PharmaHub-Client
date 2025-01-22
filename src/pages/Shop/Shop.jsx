@@ -28,8 +28,6 @@ const Shop = () => {
     });
 
     const handleSelectMedicine = (medicine) => {
-        // console.log('Selected medicine:', medicine);
-
         if (user && user?.email) {
             const cartItem = {
                 medicineId: medicine._id,
@@ -41,7 +39,6 @@ const Shop = () => {
                 quantity: 1
             }
 
-            // console.log(cartItem);
             axiosSecure.post('/carts', cartItem)
                 .then(res => {
                     if (res.data.insertedId) {
@@ -50,14 +47,10 @@ const Shop = () => {
                     }
                 })
                 .catch(error => {
-                    // console.log(error.code);
                     toast.error('An error occurred while adding the item to your cart. Please try again later.');
                 })
 
-        }
-        else {
-            // console.log('Not Login');
-            // 
+        } else {
             Swal.fire({
                 title: "You are not Logged In!",
                 text: "Please login to add to the cart?",
@@ -70,7 +63,6 @@ const Shop = () => {
                 confirmButtonText: "Yes, login!"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Send the user to the login page
                     navigate('/sign-in');
                 }
             });
@@ -84,51 +76,57 @@ const Shop = () => {
 
     return (
         <div className="container mx-auto py-10 px-2">
-            <h2 className="text-4xl font-semibold mb-6 text-center">Shop</h2>
+            <h1 className="text-2xl font-semibold text-teal-600 mb-6">
+                All Shop ({medicines.length})
+            </h1>
 
             <div className="overflow-x-auto">
-                <table className="table table-zebra">
-                    <thead>
-                        <tr className="text-base bg-teal-200 text-black h-16">
-                            <th>#</th>
-                            <th>Image & Name</th>
-                            <th>Category</th>
-                            <th>Company</th>
-                            <th>Actions</th>
+                <table className="min-w-full table-auto border-collapse border border-gray-200">
+                    <thead className="bg-teal-600 text-white h-16">
+                        <tr>
+                            <th className="px-6 py-4 border-b text-left text-sm font-medium uppercase tracking-wider">#</th>
+                            <th className="px-6 py-4 border-b text-left text-sm font-medium uppercase tracking-wider">Image & Name</th>
+                            <th className="px-6 py-4 border-b text-left text-sm font-medium uppercase tracking-wider">Category</th>
+                            <th className="px-6 py-4 border-b text-left text-sm font-medium uppercase tracking-wider">Company</th>
+                            <th className="px-6 py-4 border-b text-left text-sm font-medium uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {medicines.map((item, idx) => (
-                            <tr key={item._id} className="md:text-base">
-                                <th>{idx + 1}</th>
-                                <td>
-                                    <div className="flex items-center gap-3">
-                                        <div className="avatar">
-                                            <div className="mask mask-squircle h-12 w-12">
-                                                <img src={item.imageURL} alt="Image..." />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div className="font-medium">{item.name}</div>
-                                        </div>
-                                    </div>
+                            <tr
+                                key={item._id}
+                                className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-100'}
+                            >
+                                <td className="px-6 py-4 text-sm text-gray-700">
+                                    {idx + 1}
                                 </td>
-                                <td>{item.category}</td>
-                                <td>{item.company}</td>
-                                <th className='text-nowrap space-x-1'>
+                                
+                                <td className="px-6 py-4 text-sm md:text-base text-gray-700 flex items-center gap-3">
+                                    <div className="w-12 h-12 rounded-full overflow-hidden">
+                                        <img src={item.imageURL} alt="Image" className="object-cover w-full h-full" />
+                                    </div>
+                                    <span className="font-medium">{item.name}</span>
+                                </td>
+                                <td className="px-6 py-4 text-sm md:text-base text-gray-700">
+                                    {item.category}
+                                </td>
+                                <td className="px-6 py-4 text-sm md:text-base text-gray-700">
+                                    {item.company}
+                                </td>
+                                <td className="px-6 py-4 text-sm md:text-base text-gray-700 flex justify-start gap-2">
                                     <button
-                                        className="btn btn-ghost text-base md:text-lg"
+                                        className="btn bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-sm md:text-base"
                                         onClick={() => handleSelectMedicine(item)}
                                     >
                                         <GiCheckMark />
                                     </button>
                                     <button
-                                        className="btn btn-ghost text-base md:text-lg"
+                                        className="btn bg-gray-500 hover:bg-gray-600 text-white rounded-lg text-sm md:text-base"
                                         onClick={() => handleViewDetails(item)}
                                     >
                                         <FaEye />
                                     </button>
-                                </th>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

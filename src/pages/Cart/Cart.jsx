@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useCart from "../../hooks/useCart";
-import { FaTrashAlt } from "react-icons/fa"; // For delete icon
+import { FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
@@ -18,13 +18,11 @@ const Cart = () => {
         try {
             const totalPrice = newQuantity * pricePerUnit;
             const res = await axiosSecure.put(`/carts/${id}`, { quantity: newQuantity, totalPrice });
-            // console.log(res.data);
             if (res.data.modifiedCount > 0) {
-                // toast.success('Quantity and price updated successfully');
                 refetch();
             }
         } catch (error) {
-            toast.error('Something went wrong! Please try again.');
+            toast.error("Something went wrong! Please try again.");
         }
     };
 
@@ -35,21 +33,18 @@ const Cart = () => {
             text: "You won't be able to revert this!",
             icon: "warning",
             showCancelButton: true,
-            customClass: {
-                confirmButton: 'bg-teal-500',
-                cancelButton: 'bg-red-500'
-            },
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Yes, delete it!",
+            confirmButtonColor: "#d33",
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
                     const res = await axiosSecure.delete(`/carts/${id}`);
                     if (res.data.deletedCount > 0) {
-                        toast.success('Successfully Deleted');
+                        toast.success("Successfully deleted.");
                         refetch();
                     }
                 } catch {
-                    toast.error('Something went wrong. Please try again!');
+                    toast.error("Something went wrong. Please try again!");
                 }
             }
         });
@@ -59,87 +54,101 @@ const Cart = () => {
     const handleClearCart = async () => {
         Swal.fire({
             title: "Are you sure?",
-            text: "All medicine in your cart will be removed. You won't be able to revert this!",
+            text: "All items in your cart will be removed!",
             icon: "warning",
             showCancelButton: true,
-            customClass: {
-                confirmButton: 'bg-teal-500',
-                cancelButton: 'bg-red-500'
-            },
-            confirmButtonText: "Yes, delete all!"
+            confirmButtonText: "Yes, clear it!",
+            confirmButtonColor: "#d33",
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
                     const res = await axiosSecure.delete(`/carts?email=${user?.email}`);
                     if (res.data.deletedCount > 0) {
-                        toast.success('All medicine in your cart have been deleted.');
+                        toast.success("Cart cleared successfully.");
                         refetch();
                     }
                 } catch {
-                    toast.error('Something went wrong. Please try again!');
+                    toast.error("Something went wrong. Please try again!");
                 }
             }
         });
     };
 
     return (
-        <div className="px-2 container mx-auto py-10">
-            <h2 className="text-2xl font-semibold mb-4">Your Cart ({cart.length})</h2>
+        <div className="container mx-auto py-10 px-5 xl:px-0">
+            <h2 className="text-2xl font-semibold text-teal-600 mb-6">Your Cart ({cart.length})</h2>
 
             {cart.length === 0 ? (
-                <p className="text-center text-xl font-medium text-red-500">Your cart is empty. Start adding medicines!</p>
+                <p className="text-center text-lg font-medium text-gray-500">
+                    Your cart is empty. Start adding items!
+                </p>
             ) : (
-                <div>
-                    <div className="space-y-4">
-                        {cart.map((medicine) => (
-                            <div key={medicine._id} className="flex justify-between items-center border-b pb-4">
-                                <div className="flex items-center space-x-4">
-                                    <img src={medicine.image} alt={medicine.name} className="w-16 h-16 object-cover rounded" />
-                                    <div>
-                                        <p className="font-semibold">{medicine.name}</p>
-                                        <p className="text-sm text-gray-600">{medicine.company}</p>
-                                        {/* <p className="text-lg text-teal-600">₹{medicine.pricePerUnit}</p> */}
-                                        <p className="text-lg text-teal-600">₹{medicine.quantity * medicine.pricePerUnit}</p>
-                                        {/* <p className="text-lg text-teal-600">Total: ₹{medicine.quantity * medicine.pricePerUnit}</p> */}
+                <div className="space-y-6">
+                    {cart.map((item) => (
+                        <div
+                            key={item._id}
+                            className="flex items-center justify-between gap-4 p-4 border rounded-lg shadow-sm relative"
+                        >
+                            {/* Left: Medicine Info and Controls */}
+                            <div className="flex items-center gap-4 w-full">
+                                <img
+                                    src={item.image}
+                                    alt={item.name}
+                                    className="w-20 h-20 object-cover rounded-lg"
+                                />
+                                <div className="md:flex space-y-3 md:space-y-0">
+                                    <div className="w-full md:w-[150px]">
+                                        <p className="font-semibold text-lg">{item.name}</p>
+                                        <p className="text-sm text-gray-500">{item.company}</p>
+                                        <p className="text-teal-600 font-medium text-base">
+                                            Total: ₹{item.quantity * item.pricePerUnit}
+                                        </p>
                                     </div>
 
-                                    <div className="flex items-center space-x-2">
+                                    {/* Quantity Controls */}
+                                    <div className="flex items-center gap-2">
                                         <button
-                                            disabled={medicine.quantity <= 1} // Disable if quantity is 1 or less
-                                            onClick={() => handleQuantityChange(medicine._id, medicine.quantity - 1, medicine.pricePerUnit)}
-                                            className={`bg-gray-200 p-1 rounded-full ${medicine.quantity <= 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                            disabled={item.quantity <= 1}
+                                            onClick={() => handleQuantityChange(item._id, item.quantity - 1, item.pricePerUnit)}
+                                            className={`px-3 py-1 rounded-full border ${item.quantity <= 1
+                                                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                                : "bg-teal-100 hover:bg-teal-200 text-teal-600"
+                                                }`}
                                         >
                                             -
                                         </button>
-                                        <span>{medicine.quantity}</span>
+                                        <span className="px-4 py-1 bg-gray-100 border rounded-lg">
+                                            {item.quantity}
+                                        </span>
                                         <button
-                                            onClick={() => handleQuantityChange(medicine._id, medicine.quantity + 1, medicine.pricePerUnit)}
-                                            className="bg-gray-200 p-1 rounded-full"
+                                            onClick={() => handleQuantityChange(item._id, item.quantity + 1, item.pricePerUnit)}
+                                            className="px-3 py-1 rounded-full border bg-teal-100 hover:bg-teal-200 text-teal-600"
                                         >
                                             +
                                         </button>
                                     </div>
-
                                 </div>
-                                <button
-                                    onClick={() => handleRemoveMedicine(medicine._id)}
-                                    className="text-red-500 hover:text-red-700"
-                                >
-                                    <FaTrashAlt size={20} />
-                                </button>
                             </div>
-                        ))}
-                    </div>
 
-                    <div className="mt-4 flex justify-between items-center">
+                            {/* Right: Delete Button */}
+                            <button
+                                onClick={() => handleRemoveMedicine(item._id)}
+                                className="absolute -right-4 -top-4 p-3 bg-red-200 rounded-full text-red-500 hover:text-red-600"
+                            >
+                                <FaTrashAlt size={18} />
+                            </button>
+                        </div>
+                    ))}
+
+                    <div className="flex justify-between items-center mt-6">
                         <button
                             onClick={handleClearCart}
-                            className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+                            className="bg-red-500 text-white py-2 px-6 rounded-lg shadow-md hover:bg-red-600"
                         >
                             Clear Cart
                         </button>
                         <Link to="/checkout">
-                            <button className="bg-teal-600 text-white py-2 px-4 rounded hover:bg-teal-700">
+                            <button className="bg-teal-600 text-white py-2 px-6 rounded-lg shadow-md hover:bg-teal-700">
                                 Checkout
                             </button>
                         </Link>

@@ -12,6 +12,7 @@ import Payment from "../pages/Payment/Payment";
 import Invoice from "../pages/Payment/Invoice";
 import PaymentManagement from "../pages/Dashboard/PaymentManagement/PaymentManagement";
 import PaymentHistory from "../pages/Dashboard/UserPaymentHistory/UserPaymentHistory";
+import AdminHome from "../pages/Dashboard/AdminHome/AdminHome";
 
 
 const router = createBrowserRouter([
@@ -63,7 +64,7 @@ const router = createBrowserRouter([
             // Admin Dashboard
             {
                 path: '/dashboard/admin-home',
-                element: <h1>Admin Home</h1>
+                element: <AdminHome />
             },
             {
                 path: '/dashboard/manage-users',
