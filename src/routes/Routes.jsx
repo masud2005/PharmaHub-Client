@@ -11,6 +11,7 @@ import Checkout from "../pages/Payment/Checkout";
 import Payment from "../pages/Payment/Payment";
 import Invoice from "../pages/Payment/Invoice";
 import PaymentManagement from "../pages/Dashboard/PaymentManagement/PaymentManagement";
+import PaymentHistory from "../pages/Dashboard/UserPaymentHistory/UserPaymentHistory";
 
 
 const router = createBrowserRouter([
@@ -57,7 +58,9 @@ const router = createBrowserRouter([
     {
         path: '/dashboard',
         element: <Dashboard />,
-        children:[
+        children: [
+
+            // Admin Dashboard
             {
                 path: '/dashboard/admin-home',
                 element: <h1>Admin Home</h1>
@@ -78,6 +81,30 @@ const router = createBrowserRouter([
                 path: '/dashboard/sales-report',
                 element: <h1>Sales Report</h1>
             },
+
+            // Seller Dashboard
+            {
+                path: '/dashboard/seller-home',
+                element: <h1>Seller Home</h1>
+            },
+            {
+                path: '/dashboard/manage-medicines',
+                element: <h1>Manage Medicines</h1>
+            },
+            {
+                path: '/dashboard/payment-history',
+                element: <h1>Payment History</h1>
+            },
+            {
+                path: '/dashboard/advertisement',
+                element: <h1>Ask For Advertisement</h1>
+            },
+
+            // User Dashboard
+            {
+                path: '/dashboard/pay-history',
+                element: <PaymentHistory />
+            }
         ]
     }
 ])

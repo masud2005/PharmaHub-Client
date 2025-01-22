@@ -67,7 +67,7 @@ const ManageCategory = () => {
     };
 
     return (
-        <div className="mx-auto py-10">
+        <div className="mx-auto px-2 py-10">
             <h2 className="text-4xl font-semibold mb-6 text-center">Manage Categories</h2>
 
             <button

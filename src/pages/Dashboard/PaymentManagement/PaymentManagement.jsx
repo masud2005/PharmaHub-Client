@@ -34,39 +34,41 @@ const PaymentManagement = () => {
         <div>
             <div className="container mx-auto px-2">
                 <h1 className="text-2xl font-bold text-center mb-6">Payment Management</h1>
-                <table className="table table-zebra text-base">
-                    <thead className='text-base'>
-                        <tr>
-                            <th>#</th>
-                            <th>User</th>
-                            <th>Transaction ID</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {payments.map((payment, idx) => (
-                            <tr key={payment._id} >
-                                <td>{idx + 1}</td>
-                                <td>{payment.name}</td>
-                                <td>{payment.transactionId}</td>
-                                <td>₹{payment.price}</td>
-                                <td>{payment.status}</td>
-                                <td>
-                                    <button
-                                        disabled={payment.status !== 'Pending'}
-                                        onClick={() => handleAcceptPayment(payment._id)}
-                                        className={`w-36 text-base py-3 px-3 rounded ${payment.status !== 'Pending' ? 'bg-gray-300 cursor-not-allowed !text-black' : 'bg-teal-600 hover:bg-teal-700 text-white'
-                                            }`}
-                                    >
-                                        {payment.status ==="Pending" ? 'Accept Payment' : 'Already Paid'}
-                                    </button>
-                                </td>
+                <div className='overflow-x-auto'>
+                    <table className="table table-zebra text-base">
+                        <thead className='text-base'>
+                            <tr>
+                                <th>#</th>
+                                <th>User</th>
+                                <th>Transaction ID</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {payments.map((payment, idx) => (
+                                <tr key={payment._id} >
+                                    <td>{idx + 1}</td>
+                                    <td>{payment.name}</td>
+                                    <td>{payment.transactionId}</td>
+                                    <td>₹{payment.price}</td>
+                                    <td>{payment.status}</td>
+                                    <td>
+                                        <button
+                                            disabled={payment.status !== 'Pending'}
+                                            onClick={() => handleAcceptPayment(payment._id)}
+                                            className={`w-36 text-base py-3 px-3 rounded ${payment.status !== 'Pending' ? 'bg-gray-300 cursor-not-allowed !text-black' : 'bg-teal-600 hover:bg-teal-700 text-white'
+                                                }`}
+                                        >
+                                            {payment.status === "Pending" ? 'Accept Payment' : 'Already Paid'}
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );

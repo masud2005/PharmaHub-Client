@@ -1,0 +1,102 @@
+// import React from 'react';
+// import useAuth from '../../../hooks/useAuth';
+// import { useQuery } from '@tanstack/react-query';
+// import useAxiosSecure from '../../../hooks/useAxiosSecure';
+
+// const PaymentHistory = () => {
+//     const { user } = useAuth();
+//     // console.log(user);
+//     const axiosSecure = useAxiosSecure();
+
+//     const { data: payments = [] } = useQuery({
+//         queryKey: ['payments', user?.email],
+//         queryFn: async () => {
+//             const res = await axiosSecure.get(`/payments/${user?.email}`)
+//             // console.log(res.data);
+//             return res.data;
+//         }
+//     })
+
+//     return (
+//         <div>
+//             <h1>Payment History ({payments.length})</h1>
+//             <div className="overflow-x-auto">
+//                 <table className="table table-zebra">
+//                     <thead className='bg-teal-200 text-black h-16'>
+//                         <tr className='text-base'>
+//                             <th>#</th>
+//                             <th>Email</th>
+//                             <th>Transaction ID</th>
+//                             <th>Status</th>
+//                         </tr>
+//                     </thead>
+//                     <tbody>
+//                         {payments.map((user, index) => (
+//                             <tr className='h-16 text-base' key={user._id}>
+//                                 <th>{index + 1}</th>
+//                                 <td>{user.email}</td>
+//                                 <td>{user.transactionId}</td>
+//                                 <td>{user.status}</td>
+
+//                             </tr>
+//                         ))}
+//                     </tbody>
+//                 </table>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default PaymentHistory;
+
+import React from 'react';
+import useAuth from '../../../hooks/useAuth';
+import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+
+const PaymentHistory = () => {
+    const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
+
+    const { data: payments = [] } = useQuery({
+        queryKey: ['payments', user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/payments/${user?.email}`)
+            return res.data;
+        }
+    })
+
+    return (
+        <div className=" mx-auto p-6 bg-white shadow-lg rounded-lg">
+            <h1 className="text-2xl font-semibold text-teal-600 mb-6">Payment History ({payments.length})</h1>
+            <div className="overflow-x-auto">
+                <table className="min-w-full table-auto border-collapse border border-gray-200">
+                    <thead className="bg-teal-600 text-white h-16">
+                        <tr>
+                            <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">#</th>
+                            <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Email</th>
+                            <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Transaction ID</th>
+                            <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {payments.map((payment, index) => (
+                            <tr key={payment._id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
+                                <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{index + 1}</td>
+                                <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{payment.email}</td>
+                                <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{payment.transactionId}</td>
+                                <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">
+                                    <span className={`px-3 py-1 inline-flex leading-tight rounded-full ${payment.status === 'Paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                                        {payment.status}
+                                    </span>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
+};
+
+export default PaymentHistory;

@@ -50,7 +50,7 @@ const ManageUsers = () => {
                                         <select
                                             className="select select-bordered text-base w-full max-w-xs"
                                             onChange={(e) => handleRoleChange(user, e.target.value)}
-                                            defaultValue={user.role || ''}
+                                            defaultValue={''}
                                         >
                                             <option value="" disabled>Select role</option>
                                             <option value="Admin">Admin</option>
