@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 import AdminMenu from '../Menu/AdminMenu';
 import SellerMenu from '../Menu/SellerMenu';
 import UserMenu from '../Menu/UserMenu';
+import useRole from '../../../hooks/useRole';
 
 const Sidebar = () => {
     const [isActive, setActive] = useState(true);
-    const role = 'User'
+    const [role] = useRole();
+    // const userRole = role.role;
 
     // Sidebar Responsive Handler
     const handleToggle = () => {

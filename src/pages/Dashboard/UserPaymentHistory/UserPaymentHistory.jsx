@@ -1,58 +1,9 @@
-// import React from 'react';
-// import useAuth from '../../../hooks/useAuth';
-// import { useQuery } from '@tanstack/react-query';
-// import useAxiosSecure from '../../../hooks/useAxiosSecure';
-
-// const PaymentHistory = () => {
-//     const { user } = useAuth();
-//     // console.log(user);
-//     const axiosSecure = useAxiosSecure();
-
-//     const { data: payments = [] } = useQuery({
-//         queryKey: ['payments', user?.email],
-//         queryFn: async () => {
-//             const res = await axiosSecure.get(`/payments/${user?.email}`)
-//             // console.log(res.data);
-//             return res.data;
-//         }
-//     })
-
-//     return (
-//         <div>
-//             <h1>Payment History ({payments.length})</h1>
-//             <div className="overflow-x-auto">
-//                 <table className="table table-zebra">
-//                     <thead className='bg-teal-200 text-black h-16'>
-//                         <tr className='text-base'>
-//                             <th>#</th>
-//                             <th>Email</th>
-//                             <th>Transaction ID</th>
-//                             <th>Status</th>
-//                         </tr>
-//                     </thead>
-//                     <tbody>
-//                         {payments.map((user, index) => (
-//                             <tr className='h-16 text-base' key={user._id}>
-//                                 <th>{index + 1}</th>
-//                                 <td>{user.email}</td>
-//                                 <td>{user.transactionId}</td>
-//                                 <td>{user.status}</td>
-
-//                             </tr>
-//                         ))}
-//                     </tbody>
-//                 </table>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default PaymentHistory;
 
 import React from 'react';
 import useAuth from '../../../hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import useRole from '../../../hooks/useRole';
 
 const PaymentHistory = () => {
     const { user } = useAuth();
