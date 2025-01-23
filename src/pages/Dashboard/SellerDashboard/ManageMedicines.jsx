@@ -4,13 +4,24 @@ import useImageUpload from '../../../hooks/useImageUpload';
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { toast } from 'react-toastify';
+import { useQuery } from '@tanstack/react-query';
+import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
 
 const ManageMedicines = () => {
     const [showModal, setShowModal] = useState(false);
-    const [medicines, setMedicines] = useState([]);
+    // const [medicines, setMedicines] = useState([]);
     const { uploadImage } = useImageUpload();
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+
+    const { data: sellerMedicines = [], refetch } = useQuery({
+        queryKey: ['sellerMedicines', user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/medicines/${user?.email}`)
+            // console.log(res.data);
+            return res.data;
+        }
+    })
 
     const handleAddMedicine = async (event) => {
         event.preventDefault();
@@ -40,23 +51,19 @@ const ManageMedicines = () => {
 
         // console.log(medicineInfo);
         const res = await axiosSecure.post('/medicines', medicineInfo)
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.insertedId) {
             toast.success('Medicine added successfully.')
+            refetch();
         }
-        
+
         setShowModal(false);
     };
 
     return (
-        <div className="p-6 bg-gray-100 min-h-screen">
+        <div className="px-2 ">
             {/* Manage Medicines Header */}
-            <div className="text-center mb-8">
-                <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">
-                    Manage Medicines
-                </h1>
-                <p className="mt-2 text-lg text-gray-600">View and manage your added medicines</p>
-            </div>
+            <SectionTitle heading={'medicine'} subHeading={"View and manage your added medicines"} />
 
             {/* Add Medicine Button */}
             <div className="flex justify-end mb-6">
@@ -69,95 +76,50 @@ const ManageMedicines = () => {
             </div>
 
             {/* Medicines Table */}
-            <div className="overflow-x-auto shadow-md rounded-lg bg-white">
-                <table className="min-w-full text-left border-collapse">
-                    <thead>
-                        <tr className="bg-gray-200">
-                            <th className="py-3 px-4 font-semibold text-gray-700">Item Name</th>
-                            <th className="py-3 px-4 font-semibold text-gray-700">Generic Name</th>
-                            <th className="py-3 px-4 font-semibold text-gray-700">Category</th>
-                            <th className="py-3 px-4 font-semibold text-gray-700">Company</th>
-                            <th className="py-3 px-4 font-semibold text-gray-700">Unit Price</th>
-                            <th className="py-3 px-4 font-semibold text-gray-700">Discount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {medicines.map((medicine, index) => (
-                            <tr key={index} className="border-t">
-                                <td className="py-3 px-4">{medicine.itemName}</td>
-                                <td className="py-3 px-4">{medicine.genericName}</td>
-                                <td className="py-3 px-4">{medicine.category}</td>
-                                <td className="py-3 px-4">{medicine.company}</td>
-                                <td className="py-3 px-4">${medicine.price}</td>
-                                <td className="py-3 px-4">{medicine.discount}%</td>
-                            </tr>
-                        ))}
-                        {medicines.length === 0 && (
+            <div className="mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+                <h1 className="text-2xl font-semibold text-teal-600 mb-6">Manage Medicines ({sellerMedicines.length})</h1>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full table-auto border-collapse border border-gray-200">
+                        <thead className="bg-teal-600 text-white h-16">
                             <tr>
-                                <td colSpan="6" className="text-center py-3 text-gray-500">
-                                    No medicines added yet.
-                                </td>
+                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">#</th>
+                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Item Name</th>
+                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Generic Name</th>
+                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Category</th>
+                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Company</th>
+                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Unit Price</th>
+                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Discount</th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {sellerMedicines.map((medicine, index) => (
+                                <tr
+                                    key={medicine.id || index}
+                                    className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}
+                                >
+                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{index + 1}</td>
+                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{medicine.name}</td>
+                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{medicine.genericName}</td>
+                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{medicine.category}</td>
+                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{medicine.company}</td>
+                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">${medicine.pricePerUnit}</td>
+                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{medicine.discountPercentage}%</td>
+                                </tr>
+                            ))}
+                            {sellerMedicines.length === 0 && (
+                                <tr>
+                                    <td colSpan="7" className="text-center py-4 text-gray-500">
+                                        No medicines added yet.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {/* Add Medicine Modal */}
             {showModal && (
-                // <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                //     <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
-                //         <h2 className="text-2xl font-semibold mb-4">Add Medicine</h2>
-                //         <form onSubmit={handleAddMedicine}>
-                //             <div className="mb-4">
-                //                 <label className="block text-gray-700 font-medium mb-1">Item Name</label>
-                //                 <input name="itemName" type="text" required className="w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-teal-300" />
-                //             </div>
-                //             <div className="mb-4">
-                //                 <label className="block text-gray-700 font-medium mb-1">Item Generic Name</label>
-                //                 <input name="genericName" type="text" required className="w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-teal-300" />
-                //             </div>
-                //             <div className="mb-4">
-                //                 <label className="block text-gray-700 font-medium mb-1">Short Description</label>
-                //                 <textarea name="description" required className="w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-teal-300"></textarea>
-                //             </div>
-                //             <div className="mb-4">
-                //                 <label className="block text-gray-700 font-medium mb-1">Category</label>
-                //                 <select name="category" required className="w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-teal-300">
-                //                     <option value="Pain Reliever">Pain Reliever</option>
-                //                     <option value="Antibiotic">Antibiotic</option>
-                //                     <option value="Supplement">Supplement</option>
-                //                 </select>
-                //             </div>
-                //             <div className="mb-4">
-                //                 <label className="block text-gray-700 font-medium mb-1">Company</label>
-                //                 <select name="company" required className="w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-teal-300">
-                //                     <option value="HealthCorp">HealthCorp</option>
-                //                     <option value="Wellness Inc">Wellness Inc</option>
-                //                     <option value="MediLife">MediLife</option>
-                //                 </select>
-                //             </div>
-                //             <div className="grid grid-cols-2 gap-4 mb-4">
-                //                 <div>
-                //                     <label className="block text-gray-700 font-medium mb-1">Unit Price</label>
-                //                     <input name="price" type="number" required className="w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-teal-300" />
-                //                 </div>
-                //                 <div>
-                //                     <label className="block text-gray-700 font-medium mb-1">Discount (%)</label>
-                //                     <input name="discount" type="number" defaultValue="0" className="w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-teal-300" />
-                //                 </div>
-                //             </div>
-                //             <div className="flex justify-end space-x-4">
-                //                 <button type="button" className="py-2 px-4 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600" onClick={() => setShowModal(false)}>
-                //                     Cancel
-                //                 </button>
-                //                 <button type="submit" className="py-2 px-4 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600">
-                //                     Save
-                //                 </button>
-                //             </div>
-                //         </form>
-                //     </div>
-                // </div>
                 <div className="modal modal-open">
                     <div className="modal-box max-w-[576px] lg:max-w-[768px] p-2 relative">
                         <div className=" w-full p-6 relative">
