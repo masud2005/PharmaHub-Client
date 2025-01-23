@@ -15,6 +15,7 @@ const Checkout = () => {
     const [cart, refetch] = useCart();
     const { user } = useAuth();
     const navigate = useNavigate();
+    console.log(cart);
 
     const totalPrice = cart.reduce((total, item) => total + item.pricePerUnit, 0);
 
@@ -73,6 +74,8 @@ const Checkout = () => {
                     price: totalPrice,
                     transactionId: paymentIntent.id,
                     cartIds: cart.map(item => item._id),
+                    medicinesName: cart.map(item => item.name),
+                    sellerEmail: cart.map(item => item.sellerEmail),
                     status: 'Pending'
                 };
 

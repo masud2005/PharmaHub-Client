@@ -14,6 +14,7 @@ import PaymentManagement from "../pages/Dashboard/PaymentManagement/PaymentManag
 import PaymentHistory from "../pages/Dashboard/UserPaymentHistory/UserPaymentHistory";
 import AdminHome from "../pages/Dashboard/AdminHome/AdminHome";
 import ManageMedicines from "../pages/Dashboard/SellerDashboard/ManageMedicines";
+import SellerPayHistory from "../pages/Dashboard/SellerDashboard/SellerPayHistory";
 
 
 const router = createBrowserRouter([
@@ -99,7 +100,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/payment-history',
-                element: <h1>Payment History</h1>
+                element: <SellerPayHistory />
             },
             {
                 path: '/dashboard/advertisement',

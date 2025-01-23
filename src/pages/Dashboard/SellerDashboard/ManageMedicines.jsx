@@ -42,7 +42,7 @@ const ManageMedicines = () => {
             category: newMedicine.category,
             company: newMedicine.company,
             massUnit: newMedicine.massUnit,
-            pricePerUnit: newMedicine.pricePerUnit,
+            pricePerUnit: parseFloat(newMedicine.pricePerUnit),
             discountPercentage: newMedicine.discountPercentage,
             // role: 
             sellerName: user?.displayName,
