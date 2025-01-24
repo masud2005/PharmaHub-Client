@@ -9,8 +9,6 @@ import useAxiosPublic from '../../hooks/useAxiosPublic';
 import { toast } from 'react-toastify';
 import useImageUpload from '../../hooks/useImageUpload';
 
-// const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-// const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
 const SignUp = () => {
     const axiosPublic = useAxiosPublic();
@@ -23,18 +21,9 @@ const SignUp = () => {
 
     const onSubmit = async (data) => {
         // console.log(data);
-        // image upload to imgbb and then get an url
-        // const imageFile = { image: data.photo[0] }
         const imageFile = data.photo[0];
         const photoURL = await uploadImage(imageFile);
-        console.log(photoURL);
-        // const res = await axiosPublic.post(image_hosting_api, imageFile, {
-        //     headers: {
-        //         'content-type': 'multipart/form-data'
-        //     }
-        // });
-        // console.log(res.data);
-        // const photoURL = res.data.data.display_url;
+        // console.log(photoURL);
         createUser(data.email, data.password)
             .then(result => {
                 // console.log(result);
@@ -58,10 +47,6 @@ const SignUp = () => {
                 // console.log(error.code);
                 toast.error(`Error: ${error.code || 'Something went wrong. Please try again.'}`);
             });
-
-        // if (res.data.success) {
-        //     
-        // }
     };
 
     return (

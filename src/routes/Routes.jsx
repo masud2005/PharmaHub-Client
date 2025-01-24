@@ -16,6 +16,7 @@ import AdminHome from "../pages/Dashboard/AdminHome/AdminHome";
 import ManageMedicines from "../pages/Dashboard/SellerDashboard/ManageMedicines";
 import SellerPayHistory from "../pages/Dashboard/SellerDashboard/SellerPayHistory";
 import Advertisement from "../pages/Dashboard/SellerDashboard/Advertisement";
+import SellerHome from "../pages/Dashboard/SellerDashboard/SellerHome";
 
 
 const router = createBrowserRouter([
@@ -93,7 +94,7 @@ const router = createBrowserRouter([
             // Seller Dashboard
             {
                 path: '/dashboard/seller-home',
-                element: <h1>Seller Home</h1>
+                element: <SellerHome />
             },
             {
                 path: '/dashboard/manage-medicines',

@@ -4,40 +4,42 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { toast } from 'react-toastify';
 import { useQuery } from '@tanstack/react-query';
 import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
+import useAuth from '../../../hooks/useAuth';
+import { useForm } from 'react-hook-form';
 
 const Advertisement = () => {
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const { uploadImage } = useImageUpload();
     const axiosSecure = useAxiosSecure();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { user } = useAuth();
 
-    const { data: advertisement = [] } = useQuery({
-        queryKey: ['advertisement'],
+    const { data: advertisement = [], refetch, isLoading } = useQuery({
+        queryKey: ['advertisement', user?.email],
         queryFn: async () => {
-            const res = await axiosSecure.get('/seller-advertise');
-            console.log(res.data);
+            const res = await axiosSecure.get(`/seller-advertise?sellerEmail=${user?.email}`);
+            // console.log(res.data);
             return res.data;
         }
     })
 
 
-    const handleAddAdvertise = async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const newMedicine = Object.fromEntries(formData.entries());
-        const imageFile = formData.get("image");
-        // console.log(imageFile);
-
+    const onSubmit = async (data) => {
+        const imageFile = data.image[0];
         const uploadImageURL = await uploadImage(imageFile);
         // console.log(uploadImageURL);
+
         const advertise = {
             image: uploadImageURL,
-            description: newMedicine.description
+            description: data.description,
+            sellerEmail: user?.email
         }
         // console.log(advertise);
         const res = await axiosSecure.post('/seller-advertise', advertise)
         // console.log(res.data);
         if (res.data.insertedId) {
-            toast.success('Added Successfully.')
+            toast.success('Added Successfully.');
+            refetch();
         }
 
         setIsModalOpen(false)
@@ -45,7 +47,7 @@ const Advertisement = () => {
 
     return (
         <>
-            <SectionTitle heading={'advertisement'} subHeading={"View and manage your added medicines"} />
+            <SectionTitle heading={'Advertisement'} subHeading={"Manage and add medicine advertisements easily"} />
 
             {/*All Advertise & Add Advertise Button*/}
             <div className="flex justify-between items-center mb-6">
@@ -102,24 +104,25 @@ const Advertisement = () => {
                         <h3 className="text-2xl font-semibold mb-4">Add Advertisement</h3>
                         <form
                             className="space-y-4"
-                            onSubmit={handleAddAdvertise}
+                            onSubmit={handleSubmit(onSubmit)}
                         >
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text text-base">Medicine Image</span>
                                 </label>
-                                <input name='image' type="file" className="file-input file-input-bordered w-full focus:outline-none focus:ring-1 focus:ring-teal-300 transition" required />
+                                <input {...register("image", { required: true })} type="file" className="file-input file-input-bordered w-full focus:outline-none focus:ring-1 focus:ring-teal-300 transition" />
+                                {errors.image && <p className='text-red-600'>Image is required.</p>}
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text text-base">Description</span>
                                 </label>
                                 <textarea
-                                    name='description'
+                                    {...register("description", { required: true })}
                                     className="textarea textarea-bordered focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
                                     placeholder="Enter description"
-                                    required
                                 ></textarea>
+                                {errors.description && <p className='text-red-600'>Name is required.</p>}
                             </div>
                             <div className="modal-action">
                                 <button

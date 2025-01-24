@@ -1,38 +1,35 @@
 import React from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
+import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
+import useAuth from '../../../hooks/useAuth';
 
-const AdminHome = () => {
+const SellerHome = () => {
     const axiosSecure = useAxiosSecure();
+    const { user } = useAuth();
 
-    // Fetch revenue stats
+    // Fetch seller stats
     const { data: stats = {}, isLoading } = useQuery({
-        queryKey: ["revenue"],
+        queryKey: ["stats", user?.email],
         queryFn: async () => {
-            const res = await axiosSecure.get('/admin-stats');
-            console.log(res.data);
+            const res = await axiosSecure.get(`/seller-stats?sellerEmail=${user?.email}`);
+            // console.log(res.data);
             return res.data;
         }
     });
 
-    if (isLoading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="spinner-border animate-spin inline-block w-12 h-12 border-4 rounded-full text-blue-500"></div>
-                <span className="ml-4 text-lg text-gray-600">Loading...</span>
-            </div>
-        );
-    }
+    // if (isLoading) {
+    //     return (
+    //         <div className="flex items-center justify-center min-h-screen">
+    //             <div className="spinner-border animate-spin inline-block w-12 h-12 border-4 rounded-full text-blue-500"></div>
+    //             <span className="ml-4 text-lg text-gray-600">Loading...</span>
+    //         </div>
+    //     );
+    // }
 
     return (
-        <div className="px-1 mt-10">
-            {/* Admin Dashboard Header */}
-            <div className="text-center mb-10">
-                <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-indigo-500">
-                    Admin Dashboard
-                </h1>
-                <p className="mt-2 text-lg text-gray-600">Overview of your platform's performance and statistics</p>
-            </div>
+        <div className="mt-10">
+            <SectionTitle heading={'Seller Dashboard'} subHeading={"Overview of your platform's performance and statistics"} />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Total Revenue */}
@@ -116,8 +113,10 @@ const AdminHome = () => {
                     </p>
                 </div>
             </div>
+
+
         </div>
     );
 };
 
-export default AdminHome;
+export default SellerHome;
