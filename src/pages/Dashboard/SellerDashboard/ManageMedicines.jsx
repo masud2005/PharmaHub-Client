@@ -61,14 +61,15 @@ const ManageMedicines = () => {
     };
 
     return (
-        <div className="px-2 ">
+        <>
             {/* Manage Medicines Header */}
             <SectionTitle heading={'medicine'} subHeading={"View and manage your added medicines"} />
 
-            {/* Add Medicine Button */}
-            <div className="flex justify-end mb-6">
+            {/*All Medicine & Add Medicine Button*/}
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-2xl font-semibold text-teal-600 ">Medicines ({sellerMedicines.length})</h1>
                 <button
-                    className="bg-gradient-to-r from-green-400 to-green-600 text-white py-2 px-6 rounded-lg shadow-md hover:shadow-lg hover:opacity-90 transition"
+                    className="bg-gradient-to-r from-green-400 to-green-600 text-white py-3 px-6 rounded-lg shadow-md hover:shadow-lg hover:opacity-90 transition"
                     onClick={() => setShowModal(true)}
                 >
                     + Add Medicine
@@ -76,8 +77,7 @@ const ManageMedicines = () => {
             </div>
 
             {/* Medicines Table */}
-            <div className="mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
-                <h1 className="text-2xl font-semibold text-teal-600 mb-6">Manage Medicines ({sellerMedicines.length})</h1>
+            <div className='mb-10'>
                 <div className="overflow-x-auto">
                     <table className="min-w-full table-auto border-collapse border border-gray-200">
                         <thead className="bg-teal-600 text-white h-16">
@@ -263,16 +263,10 @@ const ManageMedicines = () => {
 
 
                         </div>
-                        <button
-                            className="btn btn-circle btn-outline fixed top-4 right-4 z-50 bg-white border border-gray-300"
-                            onClick={() => setShowModal(false)}
-                        >
-                            ✕
-                        </button>
                     </div>
                 </div>
             )}
-        </div>
+        </>
     );
 };
 

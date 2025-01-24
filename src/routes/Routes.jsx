@@ -15,6 +15,7 @@ import PaymentHistory from "../pages/Dashboard/UserPaymentHistory/UserPaymentHis
 import AdminHome from "../pages/Dashboard/AdminHome/AdminHome";
 import ManageMedicines from "../pages/Dashboard/SellerDashboard/ManageMedicines";
 import SellerPayHistory from "../pages/Dashboard/SellerDashboard/SellerPayHistory";
+import Advertisement from "../pages/Dashboard/SellerDashboard/Advertisement";
 
 
 const router = createBrowserRouter([
@@ -104,7 +105,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/advertisement',
-                element: <h1>Ask For Advertisement</h1>
+                element: <Advertisement />
             },
 
             // User Dashboard

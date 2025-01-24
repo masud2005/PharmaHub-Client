@@ -79,8 +79,6 @@ const Shop = () => {
 
     return (
         <div className="container mx-auto py-10 px-2">
-
-
             <div className="overflow-x-auto">
                 {medicines.length === 0 ? (
                     <div className="text-center py-10">
@@ -161,6 +159,7 @@ const Shop = () => {
                         </table>
                     </>
                 )}
+
                 {/* Details Modal */}
                 {isModalOpen && selectedMedicine && (
                     <div className="modal modal-open">

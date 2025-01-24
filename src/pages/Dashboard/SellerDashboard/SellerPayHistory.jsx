@@ -17,14 +17,14 @@ const SellerPayHistory = () => {
     });
 
     return (
-        <div className="px-2">
+        <div>
             {/* Section Title */}
             <SectionTitle heading={'Payment History'} subHeading={'Review all payments received for your sold medicines.'} />
 
             {/* Table Section */}
-            <div className="mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+            <div className="mb-10">
                 <h1 className="text-2xl font-semibold text-teal-600 mb-6">
-                    Payments History ({payments.length})
+                    Payment History ({payments.length})
                 </h1>
                 <div className="overflow-x-auto">
                     <table className="min-w-full table-auto border-collapse border border-gray-200">
@@ -51,11 +51,10 @@ const SellerPayHistory = () => {
                                     <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">${history.totalPrice}</td>
                                     <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">
                                         <span
-                                            className={`px-3 py-1 inline-flex leading-tight rounded-full ${
-                                                history.paymentStatus === 'Paid'
-                                                    ? 'bg-green-100 text-green-700'
-                                                    : 'bg-yellow-100 text-yellow-700'
-                                            }`}
+                                            className={`px-3 py-1 inline-flex leading-tight rounded-full ${history.paymentStatus === 'Paid'
+                                                ? 'bg-green-100 text-green-700'
+                                                : 'bg-yellow-100 text-yellow-700'
+                                                }`}
                                         >
                                             {history.status}
                                         </span>

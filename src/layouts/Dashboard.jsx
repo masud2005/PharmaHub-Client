@@ -13,7 +13,7 @@ const Dashboard = () => {
 
             {/* Dynamic Contents */}
             <div className='flex-1 bg-teal-50 md:pl-64  overflow-auto mt-10 md:mt-0'>
-                <div className="p-5 md:container mx-auto ">
+                <div className="p-2 md:p-5 md:container mx-auto ">
                     <Outlet />
                 </div>
             </div>
