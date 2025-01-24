@@ -2,6 +2,7 @@ import React from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
 
 const PaymentManagement = () => {
     const axiosSecure = useAxiosSecure();
@@ -27,11 +28,14 @@ const PaymentManagement = () => {
     };
 
     return (
-        <div className="mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+        <>
+            {/* Header */}
+            <SectionTitle heading={'Payment Management'} subHeading={"View and manage all payments. Approve pending payments with a single click"} />
+
             <h1 className="text-2xl font-semibold text-teal-600 mb-6">
                 Payment Management ({payments.length})
             </h1>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto mb-10">
                 <table className="min-w-full table-auto border-collapse border border-gray-200">
                     <thead className="bg-teal-600 text-white h-16">
                         <tr>
@@ -90,7 +94,7 @@ const PaymentManagement = () => {
                     </tbody>
                 </table>
             </div>
-        </div>
+        </>
     );
 };
 

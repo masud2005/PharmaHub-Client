@@ -8,7 +8,7 @@ import useAuth from '../../../hooks/useAuth';
 import { useForm } from 'react-hook-form';
 
 const Advertisement = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const { uploadImage } = useImageUpload();
     const axiosSecure = useAxiosSecure();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,6 +43,7 @@ const Advertisement = () => {
         }
 
         setIsModalOpen(false)
+        reset();
     };
 
     return (
@@ -122,7 +123,7 @@ const Advertisement = () => {
                                     className="textarea textarea-bordered focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
                                     placeholder="Enter description"
                                 ></textarea>
-                                {errors.description && <p className='text-red-600'>Name is required.</p>}
+                                {errors.description && <p className='text-red-600'>Description is required.</p>}
                             </div>
                             <div className="modal-action">
                                 <button

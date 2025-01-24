@@ -2,6 +2,7 @@ import React from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
 
 const ManageUsers = () => {
     const axiosSecure = useAxiosSecure();
@@ -25,9 +26,12 @@ const ManageUsers = () => {
     };
 
     return (
-        <div className="mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+        <>
+            {/* Heading */}
+            <SectionTitle heading={'Manage Users'} subHeading={'Upgrade or downgrade user roles with ease'} />
+
             <h1 className="text-2xl font-semibold text-teal-600 mb-6">Manage Users ({users.length})</h1>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto mb-10">
                 <table className="min-w-full table-auto border-collapse border border-gray-200">
                     <thead className="bg-teal-600 text-white h-16">
                         <tr>
@@ -67,7 +71,7 @@ const ManageUsers = () => {
                                 </td>
                                 <td className="px-6 py-4 border-b text-sm md:text-base">
                                     <select
-                                        className="w-full text-sm border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                        className="w-full min-w-[120px] text-sm border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-teal-500"
                                         onChange={(e) => handleRoleChange(user, e.target.value)}
                                         defaultValue=""
                                     >
@@ -84,7 +88,7 @@ const ManageUsers = () => {
                     </tbody>
                 </table>
             </div>
-        </div>
+        </>
     );
 };
 

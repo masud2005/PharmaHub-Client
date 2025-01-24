@@ -1,6 +1,7 @@
 import React from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
+import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
 
 const AdminHome = () => {
     const axiosSecure = useAxiosSecure();
@@ -10,31 +11,26 @@ const AdminHome = () => {
         queryKey: ["revenue"],
         queryFn: async () => {
             const res = await axiosSecure.get('/admin-stats');
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         }
     });
 
-    if (isLoading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="spinner-border animate-spin inline-block w-12 h-12 border-4 rounded-full text-blue-500"></div>
-                <span className="ml-4 text-lg text-gray-600">Loading...</span>
-            </div>
-        );
-    }
+    // if (isLoading) {
+    //     return (
+    //         <div className="flex items-center justify-center min-h-screen">
+    //             <div className="spinner-border animate-spin inline-block w-12 h-12 border-4 rounded-full text-blue-500"></div>
+    //             <span className="ml-4 text-lg text-gray-600">Loading...</span>
+    //         </div>
+    //     );
+    // }
 
     return (
-        <div className="px-1 mt-10">
+        <div className="mt-10">
             {/* Admin Dashboard Header */}
-            <div className="text-center mb-10">
-                <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-indigo-500">
-                    Admin Dashboard
-                </h1>
-                <p className="mt-2 text-lg text-gray-600">Overview of your platform's performance and statistics</p>
-            </div>
+            <SectionTitle heading={'Admin Dashboard'} subHeading={"Overview of your platform's performance and statistics"} />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-10">
                 {/* Total Revenue */}
                 <div className="relative bg-gradient-to-br from-green-400 to-green-600 shadow-md rounded-lg p-6 md:px-3 xl:p-6 text-white">
                     <div className="absolute top-4 right-4 bg-white bg-opacity-30 p-2 rounded-full">

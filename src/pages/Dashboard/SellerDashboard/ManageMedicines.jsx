@@ -6,8 +6,10 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { toast } from 'react-toastify';
 import { useQuery } from '@tanstack/react-query';
 import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
+import { useForm } from 'react-hook-form';
 
 const ManageMedicines = () => {
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [showModal, setShowModal] = useState(false);
     // const [medicines, setMedicines] = useState([]);
     const { uploadImage } = useImageUpload();
@@ -23,33 +25,30 @@ const ManageMedicines = () => {
         }
     })
 
-    const handleAddMedicine = async (event) => {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const newMedicine = Object.fromEntries(formData.entries());
-        // console.log(newMedicine);
-
+    const onSubmit = async (data) => {
 
         // Upload Image ImageBB
-        const imageFile = formData.get("imageURL");
+        const imageFile = data.imageURL[0];
+        // const photoURL = await uploadImage(imageFile);
+        // const imageFile = formData.get("imageURL");
         const uploadImageURL = await uploadImage(imageFile);
         // console.log(uploadImageURL);
+
         const medicineInfo = {
-            name: newMedicine.name,
-            genericName: newMedicine.genericName,
-            description: newMedicine.description,
+            name: data.name,
+            genericName: data.genericName,
+            description: data.description,
             imageURL: uploadImageURL,
-            category: newMedicine.category,
-            company: newMedicine.company,
-            massUnit: newMedicine.massUnit,
-            pricePerUnit: parseFloat(newMedicine.pricePerUnit),
-            discountPercentage: newMedicine.discountPercentage,
-            // role: 
+            category: data.category,
+            company: data.company,
+            massUnit: data.massUnit,
+            pricePerUnit: parseFloat(data.pricePerUnit),
+            discountPercentage: parseFloat(data.discountPercentage),
             sellerName: user?.displayName,
             sellerEmail: user?.email,
         }
+        console.log(medicineInfo);
 
-        // console.log(medicineInfo);
         const res = await axiosSecure.post('/medicines', medicineInfo)
         // console.log(res.data);
         if (res.data.insertedId) {
@@ -58,6 +57,7 @@ const ManageMedicines = () => {
         }
 
         setShowModal(false);
+        reset();
     };
 
     return (
@@ -124,40 +124,41 @@ const ManageMedicines = () => {
                     <div className="modal-box max-w-[576px] lg:max-w-[768px] p-2 relative">
                         <div className=" w-full p-6 relative">
                             <h2 className="text-2xl font-semibold mb-4">Add Medicine</h2>
-                            <form onSubmit={handleAddMedicine} className="space-y-4">
+                            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                                 {/* Item Name */}
                                 <div className="form-control">
                                     <label className="label text-lg font-medium text-gray-700">Item Name</label>
                                     <input
-                                        name="name"
+                                        {...register("name", { required: true })}
                                         type="text"
-                                        required
+                                        
                                         placeholder="Enter item name"
                                         className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
                                     />
+                                    {errors.name && <p className='text-red-600'>Item name is required.</p>}
                                 </div>
 
                                 {/* Item Generic Name */}
                                 <div className="form-control">
                                     <label className="label text-lg font-medium text-gray-700">Item Generic Name</label>
                                     <input
-                                        name="genericName"
+                                        {...register("genericName", { required: true })}
                                         type="text"
-                                        required
                                         placeholder="Enter generic name"
                                         className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
                                     />
+                                    {errors.genericName && <p className='text-red-600'>Item generic name is required.</p>}
                                 </div>
 
                                 {/* Short Description */}
                                 <div className="form-control">
                                     <label className="label text-lg font-medium text-gray-700">Short Description</label>
                                     <textarea
-                                        name="description"
-                                        required
+                                        {...register("description", { required: true })}
                                         placeholder="Enter description"
                                         className="textarea textarea-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
                                     ></textarea>
+                                    {errors.description && <p className='text-red-600'>Description is required.</p>}
                                 </div>
 
                                 {/* Image Upload */}
@@ -165,7 +166,8 @@ const ManageMedicines = () => {
                                     <label className="label text-lg font-medium text-gray-700">Upload Photo</label>
                                     <div className='flex items-center gap-5'>
                                         <div className='w-full'>
-                                            <input type="file" name='imageURL' className="file-input file-input-bordered w-full focus:outline-none focus:ring-1 focus:ring-teal-300 transition" required />
+                                            <input type="file" {...register("imageURL", { required: true })} className="file-input file-input-bordered w-full focus:outline-none focus:ring-1 focus:ring-teal-300 transition"  />
+                                            {errors.imageURL && <p className='text-red-600'>Image is required.</p>}
                                         </div>
                                     </div>
                                 </div>
@@ -174,9 +176,8 @@ const ManageMedicines = () => {
                                 <div className="form-control">
                                     <label className="label text-lg font-medium text-gray-700">Category</label>
                                     <select
-                                        name="category"
+                                        {...register("category", { required: true })}
                                         defaultValue=''
-                                        required
                                         className="select select-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
                                     >
                                         <option disabled value="">Select Category</option>
@@ -187,14 +188,14 @@ const ManageMedicines = () => {
                                         <option value="Syrup">Syrup</option>
                                         <option value="Injection">Injection</option>
                                     </select>
+                                    {errors.category && <p className='text-red-600'>Category is required.</p>}
                                 </div>
 
                                 {/* Company */}
                                 <div className="form-control">
                                     <label className="label text-lg font-medium text-gray-700">Company</label>
                                     <select
-                                        name="company"
-                                        required
+                                        {...register("company", { required: true })}
                                         defaultValue=''
                                         className="select select-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
                                     >
@@ -205,18 +206,20 @@ const ManageMedicines = () => {
                                         <option value="NutrientPlus">NutrientPlus</option>
                                         <option value="HeartCare">HeartCare</option>
                                     </select>
+                                    {errors.company && <p className='text-red-600'>Company is required.</p>}
                                 </div>
 
                                 {/* Item Mass Unit */}
                                 <div className="form-control">
                                     <label className="label text-lg font-medium text-gray-700">Item Mass Unit</label>
                                     <input
-                                        name="massUnit"
+                                        {...register("massUnit", { required: true })}
                                         type="text"
-                                        required
+                                        
                                         placeholder="Enter mass unit (e.g., 200mg or 200ml)"
                                         className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
                                     />
+                                    {errors.massUnit && <p className='text-red-600'>Mass Unit is required.</p>}
                                 </div>
 
                                 {/* Unit Price and Discount */}
@@ -224,22 +227,23 @@ const ManageMedicines = () => {
                                     <div className="form-control">
                                         <label className="label text-lg font-medium text-gray-700">Unit Price</label>
                                         <input
-                                            name="pricePerUnit"
+                                            {...register("pricePerUnit", { required: true })}
                                             type="number"
-                                            required
                                             placeholder="Enter unit price"
                                             className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
                                         />
+                                        {errors.pricePerUnit && <p className='text-red-600'>Price is required.</p>}
                                     </div>
                                     <div className="form-control">
                                         <label className="label text-lg font-medium text-gray-700">Discount (%)</label>
                                         <input
-                                            name="discountPercentage"
+                                            {...register("discountPercentage", { required: true })}
                                             type="number"
                                             defaultValue="0"
                                             placeholder="Enter discount"
                                             className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
                                         />
+                                        {errors.discountPercentage && <p className='text-red-600'>Discount is required.</p>}
                                     </div>
                                 </div>
 

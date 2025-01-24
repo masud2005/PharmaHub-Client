@@ -31,7 +31,7 @@ const SellerHome = () => {
         <div className="mt-10">
             <SectionTitle heading={'Seller Dashboard'} subHeading={"Overview of your platform's performance and statistics"} />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 {/* Total Revenue */}
                 <div className="relative bg-gradient-to-br from-green-400 to-green-600 shadow-md rounded-lg p-6 md:px-3 xl:p-6 text-white">
                     <div className="absolute top-4 right-4 bg-white bg-opacity-30 p-2 rounded-full">

@@ -3,8 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa6";
+import SectionTitle from "../../../components/Shared/SectionTitle/SectionTitle";
 
 const ManageCategory = () => {
     const axiosSecure = useAxiosSecure();
@@ -66,39 +67,51 @@ const ManageCategory = () => {
         // }
     };
 
-    return (
-        <div className="mx-auto px-2 py-10">
-            <h2 className="text-4xl font-semibold mb-6 text-center">Manage Categories</h2>
+    return (    
+        <div className="">
+            {/* Header */}
+            <SectionTitle heading={'Manage Categories'} subHeading={"Add, update, or delete medicine categories easily."} />
 
-            <button
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-2xl font-semibold text-teal-600 ">Medicines ({medicines.length})</h1>
+                <button
+                    className="bg-gradient-to-r from-green-400 to-green-600 text-white py-3 px-6 rounded-lg shadow-md hover:shadow-lg hover:opacity-90 transition"
+                    onClick={() => setShowModal(true)}
+                >
+                    + Add New Category
+                </button>
+            </div>  
+
+            {/* <button
                 onClick={() => setIsModalOpen(true)}
                 className="btn btn-primary mb-6"
             >
                 Add New Category
-            </button>
+            </button> */}
 
-            <div className="overflow-x-auto">
-                <table className="table table-zebra">
+            <div className="overflow-x-auto mb-10">
+                <table className="min-w-full table-auto border-collapse border border-gray-200">
                     {/* head */}
-                    <thead>
+                    <thead className="bg-teal-600 text-white h-16">
                         <tr className="text-base">
-                            <th>
-                                #
-                            </th>
-                            <th>Image & Name</th>
-                            <th>Category</th>
-                            <th>Company</th>
-                            <th>Actions</th>
+                            <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider"> # </th>
+                            <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Image & Name</th>
+                            <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Category</th>
+                            <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Company</th>
+                            <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
                             medicines.map((item, idx) => (
-                                <tr key={item._id} className="text-base">
-                                    <th>
+                                <tr
+                                    key={item._id}
+                                    className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-100'}
+                                >
+                                    <th className="px-6 py-4 border-b text-sm md:text-base text-gray-700">
                                         {idx + 1}
                                     </th>
-                                    <td>
+                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">
                                         <div className="flex items-center gap-3">
                                             <div className="avatar">
                                                 <div className="mask mask-squircle h-12 w-12">
@@ -112,14 +125,14 @@ const ManageCategory = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">
                                         <p>{item.category}</p>
                                     </td>
-                                    <td>{item.company}</td>
-                                    <th>
-                                        <button className="btn btn-ghost text-lg"><FaEdit /></button>
-                                        <button className="btn btn-ghost text-lg"><FaTrash />    </button>
-                                    </th>
+                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{item.company}</td>
+                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700 space-x-1">
+                                        <button className="btn bg-teal-200   text-lg"><FaEdit /></button>
+                                        <button className="btn bg-red-100 text-lg text-red-500"><FaTrashAlt size={18} />   </button>
+                                    </td>
                                 </tr>
                             ))
                         }
