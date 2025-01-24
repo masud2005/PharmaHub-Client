@@ -1,23 +1,26 @@
-import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { toast } from "react-toastify";
-import axios from "axios";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import { FaTrash } from "react-icons/fa6";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import SectionTitle from "../../../components/Shared/SectionTitle/SectionTitle";
+import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useImageUpload from "../../../hooks/useImageUpload";
 
 const ManageCategory = () => {
     const axiosSecure = useAxiosSecure();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [newCategory, setNewCategory] = useState({
-        categoryName: "",
-        categoryImage: "",
-    });
+    const [showModal, setShowModal] = useState(false);
+    const [updateModal, setUpdateModal] = useState(false);
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { uploadImage } = useImageUpload();
+    const { user } = useAuth();
+    const [selectedMedicine, setSelectedMedicine] = useState('');
+    // console.log(selectedMedicine);
 
 
-    const { data: medicines = [], refetch } = useQuery({
+    const { data: medicines = [], refetch, isLoading } = useQuery({
         queryKey: ["medicines"],
         queryFn: async () => {
             const res = await axiosSecure.get("/medicines");
@@ -25,69 +28,138 @@ const ManageCategory = () => {
         },
     });
 
-    // console.log(medicines);
+    const { data: medicine = [], } = useQuery({
+        queryKey: ["medicine"],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/medicine/${id}`);
+            // console.log(res.data);
+            return res.data;
+        },
+    });
 
 
-    const handleAddCategory = async () => {
-        // try {
-        //     const res = await axios.post("/api/categories", newCategory);
-        //     if (res.data.insertedId) {
-        //         toast.success("Category added successfully!");
-        //         refetch();
-        //         setIsModalOpen(false);
-        //         setNewCategory({ categoryName: "", categoryImage: "" });
-        //     }
-        // } catch (error) {
-        //     toast.error("Failed to add category!");
-        // }
-    };
+    const onSubmit = async (data) => {
+        console.log(data);
+        // Upload Image ImageBB
+        const imageFile = data.imageURL[0];
+        const uploadImageURL = await uploadImage(imageFile);
+        // console.log(uploadImageURL);
 
-    const handleUpdateCategory = async (categoryId, updatedData) => {
-        // try {
-        //     const res = await axios.patch(`/api/categories/${categoryId}`, updatedData);
-        //     if (res.data.modifiedCount > 0) {
-        //         toast.success("Category updated successfully!");
-        //         refetch();
-        //         setSelectedCategory(null);
-        //     }
-        // } catch (error) {
-        //     toast.error("Failed to update category!");
-        // }
+        const medicineInfo = {
+            name: data.name,
+            genericName: data.genericName,
+            description: data.description,
+            imageURL: uploadImageURL,
+            category: data.category,
+            company: data.company,
+            massUnit: data.massUnit,
+            pricePerUnit: parseFloat(data.pricePerUnit),
+            discountPercentage: parseFloat(data.discountPercentage),
+            sellerName: user?.displayName,
+            sellerEmail: user?.email,
+        }
+        console.log(medicineInfo);
+
+        const res = await axiosSecure.post('/medicines', medicineInfo)
+        // console.log(res.data);
+        if (res.data.insertedId) {
+            toast.success('New Category added successfully.')
+            refetch();
+        }
+        setShowModal(false);
+        reset();
     };
 
     const handleDeleteCategory = async (categoryId) => {
-        // try {
-        //     const res = await axios.delete(`/api/categories/${categoryId}`);
-        //     if (res.data.deletedCount > 0) {
-        //         toast.success("Category deleted successfully!");
-        //         refetch();
-        //     }
-        // } catch (error) {
-        //     toast.error("Failed to delete category!");
-        // }
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            confirmButtonColor: "#d33",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const res = await axiosSecure.delete(`/medicines/${categoryId}`);
+                    console.log(res.data);
+                    if (res.data.deletedCount > 0) {
+                        toast.success("Successfully deleted.");
+                        refetch();
+                    }
+                } catch {
+                    toast.error("Something went wrong. Please try again!");
+                }
+            }
+        });
     };
 
-    return (    
+    const handleUpdate = (item) => {
+        // console.log(item);
+        setSelectedMedicine(item)
+        // document.getElementById('my_modal_5').showModal()
+        setUpdateModal(true);
+    }
+
+    const updateCategory = async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const name = form.name.value;
+        const genericName = form.genericName.value;
+        const description = form.description.value;
+        // const imageURL = form.imageURL.value || selectedMedicine.imageURL;
+        const category = form.category.value;
+        const company = form.company.value;
+        const massUnit = form.massUnit.value;
+        const pricePerUnit = form.pricePerUnit.value;
+        const discountPercentage = form.discountPercentage.value;
+
+        const imageFile = form.imageURL.files[0];
+        let uploadImageURL = null;
+        if (imageFile) {
+            uploadImageURL = await uploadImage(imageFile);
+        }
+        // console.log(uploadImageURL);
+
+
+        const categoryInfo = {
+            name,
+            genericName,
+            description,
+            imageURL: uploadImageURL || selectedMedicine.imageURL,
+            category,
+            company,
+            massUnit,
+            pricePerUnit,
+            discountPercentage,
+            sellerEmail: selectedMedicine.sellerEmail,
+            sellerName: selectedMedicine.sellerName
+        }
+        // console.log(categoryInfo);
+
+        const res = await axiosSecure.patch(`/medicines/${selectedMedicine._id}`, categoryInfo)
+        // console.log(res.data);
+        if (res.data.modifiedCount > 0) {
+            toast.success('Successfully updated this category');
+            refetch();
+            setUpdateModal(false);
+        }
+    }
+
+    return (
         <div className="">
             {/* Header */}
             <SectionTitle heading={'Manage Categories'} subHeading={"Add, update, or delete medicine categories easily."} />
 
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-semibold text-teal-600 ">Medicines ({medicines.length})</h1>
+                <h1 className="text-2xl font-semibold text-teal-600 ">Manage Categories ({medicines.length})</h1>
                 <button
                     className="bg-gradient-to-r from-green-400 to-green-600 text-white py-3 px-6 rounded-lg shadow-md hover:shadow-lg hover:opacity-90 transition"
                     onClick={() => setShowModal(true)}
                 >
                     + Add New Category
                 </button>
-            </div>  
-
-            {/* <button
-                onClick={() => setIsModalOpen(true)}
-                className="btn btn-primary mb-6"
-            >
-                Add New Category
-            </button> */}
+            </div>
 
             <div className="overflow-x-auto mb-10">
                 <table className="min-w-full table-auto border-collapse border border-gray-200">
@@ -130,8 +202,10 @@ const ManageCategory = () => {
                                     </td>
                                     <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{item.company}</td>
                                     <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700 space-x-1">
-                                        <button className="btn bg-teal-200   text-lg"><FaEdit /></button>
-                                        <button className="btn bg-red-100 text-lg text-red-500"><FaTrashAlt size={18} />   </button>
+                                        {/* <Link to={`${item._id}`}> */}
+                                        <button onClick={() => handleUpdate(item)} className="btn bg-teal-200   text-lg"><FaEdit /></button>
+                                        {/* </Link> */}
+                                        <button onClick={() => handleDeleteCategory(item._id)} className="btn bg-red-100 text-lg text-red-500"><FaTrashAlt size={18} />   </button>
                                     </td>
                                 </tr>
                             ))
@@ -139,109 +213,306 @@ const ManageCategory = () => {
                     </tbody>
                 </table>
             </div>
-            {/* Categories Table */}
-            {/* <div className="overflow-x-auto">
-                <table className="table table-zebra w-full">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Category Name</th>
-                            <th>Image</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {medicines.map((category, index) => (
-                            <tr key={category._id}>
-                                <td>{index + 1}</td>
-                                <td>{category.categoryName}</td>
-                                <td>
-                                    <img
-                                        src={category.categoryImage}
-                                        alt={category.categoryName}
-                                        className="w-16 h-16 object-cover"
-                                    />
-                                </td>
-                                <td>
-                                    <button
-                                        onClick={() => setSelectedCategory(category)}
-                                        className="btn btn-info btn-sm mr-2"
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        onClick={() => handleDeleteCategory(category._id)}
-                                        className="btn btn-error btn-sm"
-                                    >
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div> */}
 
-            {/* Add/Edit Modal */}
-            {isModalOpen && (
+            {/* Add Modal */}
+            {showModal && (
                 <div className="modal modal-open">
-                    <div className="modal-box">
-                        <h3 className="font-bold text-lg">
-                            {selectedCategory ? "Edit Category" : "Add Category"}
-                        </h3>
-                        <form
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                if (selectedCategory) {
-                                    handleUpdateCategory(selectedCategory._id, newCategory);
-                                } else {
-                                    handleAddCategory();
-                                }
-                            }}
-                        >
-                            <div className="form-control mb-4">
-                                <label className="label">Category Name</label>
-                                <input
-                                    type="text"
-                                    className="input input-bordered"
-                                    value={newCategory.categoryName}
-                                    onChange={(e) =>
-                                        setNewCategory({
-                                            ...newCategory,
-                                            categoryName: e.target.value,
-                                        })
-                                    }
-                                    required
-                                />
-                            </div>
-                            <div className="form-control mb-4">
-                                <label className="label">Category Image URL</label>
-                                <input
-                                    type="text"
-                                    className="input input-bordered"
-                                    value={newCategory.categoryImage}
-                                    onChange={(e) =>
-                                        setNewCategory({
-                                            ...newCategory,
-                                            categoryImage: e.target.value,
-                                        })
-                                    }
-                                    required
-                                />
-                            </div>
-                            <div className="modal-action">
-                                <button type="submit" className="btn btn-primary">
-                                    {selectedCategory ? "Update" : "Add"}
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => setIsModalOpen(false)}
-                                    className="btn"
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </form>
+                    <div className="modal-box max-w-[576px] lg:max-w-[768px] p-2 relative">
+                        <div className=" w-full p-6 relative">
+                            <h2 className="text-2xl font-semibold mb-4">Update</h2>
+                            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                                {/* Item Name */}
+                                <div className="form-control">
+                                    <label className="label text-lg font-medium text-gray-700">Item Name</label>
+                                    <input
+                                        {...register("name", { required: true })}
+                                        type="text"
+                                        placeholder="Enter item name"
+                                        className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                    />
+                                    {errors.name && <p className='text-red-600'>Item name is required.</p>}
+                                </div>
+
+                                {/* Item Generic Name */}
+                                <div className="form-control">
+                                    <label className="label text-lg font-medium text-gray-700">Item Generic Name</label>
+                                    <input
+                                        {...register("genericName", { required: true })}
+                                        type="text"
+                                        placeholder="Enter generic name"
+                                        className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                    />
+                                    {errors.genericName && <p className='text-red-600'>Item generic name is required.</p>}
+                                </div>
+
+                                {/* Short Description */}
+                                <div className="form-control">
+                                    <label className="label text-lg font-medium text-gray-700">Short Description</label>
+                                    <textarea
+                                        {...register("description", { required: true })}
+                                        placeholder="Enter description"
+                                        className="textarea textarea-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                    ></textarea>
+                                    {errors.description && <p className='text-red-600'>Description is required.</p>}
+                                </div>
+
+                                {/* Image Upload */}
+                                <div className="form-control">
+                                    <label className="label text-lg font-medium text-gray-700">Upload Photo</label>
+                                    <div className='flex items-center gap-5'>
+                                        <div className='w-full'>
+                                            <input type="file" {...register("imageURL", { required: true })} className="file-input file-input-bordered w-full focus:outline-none focus:ring-1 focus:ring-teal-300 transition" />
+                                            {errors.imageURL && <p className='text-red-600'>Image is required.</p>}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Category */}
+                                <div className="form-control">
+                                    <label className="label text-lg font-medium text-gray-700">Category</label>
+                                    <select
+                                        defaultValue=''
+                                        {...register("category", { required: true })}
+                                        className="select select-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                    >
+                                        <option disabled value="">Select Category</option>
+                                        <option value="Pain Reliever">Pain Reliever</option>
+                                        <option value="Antibiotic">Antibiotic</option>
+                                        <option value="Supplement">Supplement</option>
+                                        <option value="Tablet">Tablet</option>
+                                        <option value="Syrup">Syrup</option>
+                                        <option value="Injection">Injection</option>
+                                    </select>
+                                    {errors.category && <p className='text-red-600'>Category is required.</p>}
+                                </div>
+
+                                {/* Company */}
+                                <div className="form-control">
+                                    <label className="label text-lg font-medium text-gray-700">Company</label>
+                                    <select
+                                        defaultValue=''
+                                        {...register("company", { required: true })}
+                                        className="select select-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                    >
+                                        <option disabled value="">Select Company</option>
+                                        <option value="HealthCorp">HealthCorp</option>
+                                        <option value="Wellness Inc">Wellness Inc</option>
+                                        <option value="MediLife">MediLife</option>
+                                        <option value="NutrientPlus">NutrientPlus</option>
+                                        <option value="HeartCare">HeartCare</option>
+                                    </select>
+                                    {errors.company && <p className='text-red-600'>Company is required.</p>}
+                                </div>
+
+                                {/* Item Mass Unit */}
+                                <div className="form-control">
+                                    <label className="label text-lg font-medium text-gray-700">Item Mass Unit</label>
+                                    <input
+                                        {...register("massUnit", { required: true })}
+                                        type="text"
+                                        placeholder="Enter mass unit (e.g., 200mg or 200ml)"
+                                        className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                    />
+                                    {errors.massUnit && <p className='text-red-600'>Mass Unit is required.</p>}
+                                </div>
+
+                                {/* Unit Price and Discount */}
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="form-control">
+                                        <label className="label text-lg font-medium text-gray-700">Unit Price</label>
+                                        <input
+                                            {...register("pricePerUnit", { required: true })}
+
+                                            type="number"
+                                            placeholder="Enter unit price"
+                                            className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                        />
+                                        {errors.pricePerUnit && <p className='text-red-600'>Price is required.</p>}
+                                    </div>
+                                    <div className="form-control">
+                                        <label className="label text-lg font-medium text-gray-700">Discount (%)</label>
+                                        <input
+                                            {...register("discountPercentage", { required: true })}
+                                            type="number"
+                                            defaultValue='0'
+                                            placeholder="Enter discount"
+                                            className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                        />
+                                        {errors.discountPercentage && <p className='text-red-600'>Discount is required.</p>}
+                                    </div>
+                                </div>
+
+                                {/* Action Buttons */}
+                                <div className="flex justify-end space-x-4">
+                                    <button
+                                        type="button"
+                                        className="py-2 px-4 bg-red-500 text-white rounded-md shadow hover:bg-red-600 transition"
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="py-2 px-4 bg-teal-500 text-white rounded-md shadow hover:bg-teal-600 transition"
+                                    >
+                                        Save
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Update Modal */}
+            {updateModal && (
+                <div className="modal modal-open">
+                    <div className="modal-box max-w-[576px] lg:max-w-[768px] p-2 relative">
+                        <div className=" w-full p-6 relative">
+                            <h2 className="text-2xl font-semibold mb-4">Update</h2>
+                            <form onSubmit={updateCategory} className="space-y-4">
+                                {/* Item Name */}
+                                <div className="form-control">
+                                    <label className="label text-lg font-medium text-gray-700">Item Name</label>
+                                    <input
+                                        name="name"
+                                        type="text"
+                                        defaultValue={selectedMedicine.name}
+                                        placeholder="Enter item name"
+                                        className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                    />
+
+                                </div>
+
+                                {/* Item Generic Name */}
+                                <div className="form-control">
+                                    <label className="label text-lg font-medium text-gray-700">Item Generic Name</label>
+                                    <input
+                                        name="genericName"
+                                        type="text"
+                                        defaultValue={selectedMedicine.genericName}
+                                        placeholder="Enter generic name"
+                                        className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                    />
+
+                                </div>
+
+                                {/* Short Description */}
+                                <div className="form-control">
+                                    <label className="label text-lg font-medium text-gray-700">Short Description</label>
+                                    <textarea
+                                        name="description"
+                                        placeholder="Enter description"
+                                        defaultValue={selectedMedicine.description}
+                                        className="textarea textarea-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                    ></textarea>
+
+                                </div>
+
+                                {/* Image Upload */}
+                                <div className="form-control">
+                                    <label className="label text-lg font-medium text-gray-700">Upload Photo</label>
+                                    <div className='flex items-center gap-5'>
+                                        <div className='w-full'>
+                                            <input type="file" name="imageURL" className="file-input file-input-bordered w-full focus:outline-none focus:ring-1 focus:ring-teal-300 transition" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Category */}
+                                <div className="form-control">
+                                    <label className="label text-lg font-medium text-gray-700">Category</label>
+                                    <select
+                                        defaultValue={selectedMedicine.category}
+                                        name="category"
+                                        className="select select-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                    >
+                                        <option disabled value="">Select Category</option>
+                                        <option value="Pain Reliever">Pain Reliever</option>
+                                        <option value="Antibiotic">Antibiotic</option>
+                                        <option value="Supplement">Supplement</option>
+                                        <option value="Tablet">Tablet</option>
+                                        <option value="Syrup">Syrup</option>
+                                        <option value="Injection">Injection</option>
+                                    </select>
+
+                                </div>
+
+                                {/* Company */}
+                                <div className="form-control">
+                                    <label className="label text-lg font-medium text-gray-700">Company</label>
+                                    <select
+                                        defaultValue={selectedMedicine.company}
+                                        name="company"
+                                        className="select select-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                    >
+                                        <option disabled value="">Select Company</option>
+                                        <option value="HealthCorp">HealthCorp</option>
+                                        <option value="Wellness Inc">Wellness Inc</option>
+                                        <option value="MediLife">MediLife</option>
+                                        <option value="NutrientPlus">NutrientPlus</option>
+                                        <option value="HeartCare">HeartCare</option>
+                                    </select>
+
+                                </div>
+
+                                {/* Item Mass Unit */}
+                                <div className="form-control">
+                                    <label className="label text-lg font-medium text-gray-700">Item Mass Unit</label>
+                                    <input
+                                        name="massUnit"
+                                        type="text"
+                                        defaultValue={selectedMedicine.massUnit}
+                                        placeholder="Enter mass unit (e.g., 200mg or 200ml)"
+                                        className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                    />
+
+                                </div>
+
+                                {/* Unit Price and Discount */}
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="form-control">
+                                        <label className="label text-lg font-medium text-gray-700">Unit Price</label>
+                                        <input
+                                            name="pricePerUnit"
+                                            defaultValue={selectedMedicine.pricePerUnit}
+                                            type="number"
+                                            placeholder="Enter unit price"
+                                            className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                        />
+
+                                    </div>
+                                    <div className="form-control">
+                                        <label className="label text-lg font-medium text-gray-700">Discount (%)</label>
+                                        <input
+                                            name="discountPercentage"
+                                            type="number"
+                                            defaultValue={selectedMedicine.discountPercentage}
+                                            placeholder="Enter discount"
+                                            className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                        />
+
+                                    </div>
+                                </div>
+
+                                {/* Action Buttons */}
+                                <div className="flex justify-end space-x-4">
+                                    <button
+                                        type="button"
+                                        className="py-2 px-4 bg-red-500 text-white rounded-md shadow hover:bg-red-600 transition"
+                                        onClick={() => setUpdateModal(false)}
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="py-2 px-4 bg-teal-500 text-white rounded-md shadow hover:bg-teal-600 transition"
+                                    >
+                                        Save
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             )}

@@ -17,6 +17,7 @@ import ManageMedicines from "../pages/Dashboard/SellerDashboard/ManageMedicines"
 import SellerPayHistory from "../pages/Dashboard/SellerDashboard/SellerPayHistory";
 import Advertisement from "../pages/Dashboard/SellerDashboard/Advertisement";
 import SellerHome from "../pages/Dashboard/SellerDashboard/SellerHome";
+import UpdateCategory from "../pages/Dashboard/UpdateCategory/UpdateCategory";
 
 
 const router = createBrowserRouter([
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
                 path: '/dashboard/manage-category',
                 element: <ManageCategory />
             },
+            // {
+            //     path: '/dashboard/manage-category/:id',
+            //     element: <UpdateCategory />
+            // },
             {
                 path: '/dashboard/payment-management',
                 element: <PaymentManagement />

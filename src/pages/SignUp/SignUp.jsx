@@ -4,7 +4,6 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SocialLogin from '../../components/Shared/SocialLogin/SocialLogin';
 import useAuth from '../../hooks/useAuth';
-import Swal from 'sweetalert2';
 import useAxiosPublic from '../../hooks/useAxiosPublic';
 import { toast } from 'react-toastify';
 import useImageUpload from '../../hooks/useImageUpload';
