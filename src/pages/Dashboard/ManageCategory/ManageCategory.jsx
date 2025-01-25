@@ -130,8 +130,8 @@ const ManageCategory = () => {
             category,
             company,
             massUnit,
-            pricePerUnit,
-            discountPercentage,
+            pricePerUnit: parseFloat(pricePerUnit),
+            discountPercentage: parseFloat(discountPercentage),
             sellerEmail: selectedMedicine.sellerEmail,
             sellerName: selectedMedicine.sellerName
         }

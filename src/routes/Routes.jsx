@@ -19,6 +19,7 @@ import Advertisement from "../pages/Dashboard/SellerDashboard/Advertisement";
 import SellerHome from "../pages/Dashboard/SellerDashboard/SellerHome";
 import UpdateCategory from "../pages/Dashboard/UpdateCategory/UpdateCategory";
 import SalesReport from "../pages/Dashboard/SalesReport/SalesReport";
+import BannerAdvertise from "../pages/Dashboard/BannerAdvertise/BannerAdvertise";
 
 
 const router = createBrowserRouter([
@@ -94,7 +95,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/banner-advertise',
-                element: <h1>Banner Advertise</h1>
+                element: <BannerAdvertise />
             },
 
             // Seller Dashboard

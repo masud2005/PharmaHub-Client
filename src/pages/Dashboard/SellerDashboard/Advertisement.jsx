@@ -30,9 +30,11 @@ const Advertisement = () => {
         // console.log(uploadImageURL);
 
         const advertise = {
-            image: uploadImageURL,
+            name: data.name,
             description: data.description,
-            sellerEmail: user?.email
+            image: uploadImageURL,
+            sellerEmail: user?.email,
+            status: 'Pending',
         }
         // console.log(advertise);
         const res = await axiosSecure.post('/seller-advertise', advertise)
@@ -69,7 +71,9 @@ const Advertisement = () => {
                             <tr className="">
                                 <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">#</th>
                                 <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Image</th>
+                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Name</th>
                                 <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Description</th>
+                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -83,7 +87,18 @@ const Advertisement = () => {
                                         </div>
                                         {/* <span className="font-medium">{item.description}</span> */}
                                     </td>
+                                    <td className="px-6 py-2 border-b text-sm md:text-base text-gray-700">{item.name}</td>
                                     <td className="px-6 py-2 border-b text-sm md:text-base text-gray-700">{item.description}</td>
+                                    <td className="px-6 py-4 border-b text-sm md:text-base">
+                                        <span
+                                            className={`px-3 py-1 inline-flex leading-tight rounded-full ${item.status === 'Approved'
+                                                ? 'bg-green-100 text-green-700'
+                                                : 'bg-yellow-100 text-yellow-700'
+                                                }`}
+                                        >
+                                            {item.status}
+                                        </span>
+                                    </td>
                                 </tr>
                             ))}
                             {advertisement.length === 0 && (
@@ -107,16 +122,23 @@ const Advertisement = () => {
                             className="space-y-4"
                             onSubmit={handleSubmit(onSubmit)}
                         >
+
+                            {/* Item Name */}
                             <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text text-base">Medicine Image</span>
-                                </label>
-                                <input {...register("image", { required: true })} type="file" className="file-input file-input-bordered w-full focus:outline-none focus:ring-1 focus:ring-teal-300 transition" />
-                                {errors.image && <p className='text-red-600'>Image is required.</p>}
+                                <label className="label text-base font-medium text-gray-700">Item Name</label>
+                                <input
+                                    {...register("name", { required: true })}
+                                    type="text"
+                                    placeholder="Enter item name"
+                                    className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                                />
+                                {errors.name && <p className='text-red-600'>Name is required.</p>}
                             </div>
+
+                            {/* Item Description */}
                             <div className="form-control">
                                 <label className="label">
-                                    <span className="label-text text-base">Description</span>
+                                    <span className="label text-base font-medium text-gray-700">Description</span>
                                 </label>
                                 <textarea
                                     {...register("description", { required: true })}
@@ -125,6 +147,17 @@ const Advertisement = () => {
                                 ></textarea>
                                 {errors.description && <p className='text-red-600'>Description is required.</p>}
                             </div>
+
+                            {/* Item Image */}
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label text-base font-medium text-gray-700">Medicine Image</span>
+                                </label>
+                                <input {...register("image", { required: true })} type="file" className="file-input file-input-bordered w-full focus:outline-none focus:ring-1 focus:ring-teal-300 transition" />
+                                {errors.image && <p className='text-red-600'>Image is required.</p>}
+                            </div>
+
+                            {/* Action Button */}
                             <div className="modal-action">
                                 <button
                                     type="button"
