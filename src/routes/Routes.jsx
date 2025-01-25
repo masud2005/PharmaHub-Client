@@ -18,6 +18,7 @@ import SellerPayHistory from "../pages/Dashboard/SellerDashboard/SellerPayHistor
 import Advertisement from "../pages/Dashboard/SellerDashboard/Advertisement";
 import SellerHome from "../pages/Dashboard/SellerDashboard/SellerHome";
 import UpdateCategory from "../pages/Dashboard/UpdateCategory/UpdateCategory";
+import SalesReport from "../pages/Dashboard/SalesReport/SalesReport";
 
 
 const router = createBrowserRouter([
@@ -89,7 +90,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/sales-report',
-                element: <h1>Sales Report</h1>
+                element: <SalesReport />
             },
             {
                 path: '/dashboard/banner-advertise',

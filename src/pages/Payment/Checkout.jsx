@@ -76,7 +76,8 @@ const Checkout = () => {
                     cartIds: cart.map(item => item._id),
                     medicinesName: cart.map(item => item.name),
                     sellerEmail: cart.map(item => item.sellerEmail),
-                    status: 'Pending'
+                    status: 'Pending',
+                    date: new Date().toISOString()
                 };
 
                 const res = await axiosSecure.post('/payments', paymentInfo)
