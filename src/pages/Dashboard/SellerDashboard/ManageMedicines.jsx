@@ -187,6 +187,8 @@ const ManageMedicines = () => {
                                         <option value="Tablet">Tablet</option>
                                         <option value="Syrup">Syrup</option>
                                         <option value="Injection">Injection</option>
+                                        <option value="Inhaler">Inhaler</option>
+                                        <option value="Capsule">Capsule</option>
                                     </select>
                                     {errors.category && <p className='text-red-600'>Category is required.</p>}
                                 </div>

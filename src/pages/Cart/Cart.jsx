@@ -6,6 +6,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import useAuth from "../../hooks/useAuth";
+import SectionTitle from "../../components/Shared/SectionTitle/SectionTitle";
 
 const Cart = () => {
     const { user } = useAuth();
@@ -78,9 +79,11 @@ const Cart = () => {
     return (
         <div className="container mx-auto py-10 px-5 xl:px-0">
            
+           {/* Section Header */}
+            <SectionTitle heading={'My Cart'} subHeading={'Manage your cart and proceed to checkout'} />
 
             {cart.length === 0 ? (
-                <p className="text-center text-2xl font-medium text-red-500">
+                <p className="text-center text-2xl font-medium text-gray-600 ">
                     Your cart is empty. Start adding items!
                 </p>
             ) : (

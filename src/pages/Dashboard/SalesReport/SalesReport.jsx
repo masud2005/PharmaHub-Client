@@ -102,10 +102,12 @@ const SalesReport = () => {
         },
         {
             name: "Date",
-            // selector: (row) => row.date || "N/A",
-            selector: (row) => (
-                <span className="text-base text-gray-700">{row.date || "N/A"}</span>
-            ),
+            selector: (row) => {
+                const formattedDate = row.date
+                    ? new Date(row.date).toLocaleDateString("en-US") // MM/DD/YYYY format
+                    : "N/A";
+                return <span className="text-base text-gray-700">{formattedDate}</span>;
+            },
         },
         {
             name: "Transaction ID",

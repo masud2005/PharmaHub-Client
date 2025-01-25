@@ -45,7 +45,7 @@ const BannerAdvertise = () => {
             <SectionTitle heading={'Banner Management'} subHeading={"Toggle medicines for the homepage slider"} />
 
             <h1 className="text-2xl font-semibold text-teal-600 mb-6">
-            Manage Banner Ads ({bannerAdvertise.length})
+                Manage Banner Ads ({bannerAdvertise.length})
             </h1>
             <div className="overflow-x-auto mb-10">
                 <table className="min-w-full table-auto border-collapse border border-gray-200">
@@ -104,7 +104,7 @@ const BannerAdvertise = () => {
                                 <td className="px-6 py-4 border-b text-sm md:text-base">
                                     <button
                                         onClick={() => handleAddOrRemoveSlide(item)}
-                                        className={`min-w-40 text-sm md:text-base py-2 px-3 rounded bg-teal-600 hover:bg-teal-700 text-white`}
+                                        className={`min-w-40 text-sm md:text-base py-2 px-3 rounded ${item.status === 'Pending' ? 'bg-teal-600 hover:bg-teal-700 text-white' : 'bg-red-500 text-white hover:bg-red-600'}`}
                                     >
                                         {item.status === 'Pending' ? 'Add to Slide' : 'Remove from Slide'}
                                     </button>

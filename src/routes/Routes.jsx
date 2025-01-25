@@ -20,6 +20,8 @@ import SellerHome from "../pages/Dashboard/SellerDashboard/SellerHome";
 import UpdateCategory from "../pages/Dashboard/UpdateCategory/UpdateCategory";
 import SalesReport from "../pages/Dashboard/SalesReport/SalesReport";
 import BannerAdvertise from "../pages/Dashboard/BannerAdvertise/BannerAdvertise";
+import Home from "../pages/Home/Home";
+import CategoryMedicinesDetails from "../pages/Home/CategoryMedicinesDetails";
 
 
 const router = createBrowserRouter([
@@ -29,7 +31,11 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <h1>Home</h1>
+                element: <Home />
+            },
+            {
+                path: '/categories/:category',
+                element: <CategoryMedicinesDetails />
             },
             {
                 path: '/shop',

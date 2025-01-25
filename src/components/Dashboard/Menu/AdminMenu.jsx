@@ -1,5 +1,7 @@
 import React from 'react';
-import { FaHome } from 'react-icons/fa';
+import { FaHome, FaMoneyCheckAlt, FaRegImages, FaUsers } from 'react-icons/fa';
+import { RiFileList2Line } from "react-icons/ri";
+import { MdCategory } from "react-icons/md";
 import { NavLink } from 'react-router-dom';
 
 const AdminMenu = () => {
@@ -11,22 +13,22 @@ const AdminMenu = () => {
             </li>
             <li>
                 <NavLink to="/dashboard/manage-users">
-                    <FaHome /> Manage Users</NavLink>
+                    <FaUsers /> Manage Users</NavLink>
             </li>
             <li>
                 <NavLink to="/dashboard/manage-category">
-                    <FaHome /> Manage Category</NavLink>
+                    <MdCategory /> Manage Category</NavLink>
             </li>
             <li>
                 <NavLink to="/dashboard/payment-management">
-                    <FaHome /> Payment Management</NavLink>
+                    <FaMoneyCheckAlt /> Payment Management</NavLink>
             </li>
             <li>
                 <NavLink to="/dashboard/sales-report">
-                    <FaHome /> Sales Report</NavLink>
+                    <RiFileList2Line /> Sales Report</NavLink>
             </li><li>
                 <NavLink to="/dashboard/banner-advertise">
-                    <FaHome /> Banner Advertise</NavLink>
+                    <FaRegImages /> Banner Advertise</NavLink>
             </li>
         </>
     );

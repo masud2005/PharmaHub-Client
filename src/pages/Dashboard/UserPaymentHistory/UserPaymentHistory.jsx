@@ -4,6 +4,7 @@ import useAuth from '../../../hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useRole from '../../../hooks/useRole';
+import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
 
 const PaymentHistory = () => {
     const { user } = useAuth();
@@ -18,7 +19,10 @@ const PaymentHistory = () => {
     })
 
     return (
-        <div className=" mx-auto p-6 bg-white shadow-lg rounded-lg">
+        <>
+            {/* Header */}
+            <SectionTitle heading={'Payment History'} subHeading={'View payment details with Email, transaction ID and status.'} />
+
             <h1 className="text-2xl font-semibold text-teal-600 mb-6">Payment History ({payments.length})</h1>
             <div className="overflow-x-auto">
                 <table className="min-w-full table-auto border-collapse border border-gray-200">
@@ -43,10 +47,17 @@ const PaymentHistory = () => {
                                 </td>
                             </tr>
                         ))}
+                        {payments.length === 0 && (
+                            <tr>
+                                <td colSpan="5" className="text-center py-4 text-gray-500">
+                                    No payment history available.
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </div>
-        </div>
+        </>
     );
 };
 

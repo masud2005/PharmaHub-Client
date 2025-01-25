@@ -1,5 +1,6 @@
 import React from 'react';
-import { FaHome } from 'react-icons/fa';
+import { FaBullhorn, FaHistory, FaHome } from 'react-icons/fa';
+import { MdMedicalServices } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 
 const SellerMenu = () => {
@@ -11,15 +12,15 @@ const SellerMenu = () => {
             </li>
             <li>
                 <NavLink to="/dashboard/manage-medicines">
-                    <FaHome /> Manage Medicines</NavLink>
+                    <MdMedicalServices /> Manage Medicines</NavLink>
             </li>
             <li>
                 <NavLink to="/dashboard/payment-history">
-                    <FaHome /> Payment History</NavLink>
+                    <FaHistory /> Payment History</NavLink>
             </li>
             <li>
                 <NavLink to="/dashboard/advertisement">
-                    <FaHome /> Ask For Advertisement</NavLink>
+                    <FaBullhorn /> Ask For Advertisement</NavLink>
             </li>
         </div>
     );

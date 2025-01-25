@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaHome } from 'react-icons/fa';
+import { FaHistory } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 
 const UserMenu = () => {
@@ -7,7 +7,7 @@ const UserMenu = () => {
         <div>
             <li>
                 <NavLink to="/dashboard/pay-history">
-                    <FaHome /> Payment History</NavLink>
+                    <FaHistory /> Payment History</NavLink>
             </li>
         </div>
     );
