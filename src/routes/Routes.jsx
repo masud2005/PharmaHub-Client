@@ -22,6 +22,8 @@ import SalesReport from "../pages/Dashboard/SalesReport/SalesReport";
 import BannerAdvertise from "../pages/Dashboard/BannerAdvertise/BannerAdvertise";
 import Home from "../pages/Home/Home";
 import CategoryMedicinesDetails from "../pages/Home/CategoryMedicinesDetails";
+import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
 
 
 const router = createBrowserRouter([
@@ -47,11 +49,11 @@ const router = createBrowserRouter([
             },
             {
                 path: '/checkout',
-                element: <Payment />
+                element: <PrivateRoute><Checkout /></PrivateRoute>
             },
             {
                 path: '/invoice',
-                element: <Invoice />
+                element: <PrivateRoute><Invoice /></PrivateRoute>
             },
             {
                 path: '/sign-up',
@@ -71,21 +73,21 @@ const router = createBrowserRouter([
     // Dashboard
     {
         path: '/dashboard',
-        element: <Dashboard />,
+        element: <PrivateRoute><Dashboard /></PrivateRoute>,
         children: [
 
             // Admin Dashboard
             {
                 path: '/dashboard/admin-home',
-                element: <AdminHome />
+                element: <AdminRoute><AdminHome /></AdminRoute>
             },
             {
                 path: '/dashboard/manage-users',
-                element: <ManageUsers />
+                element: <AdminRoute><ManageUsers /></AdminRoute>
             },
             {
                 path: '/dashboard/manage-category',
-                element: <ManageCategory />
+                element: <AdminRoute><ManageCategory /></AdminRoute>
             },
             // {
             //     path: '/dashboard/manage-category/:id',
@@ -93,15 +95,15 @@ const router = createBrowserRouter([
             // },
             {
                 path: '/dashboard/payment-management',
-                element: <PaymentManagement />
+                element: <AdminRoute><PaymentManagement /></AdminRoute>
             },
             {
                 path: '/dashboard/sales-report',
-                element: <SalesReport />
+                element: <AdminRoute><SalesReport /></AdminRoute>
             },
             {
                 path: '/dashboard/banner-advertise',
-                element: <BannerAdvertise />
+                element: <AdminRoute><BannerAdvertise /></AdminRoute>
             },
 
             // Seller Dashboard

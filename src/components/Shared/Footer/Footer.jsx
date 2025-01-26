@@ -22,7 +22,7 @@ const Footer = () => {
                     </div>
 
                     {/* Quick Links Section */}
-                    <div className="flex justify-center">
+                    <div className="flex md:justify-center">
                         <div>
                             <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
                             <ul className="space-y-2">

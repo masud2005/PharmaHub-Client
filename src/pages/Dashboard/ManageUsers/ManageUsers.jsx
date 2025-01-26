@@ -60,10 +60,10 @@ const ManageUsers = () => {
                                 <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">
                                     <span
                                         className={`px-3 py-1 inline-flex leading-tight rounded-full ${user.role === 'Admin'
-                                                ? 'bg-green-100 text-green-700'
-                                                : user.role === 'Seller'
-                                                    ? 'bg-blue-100 text-blue-700'
-                                                    : 'bg-yellow-100 text-yellow-700'
+                                            ? 'bg-green-100 text-green-700'
+                                            : user.role === 'Seller'
+                                                ? 'bg-blue-100 text-blue-700'
+                                                : 'bg-yellow-100 text-yellow-700'
                                             }`}
                                     >
                                         {user.role}

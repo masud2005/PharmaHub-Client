@@ -9,6 +9,7 @@ import useAuth from '../../hooks/useAuth';
 import useAxiosPublic from '../../hooks/useAxiosPublic';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useCart from '../../hooks/useCart';
+import Swal from 'sweetalert2';
 
 const CategoryMedicinesDetails = () => {
     const { category } = useParams();

@@ -53,7 +53,7 @@ const Testimonials = () => {
                 <SectionTitle heading={'What Customers Say'} subHeading={'Trusted by many, loved by all'} />
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-5">
                     {customersFeedback.map((testimonial, index) => (
-                        <div key={index} className="p-6 bg-white rounded-lg shadow-lg">
+                        <div key={index} className="p-6 bg-white rounded-lg shadow-lg  border">
                             <div className="flex items-center mb-4">
                                 <img
                                     src={testimonial.photo}

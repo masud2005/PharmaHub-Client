@@ -27,7 +27,7 @@ const CategoryCards = () => {
                     <Link
                         to={`/categories/${category.category}`}
                         key={index}
-                        className="relative p-4 shadow-lg rounded bg-gradient-to-br from-white via-gray-50 to-gray-100 hover:shadow-xl transition duration-300 border border-teal-200"
+                        className="relative p-4 shadow-lg rounded bg-gradient-to-br from-white via-teal-50 to-gray-100 hover:shadow-xl transition duration-300 border border-teal-200"
                     >
                         <div className="relative h-28 sm:h-36 md:h-32 xl:h-40 2xl:h-44 overflow-hidden rounded group">
                             <img
