@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import useImageUpload from '../../../hooks/useImageUpload';
+import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi';
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { toast } from 'react-toastify';
@@ -11,7 +12,10 @@ import { useForm } from 'react-hook-form';
 const ManageMedicines = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [showModal, setShowModal] = useState(false);
-    // const [medicines, setMedicines] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);
+    const [sortOrder, setSortOrder] = useState('asc');
+    const [searchQuery, setSearchQuery] = useState('');
     const { uploadImage } = useImageUpload();
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
@@ -20,7 +24,7 @@ const ManageMedicines = () => {
         queryKey: ['sellerMedicines', user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/medicines/${user?.email}`)
-            // console.log(res.data);
+            console.log(res.data);
             return res.data;
         }
     })
@@ -60,62 +64,144 @@ const ManageMedicines = () => {
         reset();
     };
 
+    const filteredMedicines = sellerMedicines.filter((medicine) => {
+        const query = searchQuery.toLowerCase();
+        return (
+            medicine.name.toLowerCase().includes(query) ||
+            medicine.genericName?.toLowerCase().includes(query) ||
+            medicine.category.toLowerCase().includes(query) ||
+            medicine.company.toLowerCase().includes(query)
+        );
+    });
+
+    const sortedMedicines = filteredMedicines.sort((a, b) => {
+        if (sortOrder === 'asc') {
+            return a.pricePerUnit - b.pricePerUnit;
+        } else {
+            return b.pricePerUnit - a.pricePerUnit;
+        }
+    });
+
+    const paginatedMedicines = sortedMedicines.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
+
+    const totalPages = Math.ceil(filteredMedicines.length / itemsPerPage);
+
     return (
         <>
             {/* Manage Medicines Header */}
             <SectionTitle heading={'medicine'} subHeading={"View and manage your added medicines"} />
 
             {/*All Medicine & Add Medicine Button*/}
-            <div className="flex justify-between items-center mb-6">
+            <button
+                className="bg-gradient-to-r from-green-400 to-green-600 text-white py-3 px-6 rounded-lg shadow-md hover:shadow-lg hover:opacity-90 transition"
+                onClick={() => setShowModal(true)}
+            >
+                + Add Medicine
+            </button>
+            {/* <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-semibold text-teal-600 ">Medicines ({sellerMedicines.length})</h1>
-                <button
-                    className="bg-gradient-to-r from-green-400 to-green-600 text-white py-3 px-6 rounded-lg shadow-md hover:shadow-lg hover:opacity-90 transition"
-                    onClick={() => setShowModal(true)}
-                >
-                    + Add Medicine
-                </button>
+                
+            </div> */}
+            <div className="lg:flex justify-between items-center my-5">
+                <h1 className="text-2xl font-semibold text-teal-600 pb-3 lg:pb-0">Medicines ({sellerMedicines.length})</h1>
+                <div className="flex gap-1 lg:gap-3">
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        className="input input-bordered border-gray-300 w-full rounded-md max-w-xs focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <button
+                        className="btn bg-teal-600 px-2 md:px-3 md:text-base hover:bg-teal-500 transition duration-300 text-white"
+                        onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+                    >
+                        Sort by Price ({sortOrder === 'asc' ? 'Low to High' : 'High to Low'})
+                    </button>
+                </div>
             </div>
 
             {/* Medicines Table */}
             <div className='mb-10'>
-                <div className="overflow-x-auto">
-                    <table className="min-w-full table-auto border-collapse border border-gray-200">
-                        <thead className="bg-teal-600 text-white h-16">
-                            <tr>
-                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">#</th>
-                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Item Name</th>
-                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Generic Name</th>
-                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Category</th>
-                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Company</th>
-                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Unit Price</th>
-                                <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Discount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {sellerMedicines.map((medicine, index) => (
-                                <tr
-                                    key={medicine.id || index}
-                                    className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}
+                {filteredMedicines.length === 0 ? (
+                    <div className="text-center py-10">
+                        <h2 className="text-2xl font-semibold text-gray-600 mb-4">
+                            No medicines match your search. Try searching with different keywords!
+                        </h2>
+                    </div>
+                ) : (
+                    <>
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full table-auto border-collapse border border-gray-200">
+                                <thead className="bg-teal-600 text-white h-16">
+                                    <tr>
+                                        <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">#</th>
+                                        <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Item Name</th>
+                                        <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Generic Name</th>
+                                        <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Category</th>
+                                        <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Company</th>
+                                        <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Unit Price</th>
+                                        <th className="px-6 border-b text-left text-sm font-medium uppercase tracking-wider">Discount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {paginatedMedicines.map((medicine, idx) => (
+                                        <tr
+                                            key={medicine.id || idx}
+                                            className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-100'}
+                                        >
+                                            <td className="px-6 py-4 text-sm text-gray-700">
+                                                {idx + 1 + (currentPage - 1) * itemsPerPage}
+                                            </td>
+                                            <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{medicine.name}</td>
+                                            <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{medicine.genericName}</td>
+                                            <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{medicine.category}</td>
+                                            <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{medicine.company}</td>
+                                            <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">${medicine.pricePerUnit}</td>
+                                            <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{medicine.discountPercentage}%</td>
+                                        </tr>
+                                    ))}
+                                    {sellerMedicines.length === 0 && (
+                                        <tr>
+                                            <td colSpan="7" className="text-center py-4 text-gray-500">
+                                                No medicines added yet.
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="flex justify-center items-center mt-4 space-x-2">
+                            <button
+                                className="btn btn-sm bg-gray-200"
+                                disabled={currentPage === 1}
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                            >
+                                <HiArrowNarrowLeft />
+                            </button>
+                            {[...Array(totalPages)].map((_, index) => (
+                                <button
+                                    key={index}
+                                    className={`btn btn-sm ${currentPage === index + 1 ? 'bg-teal-600 text-white' : 'bg-gray-200'}`}
+                                    onClick={() => setCurrentPage(index + 1)}
                                 >
-                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{index + 1}</td>
-                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{medicine.name}</td>
-                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{medicine.genericName}</td>
-                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{medicine.category}</td>
-                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{medicine.company}</td>
-                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">${medicine.pricePerUnit}</td>
-                                    <td className="px-6 py-4 border-b text-sm md:text-base text-gray-700">{medicine.discountPercentage}%</td>
-                                </tr>
+                                    {index + 1}
+                                </button>
                             ))}
-                            {sellerMedicines.length === 0 && (
-                                <tr>
-                                    <td colSpan="7" className="text-center py-4 text-gray-500">
-                                        No medicines added yet.
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                            <button
+                                className="btn btn-sm bg-gray-200"
+                                disabled={currentPage === totalPages}
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                            >
+                                <HiArrowNarrowRight />
+                            </button>
+                        </div>
+                    </>
+                )}
+
             </div>
 
             {/* Add Medicine Modal */}
@@ -131,7 +217,7 @@ const ManageMedicines = () => {
                                     <input
                                         {...register("name", { required: true })}
                                         type="text"
-                                        
+
                                         placeholder="Enter item name"
                                         className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
                                     />
@@ -166,7 +252,7 @@ const ManageMedicines = () => {
                                     <label className="label text-lg font-medium text-gray-700">Upload Photo</label>
                                     <div className='flex items-center gap-5'>
                                         <div className='w-full'>
-                                            <input type="file" {...register("imageURL", { required: true })} className="file-input file-input-bordered w-full focus:outline-none focus:ring-1 focus:ring-teal-300 transition"  />
+                                            <input type="file" {...register("imageURL", { required: true })} className="file-input file-input-bordered w-full focus:outline-none focus:ring-1 focus:ring-teal-300 transition" />
                                             {errors.imageURL && <p className='text-red-600'>Image is required.</p>}
                                         </div>
                                     </div>
@@ -217,7 +303,7 @@ const ManageMedicines = () => {
                                     <input
                                         {...register("massUnit", { required: true })}
                                         type="text"
-                                        
+
                                         placeholder="Enter mass unit (e.g., 200mg or 200ml)"
                                         className="input input-bordered w-full px-4 py-2 rounded-md border-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-300 transition"
                                     />
