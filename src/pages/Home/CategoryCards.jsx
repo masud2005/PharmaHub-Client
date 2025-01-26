@@ -17,19 +17,19 @@ const CategoryCards = () => {
     });
 
     return (
-        <div className="container mx-auto px-2">
+        <div className="container mx-auto px-2 pt-8">
             <SectionTitle
                 heading={"Medicine Categories"}
                 subHeading={"Discover medicines by category with images and counts"}
             />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 ">
                 {categories.map((category, index) => (
                     <Link
                         to={`/categories/${category.category}`}
                         key={index}
-                        className="relative p-4 shadow-lg rounded-2xl bg-gradient-to-br from-white via-gray-50 to-gray-100 hover:shadow-xl transition duration-300 border border-teal-200"
+                        className="relative p-4 shadow-lg rounded bg-gradient-to-br from-white via-gray-50 to-gray-100 hover:shadow-xl transition duration-300 border border-teal-200"
                     >
-                        <div className="relative h-28 sm:h-36 md:h-32 xl:h-40 2xl:h-44 overflow-hidden rounded-md group">
+                        <div className="relative h-28 sm:h-36 md:h-32 xl:h-40 2xl:h-44 overflow-hidden rounded group">
                             <img
                                 src={category.imageURL}
                                 alt={category.category}

@@ -63,7 +63,7 @@ const Navbar = () => {
                     {/* Left Section: Logo */}
                     <div className="flex -ml-1 xl:-ml-2">
                         <img className='w-12' src="https://i.ibb.co.com/SRbh4WY/Pharma-removebg-preview.png" alt="Logo..." />
-                        <h1 className="text-3xl font-bold bg-gradient-to-r from-teal-700 to-teal-600 text-transparent bg-clip-text">PharmaHub</h1>
+                        <h1 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-pink-500 text-transparent bg-clip-text">PharmaHub</h1>
                     </div>
 
                     <div className='flex  gap-6'>

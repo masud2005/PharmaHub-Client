@@ -56,19 +56,19 @@ const Banner = () => {
             >
                 {advertise.map((ad, index) => (
                     <SwiperSlide key={index}>
-                        <div className="relative w-full h-[300px] md:h-[500px] xl:h-[650px] rounded-b-lg">
+                        <div className="relative w-full h-[300px] md:h-[460px] lg:h-[500px] 2xl:h-[580px] rounded-b-lg">
                             <img
                                 src={ad.image}
                                 alt={`Advertisement ${index + 1}`}
-                                className="absolute inset-0 w-full h-full object-cover rounded-b-lg"
+                                className="absolute inset-0 w-full h-full object-cover rounded-b-lg brightness-75"
                             />
                             {/* Overlay Text */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex flex-col justify-center items-center text-center p-5 rounded-b-lg">
-                                <div className="px-10 md:px-0 md:min-w-[680px] xl:min-w-[992px]">
-                                    <h3 className="text-white text-2xl md:text-4xl font-bold shadow-lg backdrop-blur-sm">
+                            <div className="absolute inset-0  to-transparent flex flex-col justify-center items-center text-center p-5 rounded-b-lg">
+                                <div className="min-w-[300px] md:px-0 md:min-w-[620px] lg:min-w-[768px] xl:min-w-[992px] bg-black/40 py-8">
+                                    <h3 className="text-white text-2xl md:text-4xl font-bold ">
                                         {ad.name || "Advertisement"}
                                     </h3>
-                                    <p className="text-white mt-2 text-sm md:text-base">
+                                    <p className="text-white mt-2 text-sm md:text-base overflow-visible">
                                         {ad.description || ""}
                                     </p>
                                 </div>
