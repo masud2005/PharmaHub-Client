@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import useAxiosPublic from '../../hooks/useAxiosPublic';
-import { GiCheckMark } from 'react-icons/gi';
 import { FaEye } from 'react-icons/fa';
-import SectionTitle from '../../components/Shared/SectionTitle/SectionTitle';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
-import useAuth from '../../hooks/useAuth';
+import { GiCheckMark } from 'react-icons/gi';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import SectionTitle from '../../components/Shared/SectionTitle/SectionTitle';
+import useAuth from '../../hooks/useAuth';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useCart from '../../hooks/useCart';
 
 const CategoryMedicinesDetails = () => {

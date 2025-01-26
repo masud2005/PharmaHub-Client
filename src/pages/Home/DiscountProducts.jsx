@@ -9,7 +9,7 @@ import 'swiper/css/pagination';
 // import './styles.css';
 
 // import required modules
-import { Pagination } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
 import useAxiosPublic from '../../hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 import SectionTitle from '../../components/Shared/SectionTitle/SectionTitle';
@@ -28,15 +28,18 @@ const DiscountProducts = () => {
     });
 
     return (
-        <div className='container mx-auto px-2'>
+        <div className='container mx-auto px-2 mb-10'>
             {/* Section Title */}
             <SectionTitle heading={'Discounted Products'} subHeading={'Grab deals on discounted items in a swipeable slider'} />
             <Swiper
                 // spaceBetween={10}
+                autoplay={{
+                    delay: 2000,
+                }}
                 pagination={{
                     clickable: true,
                 }}
-                modules={[Pagination]}
+                modules={[Pagination, Autoplay]}
                 className="mySwiper"
                 breakpoints={{
                     // when window width is >= 320px
@@ -77,7 +80,7 @@ const DiscountProducts = () => {
                                     className="w-full h-full object-cover"
                                 />
                                 {/* Overlay Text */}
-                                <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center text-white px-4">
+                                <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center text-white px-4">
                                     <h3 className="text-lg md:text-xl font-bold">{product.name}</h3>
                                     <p className="text-sm md:text-base mt-1">
                                         Price: <span className="line-through text-red-400">${product.pricePerUnit}</span>{" "}

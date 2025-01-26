@@ -6,7 +6,7 @@ import Footer from '../components/Shared/Footer/Footer';
 const MainLayout = () => {
     return (
         <div>
-            <div className='sticky top-0 z-50 bg-transparent bg-opacity-50 backdrop-blur-sm'>
+            <div className='sticky top-0 z-50 bg-teal-900/30 backdrop-blur-sm'>
                 <Navbar />
             </div>
             <div className='min-h-[calc(100vh-531px)]'>
