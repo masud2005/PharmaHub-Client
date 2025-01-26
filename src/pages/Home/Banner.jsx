@@ -11,13 +11,13 @@ const Banner = () => {
         queryKey: ["advertise"],
         queryFn: async () => {
             const res = await axiosPublic.get(`/approved-advertise`);
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         },
     });
 
     return (
-        <div className="relative">
+        <div className="relative ">
             <Carousel
                 autoPlay
                 infiniteLoop
@@ -27,7 +27,7 @@ const Banner = () => {
                 stopOnHover
                 interval={4000}
                 transitionTime={800}
-                className="rounded-lg overflow-hidden shadow-xl"
+                className="rounded-b-lg overflow-hidden shadow-xl"
             >
                 {advertise.map((ad, index) => (
                     <div
