@@ -24,7 +24,7 @@ const CategoryMedicinesDetails = () => {
         queryKey: ["categories", category],
         queryFn: async () => {
             const res = await axiosPublic.get(`/categories/${category}`);
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         },
     });
