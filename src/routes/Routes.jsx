@@ -24,12 +24,14 @@ import Home from "../pages/Home/Home";
 import CategoryMedicinesDetails from "../pages/Home/CategoryMedicinesDetails";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <MainLayout />,
+        errorElement: <ErrorPage />,
         children: [
             {
                 path: '/',
@@ -74,6 +76,7 @@ const router = createBrowserRouter([
     {
         path: '/dashboard',
         element: <PrivateRoute><Dashboard /></PrivateRoute>,
+        errorElement: <ErrorPage />,
         children: [
 
             // Admin Dashboard

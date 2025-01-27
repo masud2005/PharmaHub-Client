@@ -69,8 +69,8 @@ const Checkout = () => {
             console.log('Payment Intent', paymentIntent);
             if (paymentIntent.status === 'succeeded') {
                 const paymentInfo = {
-                    email: user.email,
-                    name: user.displayName,
+                    email: user?.email,
+                    name: user?.displayName,
                     price: totalPrice,
                     transactionId: paymentIntent.id,
                     cartIds: cart.map(item => item._id),

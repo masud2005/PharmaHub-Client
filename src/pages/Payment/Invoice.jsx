@@ -56,7 +56,7 @@ const Invoice = () => {
                         <strong>Transaction ID:</strong> {transactionId || "Not Available"}
                     </p>
                     <p>
-                        <strong>Total Price:</strong> ₹{price ||"0"}
+                        <strong>Total Price:</strong> ₹{price || "0"}
                     </p>
                     {/* <p>
                         <strong>Status:</strong> {"Pending"}

@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useRole from "../hooks/useRole";
+import Loading from "../components/Loading/Loading";
 
 const AdminRoute = ({ children }) => {
 
@@ -8,7 +9,7 @@ const AdminRoute = ({ children }) => {
     const [role, isLoading] = useRole();
 
     if (loading || isLoading) {
-        return <h1 className='text-5xl font-bold'>Loading...</h1>
+        return <Loading />
     }
 
     if (user && role === 'Admin') {
