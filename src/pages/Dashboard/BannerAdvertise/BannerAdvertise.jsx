@@ -115,6 +115,13 @@ const BannerAdvertise = () => {
                                 </td>
                             </tr>
                         ))}
+                        {bannerAdvertise.length === 0 && (
+                            <tr>
+                                <td colSpan="5" className="text-center py-4 text-gray-500">
+                                    No advertise available.
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </div>

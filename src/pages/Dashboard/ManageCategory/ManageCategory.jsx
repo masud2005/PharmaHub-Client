@@ -220,7 +220,7 @@ const ManageCategory = () => {
                     filteredMedicines.length === 0 ? (
                         <div className="text-center py-10">
                             <h2 className="text-2xl font-semibold text-gray-600 mb-4">
-                                No medicines match your search. Try searching with different keywords!
+                                No medicines Found!
                             </h2>
                         </div>
                     ) :

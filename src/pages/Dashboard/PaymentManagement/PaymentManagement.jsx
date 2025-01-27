@@ -72,8 +72,8 @@ const PaymentManagement = () => {
                                 <td className="px-6 py-4 border-b text-sm md:text-base">
                                     <span
                                         className={`px-3 py-1 inline-flex leading-tight rounded-full ${payment.status === 'Paid'
-                                                ? 'bg-green-100 text-green-700'
-                                                : 'bg-yellow-100 text-yellow-700'
+                                            ? 'bg-green-100 text-green-700'
+                                            : 'bg-yellow-100 text-yellow-700'
                                             }`}
                                     >
                                         {payment.status}
@@ -84,8 +84,8 @@ const PaymentManagement = () => {
                                         disabled={payment.status !== 'Pending'}
                                         onClick={() => handleAcceptPayment(payment._id)}
                                         className={`w-36 text-sm md:text-base py-2 px-3 rounded ${payment.status !== 'Pending'
-                                                ? 'bg-gray-300 cursor-not-allowed text-black'
-                                                : 'bg-teal-600 hover:bg-teal-700 text-white'
+                                            ? 'bg-gray-300 cursor-not-allowed text-black'
+                                            : 'bg-teal-600 hover:bg-teal-700 text-white'
                                             }`}
                                     >
                                         {payment.status === 'Pending' ? 'Accept Payment' : 'Already Paid'}
@@ -93,6 +93,13 @@ const PaymentManagement = () => {
                                 </td>
                             </tr>
                         ))}
+                        {payments.length === 0 && (
+                            <tr>
+                                <td colSpan="5" className="text-center py-4 text-gray-500">
+                                    No payments available.
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </div>

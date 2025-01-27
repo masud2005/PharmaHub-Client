@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { FaEye } from 'react-icons/fa';
 import { GiCheckMark } from 'react-icons/gi';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import SectionTitle from '../../components/Shared/SectionTitle/SectionTitle';
 import useAuth from '../../hooks/useAuth';
@@ -21,6 +21,7 @@ const CategoryMedicinesDetails = () => {
     const [selectedMedicine, setSelectedMedicine] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [, refetch] = useCart();
+    const navigate = useNavigate();
 
     const { data: categories = [] } = useQuery({
         queryKey: ["categories", category],
