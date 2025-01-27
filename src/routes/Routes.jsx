@@ -25,6 +25,7 @@ import CategoryMedicinesDetails from "../pages/Home/CategoryMedicinesDetails";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import UpdateProfile from "../pages/UpdateProfile/UpdateProfile";
 
 
 const router = createBrowserRouter([
@@ -67,7 +68,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/update-profile',
-                element: <h1>Update Profile</h1>
+                element: <UpdateProfile />
             }
         ]
     },

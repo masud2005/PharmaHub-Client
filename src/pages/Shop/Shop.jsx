@@ -90,6 +90,9 @@ const Shop = () => {
                 text: "Please login to add to the cart?",
                 icon: "warning",
                 showCancelButton: true,
+                customClass: {
+                    confirmButton: 'bg-teal-600',
+                },
                 confirmButtonText: "Yes, login!"
             }).then((result) => {
                 if (result.isConfirmed) {

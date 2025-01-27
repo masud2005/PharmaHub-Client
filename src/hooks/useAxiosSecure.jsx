@@ -13,7 +13,7 @@ const useAxiosSecure = () => {
     const navigate = useNavigate();
     const { signOutUser } = useAuth()
 
-    let isLoggingOut = false;
+    // let isLoggingOut = false;
 
     // request interceptor to add authorization header for every secure call to the api
     axiosSecure.interceptors.request.use(function (config) {
@@ -36,29 +36,29 @@ const useAxiosSecure = () => {
         // for 401 or 403 logout the user and move the user to the login
         if (status === 401) {
             // toast.error("Unauthorized access. Please login again to continue.");
-            Swal.fire({
-                title: 'Unauthorized access',
-                text: 'Please login again to continue.',
-                icon: 'error',
-                confirmButtonText: 'OK',
-                customClass: {
-                    confirmButton: 'bg-red-500'
-                }
-            })
+            // Swal.fire({
+            //     title: 'Unauthorized access',
+            //     text: 'Please login again to continue.',
+            //     icon: 'error',
+            //     confirmButtonText: 'OK',
+            //     customClass: {
+            //         confirmButton: 'bg-red-500'
+            //     }
+            // })
             await signOutUser();
             navigate('/sign-in')
         }
         else if (status === 403) {
             // toast.error("Forbidden access. You don't have permission to perform this action.");
-            Swal.fire({
-                title: 'Forbidden access',
-                text: "You don't have permission to perform this action.",
-                icon: 'error',
-                confirmButtonText: 'OK',
-                customClass: {
-                    confirmButton: 'bg-red-500'
-                }
-            })
+            // Swal.fire({
+            //     title: 'Forbidden access',
+            //     text: "You don't have permission to perform this action.",
+            //     icon: 'error',
+            //     confirmButtonText: 'OK',
+            //     customClass: {
+            //         confirmButton: 'bg-red-500'
+            //     }
+            // })
             await signOutUser();
             navigate('/sign-in')
         }

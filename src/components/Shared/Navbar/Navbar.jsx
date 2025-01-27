@@ -1,13 +1,11 @@
 
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { IoIosArrowDown, IoMdClose, IoMdMenu } from 'react-icons/io';
-import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
+import React, { useRef, useState } from 'react';
 import { FaBars, FaCartPlus } from 'react-icons/fa6';
-import useAuth from '../../../hooks/useAuth';
-import Swal from 'sweetalert2';
-import useCart from '../../../hooks/useCart';
+import { IoIosArrowDown, IoMdClose, IoMdMenu } from 'react-icons/io';
+import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import useAuth from '../../../hooks/useAuth';
+import useCart from '../../../hooks/useCart';
 
 const Navbar = () => {
     const { user, signOutUser } = useAuth();
@@ -19,25 +17,6 @@ const Navbar = () => {
     const [cart] = useCart()
     // console.log(cart);
 
-    // Theme Loaded localStorage 
-    useEffect(() => {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            setIsDarkMode(true);
-            document.documentElement.setAttribute('data-theme', 'dark');
-        } else {
-            setIsDarkMode(false);
-            document.documentElement.setAttribute('data-theme', 'light');
-        }
-    }, []);
-
-    // Theme Changes
-    const toggleTheme = () => {
-        const newTheme = !isDarkMode ? 'dark' : 'light';
-        setIsDarkMode(!isDarkMode);
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-    };
 
     // Toggle profile dropdown
     const toggleProfileDropdown = () => {
@@ -175,19 +154,6 @@ const Navbar = () => {
                                     </NavLink>
                                 </div>
                             )}
-
-                            {/* Theme Toggle Button */}
-                            <button
-                                onClick={toggleTheme}
-                                className={`w-12 h-12 flex items-center justify-center rounded-full ${isDarkMode ? "bg-gray-700 text-white" : "bg-gray-200"
-                                    } shadow-md transition-transform transform hover:scale-110`}
-                            >
-                                {isDarkMode ? (
-                                    <MdOutlineLightMode size={24} />
-                                ) : (
-                                    <MdOutlineDarkMode size={24} />
-                                )}
-                            </button>
                         </div>
 
 
@@ -200,16 +166,6 @@ const Navbar = () => {
 
 
                 {/* Mobile Menu */}
-                <button
-                    onClick={toggleTheme}
-                    className={`w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 shadow-md transition-transform transform hover:scale-110 absolute top-6 right-14 lg:hidden`}
-                >
-                    {isDarkMode ? (
-                        <MdOutlineLightMode size={24} />
-                    ) : (
-                        <MdOutlineDarkMode size={24} />
-                    )}
-                </button>
                 <div className={`${menuOpen ? 'left-0' : '-left-[100%]'} absolute duration-500 w-full bg-gray-50/95 `}>
                     <div className={`flex-col lg:hidden gap-4 py-4 px-4 space-y-2 font-medium`}>
                         <NavLink to="/" className={({ isActive }) => isActive ? 'block text-lg font-semibold border-b-2 border-teal-600 text-teal-600' : 'block text-base hover:text-teal-600 pt-2'} onClick={() => setMenuOpen(false)}>Home</NavLink>

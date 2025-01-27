@@ -60,7 +60,7 @@ const Banner = () => {
                             <img
                                 src={ad.image}
                                 alt={`Advertisement ${index + 1}`}
-                                className="absolute inset-0 w-full h-full object-cover rounded-b-lg brightness-75"
+                                className="absolute inset-0 w-full h-full object-center rounded-b-lg brightness-75"
                             />
                             {/* Overlay Text */}
                             <div className="absolute inset-0  to-transparent flex flex-col justify-center items-center text-center p-5 rounded-b-lg">
