@@ -9,6 +9,7 @@ import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import SectionTitle from "../../../components/Shared/SectionTitle/SectionTitle";
+import { Helmet } from "react-helmet-async";
 
 const SalesReport = () => {
     const axiosSecure = useAxiosSecure();
@@ -159,6 +160,9 @@ const SalesReport = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Sales Report || Dashboard || PharmaHub</title>
+            </Helmet>
             {/* <h2 className="text-2xl font-bold mb-4 text-teal-700">Sales Report</h2> */}
             <SectionTitle heading={'Sales Report'} subHeading={'View, filter, and download sales data in various formats (PDF, DOC, CSV, XLSX)'} />
             <div className="lg:flex items-center justify-between gap-4 mb-4">

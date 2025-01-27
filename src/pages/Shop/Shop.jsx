@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import useCart from '../../hooks/useCart';
 import { toast } from 'react-toastify';
 import SectionTitle from '../../components/Shared/SectionTitle/SectionTitle';
+import { Helmet } from 'react-helmet-async';
 
 const Shop = () => {
     const axiosPublic = useAxiosPublic();
@@ -105,6 +106,10 @@ const Shop = () => {
 
     return (
         <div className="container mx-auto pb-10 px-2">
+            <Helmet>
+                <title>Shop || PharmaHub</title>
+            </Helmet>
+
             <SectionTitle heading={'Medicine Store'} subHeading={'View medicines and add to cart or see details'} />
             <div >
                 <div className="lg:flex justify-between items-center my-5">

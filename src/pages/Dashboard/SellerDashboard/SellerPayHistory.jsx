@@ -3,6 +3,7 @@ import React from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAuth from '../../../hooks/useAuth';
 import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
+import { Helmet } from 'react-helmet-async';
 
 const SellerPayHistory = () => {
     const axiosSecure = useAxiosSecure();
@@ -18,6 +19,9 @@ const SellerPayHistory = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Payment History || Dashboard || PharmaHub</title>
+            </Helmet>
             {/* Section Title */}
             <SectionTitle heading={'Payment History'} subHeading={'Review all payments received for your sold medicines.'} />
 

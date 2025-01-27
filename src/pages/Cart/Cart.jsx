@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import useAuth from "../../hooks/useAuth";
 import SectionTitle from "../../components/Shared/SectionTitle/SectionTitle";
+import { Helmet } from "react-helmet-async";
 
 const Cart = () => {
     const { user } = useAuth();
@@ -78,8 +79,11 @@ const Cart = () => {
 
     return (
         <div className="container mx-auto py-10 px-5 xl:px-0">
-           
-           {/* Section Header */}
+            <Helmet>
+                <title>My Cart || PharmaHub</title>
+            </Helmet>
+
+            {/* Section Header */}
             <SectionTitle heading={'My Cart'} subHeading={'Manage your cart and proceed to checkout'} />
 
             {cart.length === 0 ? (
@@ -88,7 +92,7 @@ const Cart = () => {
                 </p>
             ) : (
                 <div className="space-y-6">
-                     <h2 className="text-2xl font-semibold text-teal-600 mb-6">Your Cart ({cart.length})</h2>
+                    <h2 className="text-2xl font-semibold text-teal-600 mb-6">Your Cart ({cart.length})</h2>
                     {cart.map((item) => (
                         <div
                             key={item._id}

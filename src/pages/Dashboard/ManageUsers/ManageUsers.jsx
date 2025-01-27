@@ -3,6 +3,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
+import { Helmet } from 'react-helmet-async';
 
 const ManageUsers = () => {
     const axiosSecure = useAxiosSecure();
@@ -27,6 +28,9 @@ const ManageUsers = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Manage Users || Dashboard || PharmaHub</title>
+            </Helmet>
             {/* Heading */}
             <SectionTitle heading={'Manage Users'} subHeading={'Upgrade or downgrade user roles with ease'} />
 

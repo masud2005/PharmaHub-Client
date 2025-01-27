@@ -10,6 +10,7 @@ import useAxiosPublic from '../../hooks/useAxiosPublic';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useCart from '../../hooks/useCart';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet-async';
 
 const CategoryMedicinesDetails = () => {
     const { category } = useParams();
@@ -82,6 +83,11 @@ const CategoryMedicinesDetails = () => {
 
     return (
         <div className='container mx-auto px-2'>
+
+            <Helmet>
+                <title>Category Details || PharmaHub</title>
+            </Helmet>
+
             <SectionTitle heading={`${category} Category`} subHeading={'View details and add medicines to your cart by category'} />
             <div className='mb-10 overflow-x-auto'>
                 {categories.length === 0 ? (

@@ -3,6 +3,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
+import { Helmet } from 'react-helmet-async';
 
 const PaymentManagement = () => {
     const axiosSecure = useAxiosSecure();
@@ -29,6 +30,9 @@ const PaymentManagement = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Payment Management || Dashboard || PharmaHub</title>
+            </Helmet>
             {/* Header */}
             <SectionTitle heading={'Payment Management'} subHeading={"View and manage all payments. Approve pending payments with a single click"} />
 
@@ -67,11 +71,10 @@ const PaymentManagement = () => {
                                 </td>
                                 <td className="px-6 py-4 border-b text-sm md:text-base">
                                     <span
-                                        className={`px-3 py-1 inline-flex leading-tight rounded-full ${
-                                            payment.status === 'Paid'
+                                        className={`px-3 py-1 inline-flex leading-tight rounded-full ${payment.status === 'Paid'
                                                 ? 'bg-green-100 text-green-700'
                                                 : 'bg-yellow-100 text-yellow-700'
-                                        }`}
+                                            }`}
                                     >
                                         {payment.status}
                                     </span>
@@ -80,11 +83,10 @@ const PaymentManagement = () => {
                                     <button
                                         disabled={payment.status !== 'Pending'}
                                         onClick={() => handleAcceptPayment(payment._id)}
-                                        className={`w-36 text-sm md:text-base py-2 px-3 rounded ${
-                                            payment.status !== 'Pending'
+                                        className={`w-36 text-sm md:text-base py-2 px-3 rounded ${payment.status !== 'Pending'
                                                 ? 'bg-gray-300 cursor-not-allowed text-black'
                                                 : 'bg-teal-600 hover:bg-teal-700 text-white'
-                                        }`}
+                                            }`}
                                     >
                                         {payment.status === 'Pending' ? 'Accept Payment' : 'Already Paid'}
                                     </button>

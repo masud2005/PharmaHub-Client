@@ -9,6 +9,7 @@ import SectionTitle from "../../../components/Shared/SectionTitle/SectionTitle";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useImageUpload from "../../../hooks/useImageUpload";
+import { Helmet } from "react-helmet-async";
 
 const ManageCategory = () => {
     const axiosSecure = useAxiosSecure();
@@ -178,6 +179,9 @@ const ManageCategory = () => {
 
     return (
         <div className="">
+            <Helmet>
+                <title>Manage Category || Dashboard || PharmaHub</title>
+            </Helmet>
             {/* Header */}
             <SectionTitle heading={'Manage Categories'} subHeading={"Add, update, or delete medicine categories easily."} />
 

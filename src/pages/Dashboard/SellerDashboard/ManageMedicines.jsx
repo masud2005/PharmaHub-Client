@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { useQuery } from '@tanstack/react-query';
 import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
 import { useForm } from 'react-hook-form';
+import { Helmet } from 'react-helmet-async';
 
 const ManageMedicines = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -91,6 +92,9 @@ const ManageMedicines = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Manage Medicines || Dashboard || PharmaHub</title>
+            </Helmet>
             {/* Manage Medicines Header */}
             <SectionTitle heading={'medicine'} subHeading={"View and manage your added medicines"} />
 

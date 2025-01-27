@@ -4,6 +4,7 @@ import './invoice.css'
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
+import { Helmet } from 'react-helmet-async';
 
 const Invoice = () => {
 
@@ -20,6 +21,9 @@ const Invoice = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Invoice || PharmaHub</title>
+            </Helmet>
             {/* Invoice Content */}
             <div id="invoice" className="max-w-4xl h-[96%] mx-auto p-10 bg-white shadow-lg my-10">
                 {/* Invoice Header */}

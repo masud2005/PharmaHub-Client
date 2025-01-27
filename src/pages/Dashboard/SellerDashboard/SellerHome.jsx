@@ -3,6 +3,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
 import useAuth from '../../../hooks/useAuth';
+import { Helmet } from 'react-helmet-async';
 
 const SellerHome = () => {
     const axiosSecure = useAxiosSecure();
@@ -29,6 +30,10 @@ const SellerHome = () => {
 
     return (
         <div className="mt-10">
+            <Helmet>
+                <title>Home || Dashboard || PharmaHub</title>
+            </Helmet>
+
             <SectionTitle heading={'Seller Dashboard'} subHeading={"Overview of your platform's performance and statistics"} />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">

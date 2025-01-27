@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
 import useAuth from '../../../hooks/useAuth';
 import { useForm } from 'react-hook-form';
+import { Helmet } from 'react-helmet-async';
 
 const Advertisement = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -50,6 +51,10 @@ const Advertisement = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Advertisement || Dashboard || PharmaHub</title>
+            </Helmet>
+
             <SectionTitle heading={'Advertisement'} subHeading={"Manage and add medicine advertisements easily"} />
 
             {/*All Advertise & Add Advertise Button*/}

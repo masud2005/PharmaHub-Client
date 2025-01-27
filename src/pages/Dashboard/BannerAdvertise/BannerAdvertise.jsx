@@ -3,6 +3,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
 import { toast } from 'react-toastify';
+import { Helmet } from 'react-helmet-async';
 
 const BannerAdvertise = () => {
     const axiosSecure = useAxiosSecure();
@@ -41,6 +42,9 @@ const BannerAdvertise = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Banner Advertise || Dashboard || PharmaHub</title>
+            </Helmet>
             {/* Header */}
             <SectionTitle heading={'Banner Management'} subHeading={"Toggle medicines for the homepage slider"} />
 

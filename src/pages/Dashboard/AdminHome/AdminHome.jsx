@@ -2,6 +2,7 @@ import React from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
+import { Helmet } from 'react-helmet-async';
 
 const AdminHome = () => {
     const axiosSecure = useAxiosSecure();
@@ -27,6 +28,9 @@ const AdminHome = () => {
 
     return (
         <div className="mt-10">
+            <Helmet>
+                <title>Home || Dashboard || PharmaHub</title>
+            </Helmet>
             {/* Admin Dashboard Header */}
             <SectionTitle heading={'Admin Dashboard'} subHeading={"Overview of your platform's performance and statistics"} />
 
