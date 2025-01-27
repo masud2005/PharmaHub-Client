@@ -12,7 +12,7 @@ const SellerPayHistory = () => {
     const { data: payments = [] } = useQuery({
         queryKey: ['payments', user?.email],
         queryFn: async () => {
-            const res = await axiosSecure.get(`http://localhost:5000/seller-pay-history/${user?.email}`);
+            const res = await axiosSecure.get(`https://pharma-hub-server.vercel.app/seller-pay-history/${user?.email}`);
             return res.data;
         }
     });

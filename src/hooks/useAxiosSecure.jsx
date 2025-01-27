@@ -6,7 +6,7 @@ import { el } from "date-fns/locale";
 import Swal from "sweetalert2";
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: 'https://pharma-hub-server.vercel.app'
 })
 
 const useAxiosSecure = () => {
