@@ -10,9 +10,9 @@ const ErrorPage = () => {
                 <title>404 Page Not Found | Query Hive</title>
             </Helmet> */}
 
-            <h1 className='text-9xl font-semibold text-gray-500'>404</h1>
+            <h1 className='text-9xl font-semibold text-red-500'>404</h1>
             <h2 className='text-5xl font-medium text-gray-500 py-3'>Page Not Found</h2>
-            <Link to={'/'} className='text-lg text-purple-700 underline'>Go To Home Page</Link>
+            <Link to={'/'} className='text-lg text-teal-500 underline'>Go To Home Page</Link>
         </div>
     );
 };

@@ -1,9 +1,27 @@
 import { FaHome } from "react-icons/fa";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Dashboard/Sidebar/Sidebar";
+import { useEffect } from "react";
+import useRole from "../hooks/useRole";
 
 
 const Dashboard = () => {
+    const navigate = useNavigate();
+    const [role, isLoading] = useRole();
+    // console.log(role);
+
+    useEffect(() => {
+        if (!isLoading) {
+            if (role === "Admin") {
+                navigate("/dashboard/admin-home", { replace: true });
+            } else if (role === "Seller") {
+                navigate("/dashboard/seller-home", { replace: true });
+            } else if (role === "User") {
+                navigate("/dashboard/pay-history", { replace: true });
+            }
+        }
+    }, [role, isLoading, navigate]);
+
     return (
         <div className='relative md:flex md:h-screen bg-white'>
             {/* <Sidebar /> */}
