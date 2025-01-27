@@ -1,15 +1,14 @@
-import React, { useState } from "react";
-import DataTable from "react-data-table-component";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { saveAs } from "file-saver";
-import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import SectionTitle from "../../../components/Shared/SectionTitle/SectionTitle";
+import React, { useState } from "react";
+import DataTable from "react-data-table-component";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { Helmet } from "react-helmet-async";
+import * as XLSX from "xlsx";
+import SectionTitle from "../../../components/Shared/SectionTitle/SectionTitle";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const SalesReport = () => {
     const axiosSecure = useAxiosSecure();
@@ -21,7 +20,7 @@ const SalesReport = () => {
         queryKey: ["payments"],
         queryFn: async () => {
             const res = await axiosSecure.get("/payments");
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         },
     });

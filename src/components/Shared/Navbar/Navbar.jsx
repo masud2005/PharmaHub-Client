@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { IoIosArrowDown, IoMdClose, IoMdMenu } from 'react-icons/io';
 import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
-import { FaCartPlus } from 'react-icons/fa6';
+import { FaBars, FaCartPlus } from 'react-icons/fa6';
 import useAuth from '../../../hooks/useAuth';
 import Swal from 'sweetalert2';
 import useCart from '../../../hooks/useCart';
@@ -98,34 +98,89 @@ const Navbar = () => {
                         </div>
 
                         {/* Right Section: Login/Register Buttons */}
-                        <div className="hidden lg:flex gap-3 items-center ">
-                            {
-                                user ? <div className="flex items-center gap-3">
-                                    <div className='relative'>
-                                        <img onClick={toggleProfileDropdown} data-tooltip-id="my-tooltip-1" className="rounded-full w-12 h-12 border border-teal-600 shadow-md transition-transform transform hover:scale-110" src={user?.photoURL || 'https://img.icons8.com/?size=48&id=z-JBA_KtSkxG&format=png'} alt="" />
-                                        {profileOpen && (
-                                            <div className="absolute right-0 mt-2 bg-white border rounded shadow-lg">
-                                                <ul className="p-3 text-nowrap space-y-3 text-center">
-                                                    <li>
-                                                        <NavLink to={'/update-profile'} className={({ isActive }) => isActive ? 'font-semibold border-b-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-100' : 'font-medium hover:text-teal-600'}>Update Profile</NavLink>
-                                                    </li>
-                                                    <li>
-                                                        <NavLink to={'/dashboard'} className={({ isActive }) => isActive ? 'font-semibold border-b-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-100' : 'font-medium hover:text-teal-600'}>Dashboard</NavLink>
-                                                    </li>
-                                                    <button onClick={handleLogOut} className="px-3 py-2 border-teal-600 bg-teal-600 hover:bg-teal-500 text-white transition-colors duration-500 text-base  font-medium w-full">Log Out</button>
-                                                </ul>
-                                            </div>
-                                        )}
+                        <div className="hidden lg:flex gap-6 items-center">
+                            {user ? (
+                                <div className="relative">
+                                    {/* Profile Section */}
+                                    <div
+                                        onClick={toggleProfileDropdown}
+                                        className="flex items-center gap-3 cursor-pointer"
+                                    >
+                                        <div className="border border-teal-500 rounded-full flex items-center gap-2 pr-2 pl-4 py-[2px]">
+                                            <FaBars size={21} />
+                                            <img
+                                                data-tooltip-id="my-tooltip-1"
+                                                className="rounded-full w-10 h-10 border shadow-md "
+                                                src={
+                                                    user?.photoURL ||
+                                                    "https://img.icons8.com/?size=48&id=z-JBA_KtSkxG&format=png"
+                                                }
+                                                alt="Profile"
+                                            />
+                                        </div>
                                     </div>
-                                </div> :
-                                    <div className='flex gap-6 items-center'>
-                                        <NavLink to="/sign-up" className={({ isActive }) => isActive ? 'font-semibold border-b-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-100' : 'font-medium hover:text-teal-600'}>Join Us</NavLink>
-                                        {/* <NavLink to="/register" className={({ isActive }) => isActive ? 'font-semibold border-b-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-100' : 'font-medium hover:text-teal-600'}>Register</NavLink> */}
-                                    </div>
-                            }
+
+                                    {/* Profile Dropdown */}
+                                    {profileOpen && (
+                                        <div className="absolute top-12 right-0 bg-white border rounded-lg shadow-lg w-48 z-10">
+                                            <ul className="px-4 py-3 text-sm md:text-base space-y-3">
+                                                <li>
+                                                    <NavLink
+                                                        to={"/update-profile"}
+                                                        className={({ isActive }) =>
+                                                            isActive
+                                                                ? "font-semibold border-b-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-100"
+                                                                : " hover:text-teal-600"
+                                                        }
+                                                    >
+                                                        Update Profile
+                                                    </NavLink>
+                                                </li>
+                                                <li>
+                                                    <NavLink
+                                                        to={"/dashboard"}
+                                                        className={({ isActive }) =>
+                                                            isActive
+                                                                ? "font-semibold border-b-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-100"
+                                                                : " hover:text-teal-600"
+                                                        }
+                                                    >
+                                                        Dashboard
+                                                    </NavLink>
+                                                </li>
+                                                <li>
+                                                    <button
+                                                        onClick={handleLogOut}
+                                                        className="px-3 py-2 w-full bg-teal-600 hover:bg-teal-500 text-white font-medium rounded-md transition-colors duration-300"
+                                                    >
+                                                        Log Out
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                <div className="flex gap-6 items-center">
+                                    {/* Join Us Button */}
+                                    <NavLink
+                                        to="/sign-up"
+                                        className={({ isActive }) =>
+                                            isActive
+                                                ? "font-semibold border-b-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-100"
+                                                : "font-medium hover:text-teal-600"
+                                        }
+                                    >
+                                        Join Us
+                                    </NavLink>
+                                </div>
+                            )}
+
+                            {/* Theme Toggle Button */}
                             <button
                                 onClick={toggleTheme}
-                                className={`w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 shadow-md transition-transform transform hover:scale-110`}
+                                className={`w-12 h-12 flex items-center justify-center rounded-full ${isDarkMode ? "bg-gray-700 text-white" : "bg-gray-200"
+                                    } shadow-md transition-transform transform hover:scale-110`}
                             >
                                 {isDarkMode ? (
                                     <MdOutlineLightMode size={24} />
@@ -134,6 +189,7 @@ const Navbar = () => {
                                 )}
                             </button>
                         </div>
+
 
                     </div>
                     {/* Hamburger Menu for Mobile */}
@@ -179,10 +235,13 @@ const Navbar = () => {
                             {
                                 user ? <div className="flex items-center gap-3">
                                     <div className='relative'>
-                                        <img onClick={toggleProfileDropdown} data-tooltip-id="my-tooltip-1" className="rounded-full w-12 h-12 border border-teal-600 shadow-md transition-transform transform hover:scale-110" src={user?.photoURL || 'https://img.icons8.com/?size=48&id=z-JBA_KtSkxG&format=png'} alt="" />
+                                        <div onClick={toggleProfileDropdown} className='flex items-center gap-3 border border-teal-500 rounded-full pr-2 pl-4 py-[2px]'>
+                                            <FaBars size={21} />
+                                            <img data-tooltip-id="my-tooltip-1" className="rounded-full w-10 h-10 border shadow-md transition-transform transform hover:scale-110" src={user?.photoURL || 'https://img.icons8.com/?size=48&id=z-JBA_KtSkxG&format=png'} alt="" />
+                                        </div>
                                         {profileOpen && (
                                             <div className="absolute right-0 mt-2 bg-white border rounded shadow-lg">
-                                                <ul className="p-3 text-nowrap space-y-3 text-center">
+                                                <ul className="px-4 py-3 text-nowrap space-y-3">
                                                     <li>
                                                         <NavLink to={'/update-profile'} className={({ isActive }) => isActive ? 'font-semibold border-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-50' : 'font-medium hover:text-teal-600'}>Update Profile</NavLink>
                                                     </li>

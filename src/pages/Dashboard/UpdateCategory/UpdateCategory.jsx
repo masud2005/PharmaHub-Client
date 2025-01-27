@@ -13,13 +13,13 @@ const UpdateCategory = () => {
         queryKey: ["medicines"],
         queryFn: async () => {
             const res = await axiosSecure.get(`/medicines/${id}`);
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         },
     });
 
     const onSubmit = async (data) => {
-        console.log(data);
+        // console.log(data);
     }
 
     return (

@@ -12,13 +12,13 @@ const BannerAdvertise = () => {
         queryKey: ['bannerAdvertise'],
         queryFn: async () => {
             const res = await axiosSecure.get('/all-advertise');
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         }
     })
 
     const handleAddOrRemoveSlide = async (item) => {
-        console.log(item);
+        // console.log(item);
 
         let status;
         if (item.status === 'Pending') {
@@ -26,7 +26,7 @@ const BannerAdvertise = () => {
         } else {
             status = 'Pending';
         }
-        console.log(status);
+        // console.log(status);
 
         try {
             const res = await axiosSecure.patch(`/all-advertise/${item._id}`, { status });

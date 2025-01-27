@@ -25,7 +25,7 @@ const ManageMedicines = () => {
         queryKey: ['sellerMedicines', user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/medicines/${user?.email}`)
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         }
     })
@@ -52,7 +52,7 @@ const ManageMedicines = () => {
             sellerName: user?.displayName,
             sellerEmail: user?.email,
         }
-        console.log(medicineInfo);
+        // console.log(medicineInfo);
 
         const res = await axiosSecure.post('/medicines', medicineInfo)
         // console.log(res.data);

@@ -45,7 +45,7 @@ const ManageCategory = () => {
 
 
     const onSubmit = async (data) => {
-        console.log(data);
+        // console.log(data);
         // Upload Image ImageBB
         const imageFile = data.imageURL[0];
         const uploadImageURL = await uploadImage(imageFile);
@@ -64,7 +64,7 @@ const ManageCategory = () => {
             sellerName: user?.displayName,
             sellerEmail: user?.email,
         }
-        console.log(medicineInfo);
+        // console.log(medicineInfo);
 
         const res = await axiosSecure.post('/medicines', medicineInfo)
         // console.log(res.data);
@@ -88,7 +88,7 @@ const ManageCategory = () => {
             if (result.isConfirmed) {
                 try {
                     const res = await axiosSecure.delete(`/medicines/${categoryId}`);
-                    console.log(res.data);
+                    // console.log(res.data);
                     if (res.data.deletedCount > 0) {
                         toast.success("Successfully deleted.");
                         refetch();

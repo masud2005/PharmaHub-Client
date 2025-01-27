@@ -15,7 +15,7 @@ const Checkout = () => {
     const [cart, refetch] = useCart();
     const { user } = useAuth();
     const navigate = useNavigate();
-    console.log(cart);
+    // console.log(cart);
 
     const totalPrice = cart.reduce((total, item) => total + item.pricePerUnit, 0);
 
@@ -45,11 +45,11 @@ const Checkout = () => {
             card,
         });
         if (error) {
-            console.log(error.message);
+            // console.log(error.message);
             // setError(error.message);
             toast.error(error.message);
         } else {
-            console.log('Payment Method', paymentMethod);
+            // console.log('Payment Method', paymentMethod);
             // setError('');
         }
 
@@ -64,9 +64,9 @@ const Checkout = () => {
         });
 
         if (confirmError) {
-            console.log('Confirm error', confirmError);
+            // console.log('Confirm error', confirmError);
         } else {
-            console.log('Payment Intent', paymentIntent);
+            // console.log('Payment Intent', paymentIntent);
             if (paymentIntent.status === 'succeeded') {
                 const paymentInfo = {
                     email: user?.email,
