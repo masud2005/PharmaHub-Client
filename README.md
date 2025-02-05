@@ -6,6 +6,11 @@ Our platform combines advanced technology with user-friendly features to ensure 
 
 ---
 
+## Website Preview
+<div align="center">
+  <img src="https://i.ibb.co.com/VYQq3wKc/medicine.png" alt="Medicine" width="100%" />
+</div>
+
 ## 🌐 Live Website
 **[Visit PharmaHub Live](https://pharma-hub-e7b67.web.app)**
 
