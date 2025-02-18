@@ -8,6 +8,7 @@ import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { toast } from 'react-toastify';
 import useCart from '../../hooks/useCart';
+import Swal from 'sweetalert2';
 
 const FeaturedMedicines = () => {
     const axiosPublic = useAxiosPublic();

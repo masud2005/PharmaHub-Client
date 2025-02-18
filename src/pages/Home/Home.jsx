@@ -7,6 +7,7 @@ import Testimonials from './Testimonials';
 import { Helmet } from 'react-helmet-async';
 import FeaturedMedicines from './FeaturedMedicines';
 import FAQ from './FAQ';
+import WhyChooseUs from './WhyChooseUs';
 
 const Home = () => {
     return (
@@ -21,6 +22,7 @@ const Home = () => {
             <DiscountProducts />
             <HealthTips />
             <Testimonials />
+            <WhyChooseUs />
             <FAQ />
         </div>
     );

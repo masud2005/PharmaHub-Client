@@ -49,7 +49,7 @@ const Testimonials = () => {
 
     return (
         <div>
-            <div className=" py-10 px-5 container mx-auto">
+            <div className=" py-10 px-2 container mx-auto">
                 <SectionTitle heading={'What Customers Say'} subHeading={'Trusted by many, loved by all'} />
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-5">
                     {customersFeedback.map((testimonial, index) => (
