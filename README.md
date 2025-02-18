@@ -6,6 +6,11 @@ Our platform combines advanced technology with user-friendly features to ensure 
 
 ---
 
+## Website Preview
+<div align="center">
+  <img src="https://i.ibb.co.com/VYQq3wKc/medicine.png" alt="Medicine" width="100%" />
+</div>
+
 ## 🌐 Live Website
 **[Visit PharmaHub Live](https://pharma-hub-e7b67.web.app)**
 
@@ -61,3 +66,23 @@ Our platform combines advanced technology with user-friendly features to ensure 
 
 ---
 
+## Running PharmaHub Locally
+
+### Prerequisites:
+- **Node.js** (version 14 or later) installed.
+- **MongoDB** (either local or MongoDB Atlas).
+- A **Firebase account** for authentication (Google login and Email/Password login).
+
+## Installation
+
+Step-by-step instructions to set up the project locally.
+
+```bash
+# Clone the repository
+https://github.com/masud2005/PharmaHub-Client.git
+
+# Navigate to the project directory
+cd PharmaHub-Client
+
+# Install dependencies
+npm install
