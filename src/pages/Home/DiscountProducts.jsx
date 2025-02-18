@@ -18,7 +18,7 @@ const DiscountProducts = () => {
 
     const axiosPublic = useAxiosPublic();
 
-    const { data: discountProducts = [] } = useQuery({
+    const { data: discountProducts = [], isLoading } = useQuery({
         queryKey: ["discountProducts"],
         queryFn: async () => {
             const res = await axiosPublic.get(`/discounted-medicines`);
@@ -69,32 +69,43 @@ const DiscountProducts = () => {
                     },
                 }}
             >
-                {discountProducts.map((product, index) => (
-                    <SwiperSlide key={index}>
-                        <div className="bg-gradient-to-br from-gray-50 to-white shadow-xl overflow-hidden">
-                            <div className="relative h-48 md:h-56 xl:h-60 2xl:h-[280px] w-full">
-                                {/* Product Image */}
-                                <img
-                                    src={product.imageURL}
-                                    alt={product.name}
-                                    className="w-full h-full object-cover"
-                                />
-                                {/* Overlay Text */}
-                                <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center text-white px-4">
-                                    <h3 className="text-lg md:text-xl font-bold">{product.name}</h3>
-                                    <p className="text-sm md:text-base mt-1">
-                                        Price: <span className="line-through text-red-400">${product.pricePerUnit}</span>{" "}
-                                        <span className="font-semibold text-green-400">${product.pricePerUnit - (product.pricePerUnit * product.discountPercentage / 100)}</span>
-                                    </p>
-                                </div>
-                                {/* Discount Badge */}
-                                <span className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                    {product.discountPercentage}% Off
-                                </span>
-                            </div>
+                {
+                    isLoading ? (
+                        <div className="flex justify-center items-center h-40">
+                            <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-teal-500"></div>
                         </div>
-                    </SwiperSlide>
-                ))}
+                    ) : (
+                        <>
+                            {discountProducts.map((product, index) => (
+                                <SwiperSlide key={index}>
+                                    <div className="bg-gradient-to-br from-gray-50 to-white shadow-xl overflow-hidden">
+                                        <div className="relative h-48 md:h-56 xl:h-60 2xl:h-[280px] w-full">
+                                            {/* Product Image */}
+                                            <img
+                                                src={product.imageURL}
+                                                alt={product.name}
+                                                className="w-full h-full object-cover"
+                                            />
+                                            {/* Overlay Text */}
+                                            <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center text-white px-4">
+                                                <h3 className="text-lg md:text-xl font-bold">{product.name}</h3>
+                                                <p className="text-sm md:text-base mt-1">
+                                                    Price: <span className="line-through text-red-400">${product.pricePerUnit}</span>{" "}
+                                                    <span className="font-semibold text-green-400">${product.pricePerUnit - (product.pricePerUnit * product.discountPercentage / 100)}</span>
+                                                </p>
+                                            </div>
+                                            {/* Discount Badge */}
+                                            <span className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                                {product.discountPercentage}% Off
+                                            </span>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                            ))}
+                        </>
+                    )
+                }
+
             </Swiper>
 
         </div>
