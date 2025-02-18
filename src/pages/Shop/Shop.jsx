@@ -19,7 +19,7 @@ const Shop = () => {
     const [selectedMedicine, setSelectedMedicine] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(10);
+    const [itemsPerPage] = useState(12);
     const [sortOrder, setSortOrder] = useState('asc');
     const [searchQuery, setSearchQuery] = useState('');
     const { user } = useAuth();
@@ -126,7 +126,7 @@ const Shop = () => {
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                         <button
-                            className="btn bg-teal-600 px-2 md:px-3 md:text-base hover:bg-teal-500 transition duration-300 text-white"
+                            className="btn bg-teal-600 px-2 md:px-3 md:text-base hover:bg-teal-700 transition duration-300 text-white"
                             onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
                         >
                             Sort by Price ({sortOrder === 'asc' ? 'Low to High' : 'High to Low'})
@@ -142,7 +142,8 @@ const Shop = () => {
                     </div>
                 ) : (
                     <>
-                        <div className="overflow-x-auto">
+                        {/* All Medicine in Table Format */}
+                        {/* <div className="overflow-x-auto">
                             <table className="min-w-full table-auto border-collapse border border-gray-200">
                                 <thead className="bg-teal-600 text-white h-16">
                                     <tr>
@@ -203,8 +204,48 @@ const Shop = () => {
                             </table>
 
 
+                        </div> */}
+
+                        {/* All Medicine in Card Format */}
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-6">
+                            {paginatedMedicines.map((item, idx) => (
+                                <div key={item._id} className="bg-teal-50 rounded-lg shadow-md overflow-hidden border">
+                                    <div className="p-2 md:p-4">
+                                        <div className="flex items-center gap-2 md:gap-4">
+                                            <div className="w-12 h-12 rounded-full overflow-hidden">
+                                                <img src={item.imageURL} alt="Image" className="object-cover w-full h-full" />
+                                            </div>
+                                            <div>
+                                                <h3 className="font-medium sm:text-xl text-black">{item.name}</h3>
+                                                <p className="text-sm md:text-base text-gray-600">{item.genericName}</p>
+                                            </div>
+                                        </div>
+                                        <div className="mt-4">
+                                            <p className="text-sm md:text-base text-gray-700"><span className="font-medium">Category:</span> {item.category}</p>
+                                            <p className="text-sm md:text-base text-gray-700"><span className="font-medium">Company:</span> {item.company}</p>
+                                            <p className="text-sm md:text-base text-gray-700"><span className="font-medium">Price:</span> ${item.pricePerUnit}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-center space-x-1 md:space-x-2 p-3 bg-gray-100">
+                                        <button
+                                            className="px-2 sm:px-3 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-md text-sm md:text-base p-2 flex items-center gap-1"
+                                            onClick={() => handleSelectMedicine(item)}
+                                        >
+                                            <GiCheckMark /> Select
+                                        </button>
+                                        <button
+                                            className="px-2 sm:px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md text-sm md:text-base p-2 flex items-center gap-1"
+                                            onClick={() => handleViewDetails(item)}
+                                        >
+                                            <FaEye /> View
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                        <div className="flex justify-center items-center mt-4 space-x-2">
+
+                        {/* Pagination */}
+                        <div className="flex justify-center items-center mt-4 space-x-1 md:space-x-2">
                             <button
                                 className="btn btn-sm bg-gray-200"
                                 disabled={currentPage === 1}
@@ -237,7 +278,7 @@ const Shop = () => {
                         <div className="modal-box max-w-[768px] px-3 py-8 relative">
                             <h3 className="font-bold text-lg">{selectedMedicine.name}</h3>
                             <img src={selectedMedicine.imageURL} alt={selectedMedicine.name} className="w-full h-64 object-cover my-4" />
-                            <div className="grid grid-cols-4 gap-x-4 gap-y-2 text-sm">
+                            <div className="grid grid-cols-4 gap-x-4 gap-y-2 text-sm md:text-base">
                                 <p className="font-semibold col-span-1">Category</p>
                                 <p className="col-span-3">: {selectedMedicine.category}</p>
                                 <p className="font-semibold col-span-1">Company</p>
