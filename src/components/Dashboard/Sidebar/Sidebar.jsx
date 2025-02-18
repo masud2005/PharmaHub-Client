@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineBars } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import AdminMenu from '../Menu/AdminMenu';
@@ -10,11 +10,32 @@ const Sidebar = () => {
     const [isActive, setActive] = useState(true);
     const [role] = useRole();
     // const userRole = role.role;
+    // const [isDarkMode, setIsDarkMode] = useState(false);
 
     // Sidebar Responsive Handler
     const handleToggle = () => {
         setActive(!isActive)
     }
+
+    // // Theme Loaded localStorage 
+    // useEffect(() => {
+    //     const savedTheme = localStorage.getItem('theme');
+    //     if (savedTheme === 'dark') {
+    //         setIsDarkMode(true);
+    //         document.documentElement.setAttribute('data-theme', 'dark');
+    //     } else {
+    //         setIsDarkMode(false);
+    //         document.documentElement.setAttribute('data-theme', 'light');
+    //     }
+    // }, []);
+
+    // // Theme Changes
+    // const toggleTheme = () => {
+    //     const newTheme = !isDarkMode ? 'dark' : 'light';
+    //     setIsDarkMode(!isDarkMode);
+    //     document.documentElement.setAttribute('data-theme', newTheme);
+    //     localStorage.setItem('theme', newTheme);
+    // };
 
     return (
         <div>
@@ -61,11 +82,42 @@ const Sidebar = () => {
                     </div>
 
                     <div className='flex flex-col justify-between flex-1 mt-6'>
-                        <nav>
+                        <nav className='text-black'>
                             {role === 'Admin' && <AdminMenu />}
                             {role === 'Seller' && <SellerMenu />}
                             {role === 'User' && <UserMenu />}
                         </nav>
+                        {/* <div>
+                            <label onClick={toggleTheme} className="flex cursor-pointer gap-2">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round">
+                                    <circle cx="12" cy="12" r="5" />
+                                    <path
+                                        d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
+                                </svg>
+                                <input type="checkbox" value="synthwave" className="toggle theme-controller" />
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                </svg>
+                            </label>
+                        </div> */}
                     </div>
                 </div>
             </div>

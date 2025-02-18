@@ -1,7 +1,8 @@
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaBars, FaCartPlus } from 'react-icons/fa6';
 import { IoIosArrowDown, IoMdClose, IoMdMenu } from 'react-icons/io';
+import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import useAuth from '../../../hooks/useAuth';
@@ -34,6 +35,26 @@ const Navbar = () => {
             })
     };
 
+    // Theme Loaded localStorage 
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            setIsDarkMode(true);
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            setIsDarkMode(false);
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+    }, []);
+
+    // Theme Changes
+    const toggleTheme = () => {
+        const newTheme = !isDarkMode ? 'dark' : 'light';
+        setIsDarkMode(!isDarkMode);
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    };
+
     return (
         <div>
             {/* Navbar */}
@@ -46,7 +67,7 @@ const Navbar = () => {
                     </div>
 
                     <div className='flex  gap-6'>
-                        {/* Center Section: Navigation Links */}
+                        {/* Right Section: Navigation Links */}
                         <div className="hidden lg:flex items-center justify-end gap-6">
                             <NavLink to="/" className={({ isActive }) => isActive ? 'font-semibold border-b-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-100' : 'font-medium hover:text-teal-600'}>Home</NavLink>
                             <NavLink to="/shop" className={({ isActive }) => isActive ? 'font-semibold border-b-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-100' : 'font-medium hover:text-teal-600'}>Shop</NavLink>
@@ -76,7 +97,7 @@ const Navbar = () => {
                             </div>
                         </div>
 
-                        {/* Right Section: Login/Register Buttons */}
+                        {/* Login/Register Buttons */}
                         <div className="hidden lg:flex gap-6 items-center">
                             {user ? (
                                 <div className="relative">
@@ -156,8 +177,19 @@ const Navbar = () => {
                             )}
                         </div>
 
+                        <button
+                            onClick={toggleTheme}
+                            className={`w-12 h-12  flex items-center justify-center rounded-full bg-teal-100 dark:bg-gray-700 shadow-md transition-transform transform hover:scale-110`}
+                        >
+                            {isDarkMode ? (
+                                <MdOutlineLightMode size={24} />
+                            ) : (
+                                <MdOutlineDarkMode size={24} />
+                            )}
+                        </button>
 
                     </div>
+
                     {/* Hamburger Menu for Mobile */}
                     <div onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden bg-teal-600 p-2 text-white rounded text-2xl cursor-pointer">
                         {menuOpen ? <IoMdClose /> : <IoMdMenu />}

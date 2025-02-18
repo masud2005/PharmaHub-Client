@@ -10,6 +10,8 @@ const Dashboard = () => {
     const [role, isLoading] = useRole();
     // console.log(role);
 
+    
+
     useEffect(() => {
         if (!isLoading) {
             if (role === "Admin") {
