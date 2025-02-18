@@ -36,7 +36,7 @@ const Banner = () => {
     });
 
     return (
-        <div className="container px-2 mx-auto mt-16">
+        <div className="container px-2 mx-auto mt-10">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-5 md:gap-2 lg:gap-6 items-center">
                 {/* Left Side Info Section */}
                 <div className="md:col-span-2 bg-gradient-to-r from-pink-500 to-teal-500 p-[2px] rounded-lg h-full">
