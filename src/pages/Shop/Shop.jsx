@@ -19,7 +19,7 @@ const Shop = () => {
     const [selectedMedicine, setSelectedMedicine] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(12);
+    const [itemsPerPage] = useState(16);
     const [sortOrder, setSortOrder] = useState('asc');
     const [searchQuery, setSearchQuery] = useState('');
     const { user } = useAuth();

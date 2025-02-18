@@ -30,7 +30,7 @@ const DiscountProducts = () => {
     return (
         <div className='container mx-auto px-2 py-10'>
             {/* Section Title */}
-            <SectionTitle heading={'Discounted Products'} subHeading={'Grab deals on discounted items in a swipeable slider'} />
+            <SectionTitle heading={'Discounted Medicines'} subHeading={'Grab deals on discounted items in a swipeable slider'} />
             <Swiper
                 // spaceBetween={10}
                 autoplay={{

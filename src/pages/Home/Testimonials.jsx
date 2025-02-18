@@ -61,7 +61,7 @@ const Testimonials = () => {
                                     className="w-16 h-16 rounded-full object-cover"
                                 />
                                 <div className="ml-4">
-                                    <h4 className="text-lg font-semibold">{testimonial.name}</h4>
+                                    <h4 className="text-lg text-black font-semibold">{testimonial.name}</h4>
                                     <p className="text-sm text-gray-500 flex items-center gap-1"><MdOutlineVerified size={22} color='green'/> Verified Customer</p>
                                 </div>
                             </div>
@@ -70,7 +70,6 @@ const Testimonials = () => {
                     ))}
                 </div>
             </div>
-
         </div>
     );
 };

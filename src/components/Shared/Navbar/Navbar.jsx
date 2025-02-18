@@ -83,7 +83,7 @@ const Navbar = () => {
                                 <span className="relative -top-4 right-2 bg-teal-100 px-2 rounded-full">{cart.length}</span>
                             </NavLink>
 
-                            <div ref={languageDropdownRef} className="relative">
+                            {/* <div ref={languageDropdownRef} className="relative">
                                 <button onClick={() => setLanguageOpen(!languageOpen)} className=" font-medium hover:text-teal-600 flex items-center">Languages <IoIosArrowDown size={22} /> </button>
                                 {languageOpen && (
                                     <div className="absolute top-full left-0 mt-2 bg-white border rounded shadow-lg">
@@ -94,7 +94,7 @@ const Navbar = () => {
                                         </ul>
                                     </div>
                                 )}
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* Login/Register Buttons */}
@@ -130,7 +130,7 @@ const Navbar = () => {
                                                         className={({ isActive }) =>
                                                             isActive
                                                                 ? "font-semibold border-b-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-100"
-                                                                : " hover:text-teal-600"
+                                                                : " hover:text-teal-600 text-black"
                                                         }
                                                     >
                                                         Update Profile
@@ -142,7 +142,7 @@ const Navbar = () => {
                                                         className={({ isActive }) =>
                                                             isActive
                                                                 ? "font-semibold border-b-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-100"
-                                                                : " hover:text-teal-600"
+                                                                : " hover:text-teal-600 text-black"
                                                         }
                                                     >
                                                         Dashboard
@@ -200,14 +200,14 @@ const Navbar = () => {
                 {/* Mobile Menu */}
                 <div className={`${menuOpen ? 'left-0' : '-left-[100%]'} absolute duration-500 w-full bg-gray-50/95 `}>
                     <div className={`flex-col lg:hidden gap-4 py-4 px-4 space-y-2 font-medium`}>
-                        <NavLink to="/" className={({ isActive }) => isActive ? 'block text-lg font-semibold border-b-2 border-teal-600 text-teal-600' : 'block text-base hover:text-teal-600 pt-2'} onClick={() => setMenuOpen(false)}>Home</NavLink>
-                        <NavLink to="/shop" className={({ isActive }) => isActive ? 'block text-lg font-semibold border-b-2 border-teal-600 text-teal-600' : 'block text-base hover:text-teal-600 pt-2'} onClick={() => setMenuOpen(false)}>Shop</NavLink>
-                        <NavLink to="/cart" className={({ isActive }) => isActive ? 'flex  text-lg font-semibold border-b-2 border-teal-600 text-teal-600 mt-2' : 'text-base hover:text-teal-600 pt-2 flex'} onClick={() => setMenuOpen(false)}>
+                        <NavLink to="/" className={({ isActive }) => isActive ? 'block text-lg font-semibold border-b-2 border-teal-600 text-teal-600' : 'block text-base text-black hover:text-teal-600 pt-2'} onClick={() => setMenuOpen(false)}>Home</NavLink>
+                        <NavLink to="/shop" className={({ isActive }) => isActive ? 'block text-lg font-semibold border-b-2 border-teal-600 text-teal-600' : 'block text-base text-black hover:text-teal-600 pt-2'} onClick={() => setMenuOpen(false)}>Shop</NavLink>
+                        <NavLink to="/cart" className={({ isActive }) => isActive ? 'flex  text-lg font-semibold border-b-2 border-teal-600 text-teal-600 mt-2' : 'text-base text-black hover:text-teal-600 pt-2 flex'} onClick={() => setMenuOpen(false)}>
                             <FaCartPlus size={24} />
                             <span className="relative -top-2 right-1 bg-teal-100 px-2 rounded-full">{cart.length}</span>
                         </NavLink>
 
-                        <div ref={languageDropdownRef} className="relative pb-3">
+                        {/* <div ref={languageDropdownRef} className="relative pb-3">
                             <button onClick={() => setLanguageOpen(!languageOpen)} className=" font-medium hover:text-teal-600 flex items-center">Languages <IoIosArrowDown size={22} /></button>
                             {languageOpen && (
                                 <div className="absolute top-full left-0 mt-2 bg-white border rounded shadow-lg">
@@ -218,7 +218,7 @@ const Navbar = () => {
                                     </ul>
                                 </div>
                             )}
-                        </div>
+                        </div> */}
                         <div className='flex gap-10 justify-around pt-5 mt-4 border-t-2'>
                             {
                                 user ? <div className="flex items-center gap-3">

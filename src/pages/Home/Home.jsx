@@ -5,6 +5,7 @@ import DiscountProducts from './DiscountProducts';
 import HealthTips from './HealthTips';
 import Testimonials from './Testimonials';
 import { Helmet } from 'react-helmet-async';
+import FeaturedMedicines from './FeaturedMedicines';
 
 const Home = () => {
     return (
@@ -15,6 +16,7 @@ const Home = () => {
             
             <Banner />
             <CategoryCards />
+            <FeaturedMedicines />
             <DiscountProducts />
             <HealthTips />
             <Testimonials />
