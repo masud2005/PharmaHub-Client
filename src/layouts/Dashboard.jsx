@@ -15,9 +15,9 @@ const Dashboard = () => {
     useEffect(() => {
         if (!isLoading) {
             if (role === "Admin") {
-                navigate("/dashboard/admin-home", { replace: true });
+                navigate("/dashboard/admin-overview", { replace: true });
             } else if (role === "Seller") {
-                navigate("/dashboard/seller-home", { replace: true });
+                navigate("/dashboard/seller-overview", { replace: true });
             } else if (role === "User") {
                 navigate("/dashboard/pay-history", { replace: true });
             }

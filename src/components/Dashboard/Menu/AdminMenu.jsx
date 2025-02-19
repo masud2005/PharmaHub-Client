@@ -8,7 +8,7 @@ const AdminMenu = () => {
     return (
         <>
             <li>
-                <NavLink to="/dashboard/admin-home">
+                <NavLink to="/dashboard/admin-overview">
                     <FaHome /> Admin Overview</NavLink>
             </li>
             <li>

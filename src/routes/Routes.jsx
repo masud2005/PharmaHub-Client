@@ -26,6 +26,7 @@ import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import UpdateProfile from "../pages/UpdateProfile/UpdateProfile";
+import ContactUs from "../pages/ContactUs/ContactUs";
 
 
 const router = createBrowserRouter([
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
             {
                 path: '/cart',
                 element: <Cart />
+            },
+            {
+                path: '/contact-us',
+                element: <ContactUs />
             },
             {
                 path: '/checkout',
@@ -82,7 +87,7 @@ const router = createBrowserRouter([
 
             // Admin Dashboard
             {
-                path: '/dashboard/admin-home',
+                path: '/dashboard/admin-overview',
                 element: <AdminRoute><AdminHome /></AdminRoute>
             },
             {
@@ -112,7 +117,7 @@ const router = createBrowserRouter([
 
             // Seller Dashboard
             {
-                path: '/dashboard/seller-home',
+                path: '/dashboard/seller-overview',
                 element: <SellerHome />
             },
             {

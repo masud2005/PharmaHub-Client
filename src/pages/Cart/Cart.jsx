@@ -78,7 +78,7 @@ const Cart = () => {
     };
 
     return (
-        <div className="container mx-auto py-10 px-5 xl:px-0">
+        <div className="container mx-auto  px-5 xl:px-0">
             <Helmet>
                 <title>My Cart || PharmaHub</title>
             </Helmet>
@@ -91,7 +91,7 @@ const Cart = () => {
                     Your cart is empty. Start adding items!
                 </p>
             ) : (
-                <div className="space-y-6">
+                <div className="space-y-6 pb-10">
                     <h2 className="text-2xl font-semibold text-teal-600 mb-6">Your Cart ({cart.length})</h2>
                     {cart.map((item) => (
                         <div

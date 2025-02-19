@@ -7,8 +7,8 @@ const SellerMenu = () => {
     return (
         <div>
             <li>
-                <NavLink to="/dashboard/seller-home">
-                    <FaHome /> Seller Home</NavLink>
+                <NavLink to="/dashboard/seller-overview">
+                    <FaHome /> Seller overview</NavLink>
             </li>
             <li>
                 <NavLink to="/dashboard/manage-medicines">

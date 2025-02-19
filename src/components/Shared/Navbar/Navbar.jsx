@@ -82,6 +82,7 @@ const Navbar = () => {
                                 <FaCartPlus size={24} />
                                 <span className="relative -top-4 right-2 bg-teal-100 px-2 rounded-full">{cart.length}</span>
                             </NavLink>
+                            <NavLink to="/contact-us" className={({ isActive }) => isActive ? 'font-semibold border-b-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-100' : 'font-medium hover:text-teal-600'}>Contact Us</NavLink>
 
                             {/* <div ref={languageDropdownRef} className="relative">
                                 <button onClick={() => setLanguageOpen(!languageOpen)} className=" font-medium hover:text-teal-600 flex items-center">Languages <IoIosArrowDown size={22} /> </button>
