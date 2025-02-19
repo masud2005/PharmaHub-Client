@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineBars } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import AdminMenu from '../Menu/AdminMenu';
 import SellerMenu from '../Menu/SellerMenu';
 import UserMenu from '../Menu/UserMenu';
 import useRole from '../../../hooks/useRole';
+import { CgProfile } from "react-icons/cg";
+import { LuLogOut } from "react-icons/lu";
+import useAuth from '../../../hooks/useAuth';
+import { toast } from 'react-toastify';
 
 const Sidebar = () => {
     const [isActive, setActive] = useState(true);
     const [role] = useRole();
+    const { signOutUser } = useAuth();
     // const userRole = role.role;
     // const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -16,6 +21,17 @@ const Sidebar = () => {
     const handleToggle = () => {
         setActive(!isActive)
     }
+
+    const handleLogOut = () => {
+        // console.log('Logout');
+        signOutUser()
+            .then(() => {
+                toast.success('Logged out successfully. See you soon!')
+            })
+            .catch(error => {
+                toast.error('Something went wrong. Please try again.')
+            })
+    };
 
     // // Theme Loaded localStorage 
     // useEffect(() => {
@@ -81,7 +97,7 @@ const Sidebar = () => {
                         </div>
                     </div>
 
-                    <div className='flex flex-col justify-between flex-1 mt-6'>
+                    <div className='flex flex-col justify-between  flex-1 mt-6'>
                         <nav className='text-black'>
                             {role === 'Admin' && <AdminMenu />}
                             {role === 'Seller' && <SellerMenu />}
@@ -118,6 +134,17 @@ const Sidebar = () => {
                                 </svg>
                             </label>
                         </div> */}
+                        <div>
+                            <div className="divider"></div>
+                            <div>
+                                <li>
+                                    <NavLink to="/dashboard/profile" className='text-black'> <CgProfile /> Profile</NavLink>
+                                </li>
+                                <li>
+                                    <button onClick={handleLogOut} to="/" className='text-black'> <LuLogOut /> Log Out</button>
+                                </li>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

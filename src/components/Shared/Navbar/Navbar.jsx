@@ -3,10 +3,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FaBars, FaCartPlus } from 'react-icons/fa6';
 import { IoIosArrowDown, IoMdClose, IoMdMenu } from 'react-icons/io';
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import useAuth from '../../../hooks/useAuth';
 import useCart from '../../../hooks/useCart';
+import useRole from '../../../hooks/useRole';
 
 const Navbar = () => {
     const { user, signOutUser } = useAuth();
@@ -16,6 +17,8 @@ const Navbar = () => {
     const [profileOpen, setProfileOpen] = useState(false);
     const languageDropdownRef = useRef(null);
     const [cart] = useCart()
+    const [role,] = useRole();
+    // console.log(role);
     // console.log(cart);
 
 
@@ -61,10 +64,10 @@ const Navbar = () => {
             <nav className="h-[90px] place-content-center border-b">
                 <div className="container mx-auto flex justify-between items-center  py-4 px-2">
                     {/* Left Section: Logo */}
-                    <div className="flex -ml-1 xl:-ml-2">
+                    <Link to={'/'} className="flex -ml-1 xl:-ml-2">
                         <img className='w-12' src="https://i.ibb.co.com/SRbh4WY/Pharma-removebg-preview.png" alt="Logo..." />
                         <h1 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-pink-500 text-transparent bg-clip-text">PharmaHub</h1>
-                    </div>
+                    </Link>
 
                     <div className='flex  gap-6'>
                         {/* Right Section: Navigation Links */}
@@ -123,9 +126,9 @@ const Navbar = () => {
 
                                     {/* Profile Dropdown */}
                                     {profileOpen && (
-                                        <div className="absolute top-12 right-0 bg-white border rounded-lg shadow-lg w-48 z-10">
+                                        <div className="absolute top-12 right-0 bg-white border rounded-lg shadow-lg  z-10">
                                             <ul className="px-4 py-3 text-sm md:text-base space-y-3">
-                                                <li>
+                                                {/* <li>
                                                     <NavLink
                                                         to={"/update-profile"}
                                                         className={({ isActive }) =>
@@ -136,7 +139,11 @@ const Navbar = () => {
                                                     >
                                                         Update Profile
                                                     </NavLink>
-                                                </li>
+                                                </li> */}
+                                                <p className='text-gray-500 text-nowrap'>
+                                                    <span className='font-semibold'>{user?.displayName} </span>
+                                                    <span>({role})</span>
+                                                </p>
                                                 <li>
                                                     <NavLink
                                                         to={"/dashboard"}
@@ -231,11 +238,15 @@ const Navbar = () => {
                                         {profileOpen && (
                                             <div className="absolute right-0 mt-2 bg-white border rounded shadow-lg">
                                                 <ul className="px-4 py-3 text-nowrap space-y-3">
-                                                    <li>
+                                                    {/* <li>
                                                         <NavLink to={'/update-profile'} className={({ isActive }) => isActive ? 'font-semibold border-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-50' : 'font-medium hover:text-teal-600'}>Update Profile</NavLink>
-                                                    </li>
+                                                    </li> */}
+                                                    <p className='text-gray-500 text-nowrap'>
+                                                        <span className='font-semibold'>{user?.displayName} </span>
+                                                        <span>({role})</span>
+                                                    </p>
                                                     <li>
-                                                        <NavLink to={'/dashboard'} className={({ isActive }) => isActive ? 'font-semibold border-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-50' : 'font-medium hover:text-teal-600'}>Dashboard</NavLink>
+                                                        <NavLink to={'/dashboard'} className={({ isActive }) => isActive ? 'font-semibold border-2 px-3 py-1 rounded border-teal-600 text-teal-600 bg-teal-50' : 'font-medium hover:text-teal-600 text-black'}>Dashboard</NavLink>
                                                     </li>
                                                     <button onClick={handleLogOut} className="px-3 py-2 border-teal-600 bg-teal-600 hover:bg-teal-500 text-white transition-colors duration-500 text-base  font-medium w-full">Log Out</button>
                                                 </ul>
