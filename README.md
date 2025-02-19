@@ -20,6 +20,10 @@ Our platform combines advanced technology with user-friendly features to ensure 
 - **Username**: admin@pharmahub.com  
 - **Password**: Admin@1
 
+## 🧑‍💻 Seller Credentials
+- **Username**: seller@pharmahub.com  
+- **Password**: Seller@1
+
 ---
 
 ## 🚀 Features

@@ -9,6 +9,7 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { toast } from 'react-toastify';
 import useCart from '../../hooks/useCart';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const FeaturedMedicines = () => {
     const axiosPublic = useAxiosPublic();
@@ -17,6 +18,7 @@ const FeaturedMedicines = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [, refetch] = useCart();
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     const { data: featuredMedicines = [], isLoading } = useQuery({
         queryKey: ["featuredMedicines"],
