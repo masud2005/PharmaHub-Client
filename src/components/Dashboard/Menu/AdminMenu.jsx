@@ -9,7 +9,7 @@ const AdminMenu = () => {
         <>
             <li>
                 <NavLink to="/dashboard/admin-home">
-                    <FaHome /> Admin Home</NavLink>
+                    <FaHome /> Admin Overview</NavLink>
             </li>
             <li>
                 <NavLink to="/dashboard/manage-users">

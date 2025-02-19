@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
 import useAuth from '../../../hooks/useAuth';
 import { Helmet } from 'react-helmet-async';
+import SellerState from './SellerStats';
 
 const SellerHome = () => {
     const axiosSecure = useAxiosSecure();
@@ -119,7 +120,10 @@ const SellerHome = () => {
                 </div>
             </div>
 
-
+            {/* State */}
+            <div className='overflow-auto'>
+                <SellerState stats={stats} />
+            </div>
         </div>
     );
 };

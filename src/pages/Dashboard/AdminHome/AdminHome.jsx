@@ -24,7 +24,7 @@ const AdminHome = () => {
                 <title>Home || Dashboard || PharmaHub</title>
             </Helmet>
             {/* Admin Dashboard Header */}
-            <SectionTitle heading={'Admin Dashboard'} subHeading={"Overview of your platform's performance and statistics"} />
+            <SectionTitle heading={'Admin Overview'} subHeading={"Overview of your platform's performance and statistics"} />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-10">
                 {/* Total Revenue */}
