@@ -3,6 +3,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import SectionTitle from '../../../components/Shared/SectionTitle/SectionTitle';
 import { Helmet } from 'react-helmet-async';
+import State from './State';
 
 const AdminHome = () => {
     const axiosSecure = useAxiosSecure();
@@ -16,15 +17,6 @@ const AdminHome = () => {
             return res.data;
         }
     });
-
-    // if (isLoading) {
-    //     return (
-    //         <div className="flex items-center justify-center min-h-screen">
-    //             <div className="spinner-border animate-spin inline-block w-12 h-12 border-4 rounded-full text-blue-500"></div>
-    //             <span className="ml-4 text-lg text-gray-600">Loading...</span>
-    //         </div>
-    //     );
-    // }
 
     return (
         <div className="mt-10">
@@ -115,6 +107,11 @@ const AdminHome = () => {
                         Payments yet to be received.
                     </p>
                 </div>
+            </div>
+
+            {/* State */}
+            <div className='overflow-auto'>
+                <State stats={stats} />
             </div>
         </div>
     );
