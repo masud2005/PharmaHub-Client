@@ -93,9 +93,9 @@ const Checkout = () => {
     };
 
     return (
-        <div className="bg-gray-50 max-w-[600px] mx-auto p-4 md:p-8 rounded-lg shadow-lg">
+        <div className="bg-gray-50 max-w-[600px] mx-auto p-4 md:p-8 rounded-lg shadow-lg border">
             <h1 className="text-center text-2xl font-semibold mb-6 text-teal-600">Checkout</h1>
-            <h2 className="text-center text-xl mb-6">Total Price: <span className="text-teal-600 font-bold">₹{totalPrice}</span></h2>
+            <h2 className="text-center text-xl mb-6 font-semibold">Total Price: <span className="text-teal-600 font-bold">₹{totalPrice}</span></h2>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <CardElement
                     options={{
