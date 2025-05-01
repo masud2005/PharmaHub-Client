@@ -33,7 +33,7 @@ const CategoryCards = () => {
                             <Link
                                 to={`/categories/${category.category}`}
                                 key={index}
-                                className="relative p-4 shadow-lg rounded-lg bg-teal-50 hover:shadow-xl transition duration-300 border"
+                                className="relative p-4 shadow-lg rounded-lg bg-teal-50 hover:bg-teal-100 hover:shadow-xl transition duration-300 border"
                             >
                                 <div className="relative h-28 sm:h-36 md:h-32 xl:h-40 2xl:h-44 overflow-hidden rounded group">
                                     <img
