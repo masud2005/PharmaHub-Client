@@ -61,8 +61,8 @@ const Navbar = () => {
     return (
         <div>
             {/* Navbar */}
-            <nav className="h-[90px] place-content-center border-b">
-                <div className="container mx-auto flex justify-between items-center  py-4 px-2">
+            <nav className="h-[75px] place-content-center border-b">
+                <div className="container mx-auto flex justify-between items-center py-2 px-2">
                     {/* Left Section: Logo */}
                     <Link to={'/'} className="flex -ml-1 xl:-ml-2">
                         <img className='w-12' src="https://i.ibb.co.com/SRbh4WY/Pharma-removebg-preview.png" alt="Logo..." />
