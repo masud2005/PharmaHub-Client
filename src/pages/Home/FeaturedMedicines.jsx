@@ -109,13 +109,13 @@ const FeaturedMedicines = () => {
                                 </div>
                                 <div className="flex justify-center space-x-1 md:space-x-2 p-3 bg-gray-100">
                                     <button
-                                        className="px-2 sm:px-3 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-md text-sm md:text-base p-2 flex items-center gap-1"
+                                        className="px-2 sm:px-3 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-md text-sm md:text-base p-2 flex items-center gap-1 transition duration-300"
                                         onClick={() => handleSelectMedicine(item)}
                                     >
                                         <GiCheckMark /> Select
                                     </button>
                                     <button
-                                        className="px-2 sm:px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md text-sm md:text-base p-2 flex items-center gap-1"
+                                        className="px-2 sm:px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md text-sm md:text-base p-2 flex items-center gap-1 transition duration-300"
                                         onClick={() => handleViewDetails(item)}
                                     >
                                         <FaEye /> View
@@ -126,42 +126,6 @@ const FeaturedMedicines = () => {
                     </div>
                 )
             }
-            {/* <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-6">
-                {featuredMedicines.map((item, idx) => (
-                    <div key={item._id} className="bg-teal-50 rounded-lg shadow-md overflow-hidden border">
-                        <div className="p-2 md:p-4">
-                            <div className="flex items-center gap-2 md:gap-4">
-                                <div className="w-12 h-12 rounded-full overflow-hidden">
-                                    <img src={item.imageURL} alt="Image" className="object-cover w-full h-full" />
-                                </div>
-                                <div>
-                                    <h3 className="font-medium sm:text-xl text-black">{item.name}</h3>
-                                    <p className="text-sm md:text-base text-gray-600">{item.genericName}</p>
-                                </div>
-                            </div>
-                            <div className="mt-4">
-                                <p className="text-sm md:text-base text-gray-700"><span className="font-medium">Category:</span> {item.category}</p>
-                                <p className="text-sm md:text-base text-gray-700"><span className="font-medium">Company:</span> {item.company}</p>
-                                <p className="text-sm md:text-base text-gray-700"><span className="font-medium">Price:</span> ${item.pricePerUnit}</p>
-                            </div>
-                        </div>
-                        <div className="flex justify-center space-x-1 md:space-x-2 p-3 bg-gray-100">
-                            <button
-                                className="px-2 sm:px-3 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-md text-sm md:text-base p-2 flex items-center gap-1"
-                                onClick={() => handleSelectMedicine(item)}
-                            >
-                                <GiCheckMark /> Select
-                            </button>
-                            <button
-                                className="px-2 sm:px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md text-sm md:text-base p-2 flex items-center gap-1"
-                                onClick={() => handleViewDetails(item)}
-                            >
-                                <FaEye /> View
-                            </button>
-                        </div>
-                    </div>
-                ))}
-            </div> */}
 
             {/* Details Medicine */}
             {
