@@ -228,13 +228,13 @@ const Shop = () => {
                                     </div>
                                     <div className="flex justify-center space-x-1 md:space-x-2 p-3 bg-gray-100">
                                         <button
-                                            className="px-2 sm:px-3 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-md text-sm md:text-base p-2 flex items-center gap-1"
+                                            className="px-2 sm:px-3 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-md text-sm md:text-base p-2 flex items-center gap-1 transition duration-300"
                                             onClick={() => handleSelectMedicine(item)}
                                         >
                                             <GiCheckMark /> Select
                                         </button>
                                         <button
-                                            className="px-2 sm:px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md text-sm md:text-base p-2 flex items-center gap-1"
+                                            className="px-2 sm:px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md text-sm md:text-base p-2 flex items-center gap-1 transition duration-300"
                                             onClick={() => handleViewDetails(item)}
                                         >
                                             <FaEye /> View
