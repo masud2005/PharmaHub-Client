@@ -91,6 +91,7 @@ const UpdateProfile = () => {
                                 className="w-full px-4 py-2 border rounded focus:outline-teal-600"
                                 placeholder="Your Name"
                                 required
+                                defaultValue={user?.displayName}
                             />
                             
                         </div>

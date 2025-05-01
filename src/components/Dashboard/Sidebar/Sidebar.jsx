@@ -80,7 +80,7 @@ const Sidebar = () => {
 
             {/* Sidebar */}
             <div
-                className={`z-10 flex flex-col justify-between overflow-x-hidden w-64 bg-teal-500 px-2 py-4 absolute inset-y-0 left-0 md:-left-0 transform ${isActive ? '-translate-x-full sm:-left-0' : ''} md:translate-x-0 transition duration-200 ease-in-out`}
+                className={`z-10 flex flex-col justify-between overflow-x-hidden w-64 bg-teal-500 px-2 py-4 absolute inset-y-0 left-0 md:-left-0 transform ${isActive ? '-translate-x-full sm:-left-0' : ''} md:translate-x-0 transition duration-200 ease-in-out min-h-screen`}
             >
                 {/* Top Part: Logo + Menus */}
                 <div>
